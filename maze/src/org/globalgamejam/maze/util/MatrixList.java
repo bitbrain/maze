@@ -3,24 +3,25 @@ package org.globalgamejam.maze.util;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MatrixList<Type extends Indexable> implements Collection<Type> {        
         
         private int elementSize;
 
-        private final HashMap<Integer, HashMap<Integer, Type>> chunks;
+        private final ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, Type>> chunks;
         
         
         
         public MatrixList() {
                 elementSize = 0;
-                chunks = new HashMap<Integer, HashMap<Integer, Type>>();
+                chunks = new ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, Type>>();
         }
         
         @Override
         public boolean add(Type element) {
                 if (chunks.containsKey(element.getX())) {
-                        HashMap<Integer, Type> yMap = chunks.get(element
+                	ConcurrentHashMap<Integer, Type> yMap = chunks.get(element
                                         .getX());
                         if (!yMap.containsKey(element.getY())) {
                                 yMap.put(element.getY(), element);
@@ -30,7 +31,7 @@ public class MatrixList<Type extends Indexable> implements Collection<Type> {
                                 return false;
                         }
                 } else {
-                        HashMap<Integer, Type> yChunkMap = new HashMap<Integer, Type>();
+                	ConcurrentHashMap<Integer, Type> yChunkMap = new ConcurrentHashMap<Integer, Type>();
                         yChunkMap.put(element.getY(), element);
                         chunks.put(element.getX(), yChunkMap);
                         elementSize++;
@@ -155,7 +156,7 @@ public class MatrixList<Type extends Indexable> implements Collection<Type> {
         }
 
         public boolean remove(int indexX, int indexY) {
-                HashMap<Integer, Type> yChunkMap = chunks.get(indexX);
+        	ConcurrentHashMap<Integer, Type> yChunkMap = chunks.get(indexX);
 
                 if (yChunkMap != null) {
                         yChunkMap.remove(indexY);
@@ -185,7 +186,7 @@ public class MatrixList<Type extends Indexable> implements Collection<Type> {
         }
 
         public Type get(int indexX, int indexY) {
-                HashMap<Integer, Type> yChunkMap = chunks.get(indexX);
+        	ConcurrentHashMap<Integer, Type> yChunkMap = chunks.get(indexX);
 
                 if (yChunkMap != null) {
                         Type element = yChunkMap.get(indexY);

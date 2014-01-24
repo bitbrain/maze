@@ -60,6 +60,16 @@ public class Block implements Indexable, Drawable {
 	public Maze getMaze() {
 		return maze;
 	}
+	
+	public void setPosition(int x, int y) {
+		
+		int oldX = x;
+		int oldY = y;
+		this.x = x;
+		this.y = y;
+
+		maze.moveBlock(this, oldX, oldY);
+	}
 
 	@Override
 	public void draw(Batch batch) {

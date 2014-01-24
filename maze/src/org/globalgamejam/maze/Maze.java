@@ -97,6 +97,11 @@ public class Maze {
 		map.dispose();
 	}
 	
+	void moveBlock(Block block, int oldX, int oldY) {
+		blocks.remove(oldX, oldY);
+		blocks.add(block);
+	}
+	
 	public void draw(Batch batch, float delta) {
 		if (sprite != null) {
 			
