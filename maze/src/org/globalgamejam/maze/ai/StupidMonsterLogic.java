@@ -6,13 +6,12 @@ import java.util.Map;
 import org.globalgamejam.maze.Monster;
 import org.globalgamejam.maze.MonsterLogic;
 import org.globalgamejam.maze.util.Direction;
+import org.globalgamejam.maze.util.RandomBag;
 import org.globalgamejam.maze.util.Timer;
-
-import com.badlogic.gdx.graphics.Color;
 
 public class StupidMonsterLogic implements MonsterLogic {
 	
-	public static final int INTERVAL = 500;
+	public static final int INTERVAL = 100;
 	
 	private Map<Monster, Timer> timers;
 	
@@ -31,40 +30,36 @@ public class StupidMonsterLogic implements MonsterLogic {
 			Timer timer = timers.get(monster);
 			
 			if (timer.getTicks() >= INTERVAL) {				
-				moveMonster(monster);				
+				monster.move(calculateDirection(monster));
 				timer.reset();
 			}
 		}
 	}
 	
-	private void moveMonster(Monster monster) {
+	private Direction calculateDirection(Monster monster) {
 		
-		//if (monster.getColor().equals(Color.RED)) {
+		Direction direction = Direction.NONE;
+		RandomBag<Direction> bag = new RandomBag<Direction>();
 		
-			// Check above
-				if (monster.canMove(Direction.UP)) {
-					monster.move(Direction.UP);
-					return;
-				}
-			
-			// Check down
-				if (monster.canMove(Direction.DOWN)) {
-					monster.move(Direction.DOWN);
-					return;
-				}
-			
-			// Check left
-				if (monster.canMove(Direction.LEFT)) {
-					monster.move(Direction.LEFT);
-					return;
-				}
-			
-			// Check right
-				if (monster.canMove(Direction.RIGHT)) {
-					monster.move(Direction.RIGHT);
-					return;
-				}
-		//}
+		for (Direction d : Direction.values()) {
+			if (!d.equals(Direction.NONE)) {
+				bag.put(d);
+			}
+		}
+		
+		bag.remove(monster.getLastDirection());
+		
+		direction = bag.fetch();
+		
+		while (!bag.isEmpty() && !monster.canMove(direction)) {
+			direction = bag.fetch();
+		}
+		
+		if (direction.equals(Direction.NONE)) {
+			direction = Direction.getOpposite(monster.getDirection());
+		}
+		
+		return direction;
 	}
 	
 }

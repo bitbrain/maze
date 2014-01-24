@@ -26,11 +26,15 @@ public class RandomBag<Type> {
 	}
 	
 	private void generateRandomIndex() {
-		index = random.nextInt(elements.size());
+		index = (int) (Math.random() * elements.size());
 	}
 	
 	public boolean isEmpty() {
 		return elements.isEmpty();
+	}
+	
+	public void remove(Type type) {
+		elements.remove(type);
 	}
 	
 	public int size() {
