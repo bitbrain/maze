@@ -5,7 +5,10 @@ import java.util.Map;
 
 import org.globalgamejam.maze.Monster;
 import org.globalgamejam.maze.MonsterLogic;
+import org.globalgamejam.maze.util.Direction;
 import org.globalgamejam.maze.util.Timer;
+
+import com.badlogic.gdx.graphics.Color;
 
 public class StupidMonsterLogic implements MonsterLogic {
 	
@@ -36,13 +39,32 @@ public class StupidMonsterLogic implements MonsterLogic {
 	
 	private void moveMonster(Monster monster) {
 		
-		// Check above
+		//if (monster.getColor().equals(Color.RED)) {
 		
-		// Check down
-		
-		// Check left
-		
-		// Check right
+			// Check above
+				if (monster.canMove(Direction.UP)) {
+					monster.move(Direction.UP);
+					return;
+				}
+			
+			// Check down
+				if (monster.canMove(Direction.DOWN)) {
+					monster.move(Direction.DOWN);
+					return;
+				}
+			
+			// Check left
+				if (monster.canMove(Direction.LEFT)) {
+					monster.move(Direction.LEFT);
+					return;
+				}
+			
+			// Check right
+				if (monster.canMove(Direction.RIGHT)) {
+					monster.move(Direction.RIGHT);
+					return;
+				}
+		//}
 	}
 	
 }

@@ -56,6 +56,49 @@ public class Monster extends Block implements Updateable {
 		
 		super.setPosition(x, y);
 	}
+	
+	public void move(Direction direction) {
+		switch (direction) {
+		case DOWN:
+			setPosition(getX(), getY() + 1);
+			break;
+		case LEFT:
+			setPosition(getX() - 1, getY());
+			break;
+		case RIGHT:
+			setPosition(getX() + 1, getY());
+			break;
+		case UP:
+			setPosition(getX(), getY() - 1);
+			break;
+		default:
+			break;
+		
+		}
+	}
+	
+	public boolean canMove(Direction direction) {
+		
+		if (direction.equals(Direction.getOpposite(lastDirection))) {
+			return false;
+		}
+		
+		switch (direction) {
+		case DOWN:
+			return !getMaze().isBlocked(getX(), getY() + 1);
+		case LEFT:
+			return !getMaze().isBlocked(getX() - 1, getY());
+		case RIGHT:
+			return !getMaze().isBlocked(getX() + 1, getY());
+		case UP:
+			return !getMaze().isBlocked(getX(), getY() - 1);
+		default:
+			break;
+		
+		}
+		
+		return true;
+	}
 
 	/* (non-Javadoc)
 	 * @see org.globalgamejam.maze.Block#getTextureID()

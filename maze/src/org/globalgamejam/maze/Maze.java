@@ -1,5 +1,6 @@
 package org.globalgamejam.maze;
 
+import org.globalgamejam.maze.Block.BlockType;
 import org.globalgamejam.maze.util.MatrixList;
 import org.globalgamejam.maze.util.Updateable;
 
@@ -53,6 +54,16 @@ public class Maze {
 		return blockSize;
 	}
 	
+	public boolean isBlocked(int x, int y) {
+		Block b = blocks.get(x, y);
+		
+		if (b != null) {
+			return b.getType().equals(BlockType.WALL);
+		} else {
+			return true;
+		}
+	}
+	
 	public void build(int width, int height) {
 		
 		BlockFactory factory = new BlockFactory(this);
@@ -95,10 +106,14 @@ public class Maze {
 		sprite.flip(false, true);
 		sprite.setPosition(mazeX, mazeY);
 		map.dispose();
+		
+		this.width = mazeWidth;
+		this.height = mazeHeight;
 	}
 	
 	void moveBlock(Block block, int oldX, int oldY) {
-		blocks.remove(oldX, oldY);
+		Block air = new Block(oldX, oldY, this, BlockType.AIR);
+		blocks.add(air);
 		blocks.add(block);
 	}
 	
@@ -114,6 +129,16 @@ public class Maze {
 			}
 			
 			block.draw(batch);
+		}
+		
+		for (int y = 0; y < getHeight() / getBlockSize(); ++y) {
+			for (int x = 0; x < getWidth() / getBlockSize(); ++x) {
+				if (isBlocked(x, y)) {
+					batch.setColor(Color.PINK);
+					Texture texture = Assets.getInstance().get("monster.png", Texture.class);
+					batch.draw(texture, x * getBlockSize() + getX(), y * getBlockSize() + getY(), getBlockSize(), getBlockSize());
+				}
+			}
 		}
 	}
 }
