@@ -49,14 +49,6 @@ public class Block implements Indexable, Drawable {
 		return null;
 	}
 	
-	public static enum BlockType {
-		
-		WALL,
-		AIR,
-		MONSTER,
-		ITEM
-	}
-	
 	public Maze getMaze() {
 		return maze;
 	}
@@ -81,5 +73,13 @@ public class Block implements Indexable, Drawable {
 			int size = maze.getBlockSize();
 			batch.draw(texture, x * size + maze.getX(), y * size + maze.getY(), size, size);
 		}
+	}
+	
+	public static enum BlockType {
+		
+		WALL,
+		AIR,
+		MONSTER,
+		ITEM
 	}
 }

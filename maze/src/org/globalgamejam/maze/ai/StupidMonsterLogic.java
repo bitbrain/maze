@@ -9,7 +9,7 @@ import org.globalgamejam.maze.util.Timer;
 
 public class StupidMonsterLogic implements MonsterLogic {
 	
-	public static final int INTERVAL = 2000;
+	public static final int INTERVAL = 500;
 	
 	private Map<Monster, Timer> timers;
 	
@@ -27,14 +27,22 @@ public class StupidMonsterLogic implements MonsterLogic {
 		} else {
 			Timer timer = timers.get(monster);
 			
-			if (timer.getTicks() >= INTERVAL) {
-				moveRandomly(monster);
+			if (timer.getTicks() >= INTERVAL) {				
+				moveMonster(monster);				
 				timer.reset();
 			}
 		}
 	}
 	
-	private void moveRandomly(Monster monster) {
+	private void moveMonster(Monster monster) {
 		
+		// Check above
+		
+		// Check down
+		
+		// Check left
+		
+		// Check right
 	}
+	
 }

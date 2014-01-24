@@ -7,12 +7,14 @@ import com.badlogic.gdx.Game;
 public class MazeGame extends Game {
 	
 	public static final String[] data = new String[]{
-		"1111111111",
-		"1r100010b1",
-		"1010100011",
-		"1000101011",
-		"1g101010y1",
-		"1111111111"
+		"111111111111",
+		"1r01000010b1",
+		"100100100011",
+		"100000101011",
+		"100000101011",
+		"100000101011",
+		"1g01001010y1",
+		"111111111111"
 	};
 
 	@Override
