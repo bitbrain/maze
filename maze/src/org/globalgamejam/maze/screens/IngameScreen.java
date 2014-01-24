@@ -25,7 +25,7 @@ public class IngameScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		
-		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
+		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1f);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
 		camera.update();
