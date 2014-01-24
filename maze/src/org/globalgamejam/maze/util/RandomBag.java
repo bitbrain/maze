@@ -13,7 +13,7 @@ public class RandomBag<Type> {
 	
 	public RandomBag() {
 		elements = new ArrayList<Type>();
-		random = new Random(System.currentTimeMillis());
+		random = new Random((long) (Math.random() * System.currentTimeMillis()));
 	}
 
 	public void put(Type element) {
@@ -26,7 +26,7 @@ public class RandomBag<Type> {
 	}
 	
 	private void generateRandomIndex() {
-		index = (int) (Math.random() * elements.size());
+		index = (int) (random.nextFloat() * elements.size());
 	}
 	
 	public boolean isEmpty() {
