@@ -1,6 +1,8 @@
 package org.globalgamejam.maze;
 
-public class Block {
+import org.globalgamejam.maze.util.Indexable;
+
+public class Block implements Indexable {
 	
 	private BlockType type;
 	
@@ -29,6 +31,8 @@ public class Block {
 	public static enum BlockType {
 		
 		WALL,
-		AIR
+		AIR,
+		ENEMY,
+		ITEM
 	}
 }
