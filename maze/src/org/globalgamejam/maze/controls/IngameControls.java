@@ -4,7 +4,6 @@ import org.globalgamejam.maze.Maze;
 import org.globalgamejam.maze.MazeGame;
 import org.globalgamejam.maze.screens.GameOverScreen;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 

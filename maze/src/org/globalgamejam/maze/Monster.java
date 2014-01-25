@@ -208,7 +208,6 @@ public class Monster extends Block implements Updateable {
 		}
 	}
 
-	@SuppressWarnings("null")
 	public void removeColor(MonsterColor color) {
 		
 		for (MonsterListener l : listeners) {

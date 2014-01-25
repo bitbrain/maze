@@ -12,6 +12,8 @@ import org.globalgamejam.maze.util.MatrixList;
 
 import aurelienribon.tweenengine.TweenManager;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
@@ -212,8 +214,8 @@ public class Maze implements MonsterListener {
 		MonsterColor color = colors.get(x, y);
 		
 		if (color != null) {
-			//Monster m = color.getMonster();
-			//m.removeColor(color);
+			Monster m = color.getMonster();
+			m.removeColor(color);
 		}
 		
 	}
@@ -232,6 +234,17 @@ public class Maze implements MonsterListener {
 		for (Monster m : monsters) {
 			m.update(delta);
 			m.draw(batch);
+		}
+		
+		if (Gdx.input.isKeyPressed(Keys.F1)) {
+			for (MonsterColor color : colors) {
+				Texture tex = Assets.getInstance().get(Assets.WALL, Texture.class);
+				
+				Color clr = new Color(color);
+				clr.a = 0.8f;
+				batch.setColor(clr);
+				batch.draw(tex, color.getX() * blockSize + getX(), color.getY() * blockSize + getY(), blockSize, blockSize);
+			}
 		}
 
 	}
