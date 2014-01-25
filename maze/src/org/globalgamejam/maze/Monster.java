@@ -112,10 +112,6 @@ public class Monster extends Block implements Updateable {
 
 	public void move(Direction direction) {
 		
-		if (!canMove(direction)) {
-			return;
-		}
-		
 		switch (direction) {
 		case DOWN:
 			setPosition(getX(), getY() + 1);
@@ -197,6 +193,7 @@ public class Monster extends Block implements Updateable {
 		}
 
 		color.setNext(firstColor);
+		
 		if (firstColor != null) {
 			firstColor.setPrevious(color);
 		}
@@ -223,10 +220,10 @@ public class Monster extends Block implements Updateable {
 		MonsterColor next = color.getNext();
 		
 		if (prev != null) {
-			prev.setNext(next);
+			prev.setNext(null);
 			
 			if (next != null) {
-				next.setPrevious(prev);
+				next.setPrevious(null);
 			}
 		}
 		

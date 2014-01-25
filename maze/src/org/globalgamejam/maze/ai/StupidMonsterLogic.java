@@ -3,7 +3,6 @@ package org.globalgamejam.maze.ai;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.globalgamejam.maze.Block;
 import org.globalgamejam.maze.Maze;
 import org.globalgamejam.maze.Monster;
 import org.globalgamejam.maze.Monster.MonsterColor;
@@ -46,53 +45,39 @@ public class StupidMonsterLogic implements MonsterLogic {
 	}
 	
 	private void moveMonster(Monster monster) {
-		
-		if (!monster.isDead()) {
 
-			Direction direction = calculateDirection(monster);
-			Maze maze = monster.getMaze();
-			int newX = Direction.translateX(direction, monster.getX());
-			int newY = Direction.translateY(direction, monster.getY());
-			
-			Block next = maze.getBlock(0, 0);
-			
-			if (next instanceof Monster) {
-				Monster other = (Monster)next;
-				if (!other.getColor().equals(monster.getColor())) {
-					//other.kill();
-					//monster.move(direction);
-					return;
-				}
-			}
-			
-			if (huntColors.containsKey(monster)) {
-				 MonsterColor color = huntColors.get(monster);
-				 MonsterColor previous = color.getPrevious();
-				 
-				 if (previous != null) {
-					 huntColors.put(monster, color.getPrevious());
-					 monster.setAngry(true);
-				 } else {
-					 huntColors.remove(monster);
-					 monster.setAngry(false);
-				 }
-			} else if (maze.hasColor(newX, newY) && !monster.isColorOf(maze.getMonsterColor(newX, newY))) {
-				MonsterColor foreignColor = maze.getMonsterColor(newX, newY);
-				huntColors.put(monster, foreignColor);
-				monster.setAngry(true);
-			} else {
-				huntColors.remove(monster);
-				monster.setAngry(false);
-			}
-			
-			if (huntColors.containsKey(monster)) {
-				// HUNT YOUR F*CKING ENEMY!
-				MonsterColor huntColor = huntColors.get(monster);
-				Direction huntDirection = Direction.translate(monster, huntColor.getX(), huntColor.getY());
-				monster.move(huntDirection);
-			} else {
-				monster.move(direction);
-			}
+		Direction direction = calculateDirection(monster);
+		Maze maze = monster.getMaze();
+		int newX = Direction.translateX(direction, monster.getX());
+		int newY = Direction.translateY(direction, monster.getY());
+		
+		if (huntColors.containsKey(monster)) {
+			 MonsterColor color = huntColors.get(monster);
+			 MonsterColor previous = color.getPrevious();
+			 
+			 if (previous != null) {
+				 huntColors.put(monster, color.getPrevious());
+				 monster.setAngry(true);
+			 } else {
+				 huntColors.remove(monster);
+				 monster.setAngry(false);
+			 }
+		} else if (maze.hasColor(newX, newY) && !monster.isColorOf(maze.getMonsterColor(newX, newY))) {
+			MonsterColor foreignColor = maze.getMonsterColor(newX, newY);
+			huntColors.put(monster, foreignColor);
+			monster.setAngry(true);
+		} else {
+			huntColors.remove(monster);
+			monster.setAngry(false);
+		}
+		
+		if (huntColors.containsKey(monster)) {
+			// HUNT YOUR F*CKING ENEMY!
+			MonsterColor huntColor = huntColors.get(monster);
+			Direction huntDirection = Direction.translate(monster, huntColor.getX(), huntColor.getY());
+			monster.move(huntDirection);
+		} else {
+			monster.move(direction);
 		}
 	}
 	
