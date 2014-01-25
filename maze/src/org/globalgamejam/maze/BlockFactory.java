@@ -27,19 +27,19 @@ public class BlockFactory {
 		switch (c) {
 			case GREEN:
 				block = new Monster(x, y, maze, new StupidMonsterLogic());
-				block.setColor(Color.GREEN);
+				block.setColor(Color.valueOf("90ff00"));
 				break;
 			case YELLOW:
 				block = new Monster(x, y, maze, new StupidMonsterLogic());
-				block.setColor(Color.YELLOW);
+				block.setColor(Color.valueOf("ffc000"));
 				break;
 			case BLUE:
 				block = new Monster(x, y, maze, new StupidMonsterLogic());
-				block.setColor(Color.BLUE);
+				block.setColor(Color.valueOf("00b4ff"));
 				break;
 			case RED:
 				block = new Monster(x, y, maze, new StupidMonsterLogic());
-				block.setColor(Color.RED);
+				block.setColor(Color.valueOf("ff0060"));
 				break;
 			case AIR:
 				block = new Block(x, y, maze, BlockType.AIR);

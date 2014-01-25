@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.globalgamejam.maze.MazeGame;
 import org.globalgamejam.maze.io.MazeFileReader;
 import org.globalgamejam.maze.screens.IngameScreen;
-import org.globalgamejam.maze.screens.MainMenuScreen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;

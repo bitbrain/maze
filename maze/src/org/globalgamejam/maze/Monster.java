@@ -9,33 +9,37 @@ import org.globalgamejam.maze.tweens.BlockTween;
 import org.globalgamejam.maze.tweens.SpriteTween;
 import org.globalgamejam.maze.util.Direction;
 import org.globalgamejam.maze.util.Indexable;
+import org.globalgamejam.maze.util.RandomBag;
 import org.globalgamejam.maze.util.Updateable;
 
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
 public class Monster extends Block implements Updateable {
-	
+
 	public static final int LENGTH = 7;
 
 	private MonsterLogic logic;
-	
+
 	private Direction direction;
-	
+
 	private Direction lastDirection;
-	
+
 	private ArrayList<MonsterListener> listeners;
 
 	private MonsterColor firstColor;
-	
+
 	private Queue<MonsterColor> colors;
-	
+
 	private boolean angry;
-	
+
+	private boolean dead;
+
 	public Monster(int x, int y, Maze maze, MonsterLogic logic) {
 		super(x, y, maze, BlockType.MONSTER);
 		this.logic = logic;
@@ -44,86 +48,92 @@ public class Monster extends Block implements Updateable {
 		listeners = new ArrayList<MonsterListener>();
 		colors = new LinkedList<MonsterColor>();
 	}
-	
+
 	@Override
 	public void update(float delta) {
 		logic.update(delta, this);
 	}
-	
+
 	public Direction getDirection() {
 		return direction;
 	}
-	
+
 	public Direction getLastDirection() {
 		return lastDirection;
 	}
-	
+
 	public void addListener(MonsterListener l) {
 		listeners.add(l);
 	}
-	
+
 	public void removeListener(MonsterListener l) {
 		listeners.remove(l);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.globalgamejam.maze.Block#setPosition(int, int)
 	 */
 	@Override
 	public void setPosition(int x, int y) {
 
 		lastDirection = direction;
-		
+
 		direction = Direction.translate(this, x, y);
 		int oldX = getX();
 		int oldY = getY();
-		
+
 		super.setPosition(x, y);
-		
+
 		for (MonsterListener l : listeners) {
 			l.onMove(this, oldX, oldY);
 		}
 	}
-	
+
 	public boolean isColorOf(MonsterColor color) {
-		return getColor().r == color.r &&
-				getColor().g == color.g &&
-				getColor().b == color.b;
+		return getColor().r == color.r && getColor().g == color.g
+				&& getColor().b == color.b;
 	}
-	
+
 	public void setDirection(Direction direction) {
 		lastDirection = this.direction;
 		this.direction = direction;
 	}
-	
+
 	public void kill() {
 		getMaze().removeBlock(this);
+		dead = true;
 	}
 	
+	public boolean isDead() {
+		return dead;
+	}
+
 	public void move(Direction direction) {
 		switch (direction) {
-			case DOWN:
-				setPosition(getX(), getY() + 1);
-				break;
-			case LEFT:
-				setPosition(getX() - 1, getY());
-				break;
-			case RIGHT:
-				setPosition(getX() + 1, getY());
-				break;
-			case UP:
-				setPosition(getX(), getY() - 1);
-				break;
-			default:
-				break;		
+		case DOWN:
+			setPosition(getX(), getY() + 1);
+			break;
+		case LEFT:
+			setPosition(getX() - 1, getY());
+			break;
+		case RIGHT:
+			setPosition(getX() + 1, getY());
+			break;
+		case UP:
+			setPosition(getX(), getY() - 1);
+			break;
+		default:
+			break;
 		}
-		
+
 		animateMovement(direction);
 	}
-	
-	
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -133,11 +143,11 @@ public class Monster extends Block implements Updateable {
 	}
 
 	public boolean canMove(Direction direction) {
-		
+
 		if (direction.equals(Direction.getOpposite(direction))) {
 			return false;
 		}
-		
+
 		switch (direction) {
 		case DOWN:
 			return !getMaze().isBlocked(getX(), getY() + 1);
@@ -149,71 +159,94 @@ public class Monster extends Block implements Updateable {
 			return !getMaze().isBlocked(getX(), getY() - 1);
 		default:
 			break;
-		
+
 		}
-		
+
 		return true;
 	}
-	
+
 	public void setAngry(boolean angry) {
 		if (this.angry != angry) {
-			
+
 			if (angry) {
-				Tween.to(this, BlockTween.SCALE, 0.2f)
-					 .target(1.2f)
-					 .ease(TweenEquations.easeInOutBounce)
-					 .repeatYoyo(Tween.INFINITY, 0f)
-					 .start(getMaze().getTweenManager());
+				playRandomAggroSound();
+				Tween.to(this, BlockTween.SCALE, 0.2f).target(1.2f)
+						.ease(TweenEquations.easeInOutBounce)
+						.repeatYoyo(Tween.INFINITY, 0f)
+						.start(getMaze().getTweenManager());
 			} else {
 				getMaze().getTweenManager().killTarget(this, BlockTween.SCALE);
 			}
-			
+
 			this.angry = angry;
 		}
 	}
-	
+
 	public void appendColor(MonsterColor color) {
-		
+
 		if (!colors.isEmpty() && colors.size() >= LENGTH) {
 			MonsterColor junk = colors.remove();
 			for (MonsterListener l : listeners) {
 				l.onRemoveColor(this, junk);
 			}
 		}
-		
+
 		color.setNext(firstColor);
 		if (firstColor != null) {
 			firstColor.setPrevious(color);
 		}
 		firstColor = color;
 		colors.add(color);
-		
+
 		color.r = getColor().r;
 		color.g = getColor().g;
 		color.b = getColor().b;
 		color.a = getColor().a;
-		
+
 		for (MonsterListener l : listeners) {
 			l.onCreateColor(this, color);
 		}
 	}
-	
+
+	@SuppressWarnings("null")
 	public void removeColor(MonsterColor color) {
+		
 		for (MonsterListener l : listeners) {
 			l.onRemoveColor(this, color);
 		}
+		
+		MonsterColor prev = color.getPrevious();
+		MonsterColor next = color.getNext();
+		
+		if (prev != null) {
+			prev.setNext(next);
+			
+			if (next != null) {
+				next.setPrevious(prev);
+			}
+		}
+		
+		colors.remove(color);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.globalgamejam.maze.Block#draw(com.badlogic.gdx.graphics.g2d.Batch)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.globalgamejam.maze.Block#draw(com.badlogic.gdx.graphics.g2d.Batch)
 	 */
 	@Override
 	public void draw(Batch batch) {
-		sprite.setOrigin(sprite.getWidth() / 2, sprite.getHeight() / 2);
 		
+		if (angry && Math.random() < 0.001f) {
+			playRandomAggroSound();
+		}
+		
+		sprite.setOrigin(sprite.getWidth() / 2, sprite.getHeight() / 2);
+
 		float factor = 0f;
 		TweenManager tweenManager = getMaze().getTweenManager();
-		
+
 		switch (getDirection()) {
 		case LEFT:
 			factor = 90f;
@@ -228,81 +261,80 @@ public class Monster extends Block implements Updateable {
 			break;
 		default:
 			break;
-		
+
 		}
-		
-		Tween.to(sprite, SpriteTween.ROTATION, 0.105f)
-		     .target(factor)
-		     .ease(TweenEquations.easeInBounce)
-		     .start(tweenManager);
-		
+
+		Tween.to(sprite, SpriteTween.ROTATION, 0.105f).target(factor)
+				.ease(TweenEquations.easeInBounce).start(tweenManager);
+
 		super.draw(batch);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.globalgamejam.maze.Block#getTextureID()
 	 */
 	@Override
 	public String getTextureID() {
 		return Assets.MONSTER;
 	}
-	
 
-	
 	private void animateMovement(Direction direction) {
-		
+
 		TweenManager manager = getMaze().getTweenManager();
 		int blockSize = getMaze().getBlockSize();
-		
+
 		manager.killTarget(this, BlockTween.OFFSET_X);
 		manager.killTarget(this, BlockTween.OFFSET_Y);
-		
+
 		int tweenType = BlockTween.OFFSET_Y;
-		
+
 		if (direction == Direction.LEFT || direction == Direction.RIGHT) {
 			tweenType = BlockTween.OFFSET_X;
 		}
-		
+
 		switch (direction) {
-			case DOWN:
-				setOffsetY(-blockSize);
-				break;
-			case LEFT:
-				setOffsetX(blockSize);
-				break;
-			case RIGHT:
-				setOffsetX(-blockSize);
-				break;
-			case UP:
-				setOffsetY(blockSize);
-				break;
-			default:
-				break;		
+		case DOWN:
+			setOffsetY(-blockSize);
+			break;
+		case LEFT:
+			setOffsetX(blockSize);
+			break;
+		case RIGHT:
+			setOffsetX(-blockSize);
+			break;
+		case UP:
+			setOffsetY(blockSize);
+			break;
+		default:
+			break;
 		}
-		
+
 		Tween.to(this, tweenType, StupidMonsterLogic.INTERVAL / 1000f)
-		     .target(0f)
-		     .ease(TweenEquations.easeNone)
-		     .start(manager);
+				.target(0f).ease(TweenEquations.easeNone).start(manager);
 	}
-	
+
 	public static class MonsterColor extends Color implements Indexable {
 
-		/* (non-Javadoc)
-		 * @see java.lang.Object */
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see java.lang.Object
+		 */
 		private int x, y;
-		
+
 		private MonsterColor next, previous;
-		
+
 		private Monster monster;
-		
+
 		public MonsterColor(int x, int y, Monster monster) {
 			this.x = x;
 			this.y = y;
 			this.next = null;
 			this.monster = monster;
 		}
-		
+
 		public Monster getMonster() {
 			return monster;
 		}
@@ -316,32 +348,34 @@ public class Monster extends Block implements Updateable {
 		public int getY() {
 			return y;
 		}
-		
+
 		public void setX(int x) {
 			this.x = x;
 		}
-		
+
 		public void setY(int y) {
 			this.y = y;
 		}
-		
+
 		public MonsterColor getNext() {
 			return next;
 		}
-		
+
 		public MonsterColor getPrevious() {
 			return previous;
 		}
-		
+
 		public void setNext(MonsterColor next) {
 			this.next = next;
 		}
-		
+
 		public void setPrevious(MonsterColor previous) {
 			this.previous = previous;
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see java.lang.Object#hashCode()
 		 */
 		@Override
@@ -354,7 +388,9 @@ public class Monster extends Block implements Updateable {
 			return result;
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see java.lang.Object#equals(java.lang.Object)
 		 */
 		@Override
@@ -378,6 +414,24 @@ public class Monster extends Block implements Updateable {
 			return true;
 		}
 
+	}
+
+	private void playRandomAggroSound() {
+
+		RandomBag<Sound> sounds = new RandomBag<Sound>();
+
+		int sound_count = 15;
+
+		for (int i = 1; i <= sound_count; ++i) {
+			String name = "aggro" + i + ".ogg";
+			Assets.getInstance().finishLoading();
+			Sound sound = Assets.getInstance().get(name, Sound.class);
+			sounds.put(sound);
+		}
+
+		Sound random = sounds.fetch();
+
+		random.play(1f, (float) (Math.random() * 1f + 0.5), 1f);
 	}
 
 }
