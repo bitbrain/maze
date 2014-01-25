@@ -35,6 +35,8 @@ public class Assets extends AssetManager {
 	public static final String KILL = "kill2.ogg";	
 	public static final String RUN = "runfaster.ogg";
 	public static final String DRIP = "dripMenuLeft.ogg";
+	public static final String MUSIK = "HPmusik.ogg";
+
 	
 
 	public static final String MENU = "menuWummern.ogg";
