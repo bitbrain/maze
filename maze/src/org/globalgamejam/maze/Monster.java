@@ -1,7 +1,14 @@
 package org.globalgamejam.maze;
 
+import org.globalgamejam.maze.ai.StupidMonsterLogic;
+import org.globalgamejam.maze.tweens.BlockTween;
 import org.globalgamejam.maze.util.Direction;
 import org.globalgamejam.maze.util.Updateable;
+
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenEquation;
+import aurelienribon.tweenengine.TweenEquations;
+import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 
@@ -61,22 +68,23 @@ public class Monster extends Block implements Updateable {
 	
 	public void move(Direction direction) {
 		switch (direction) {
-		case DOWN:
-			setPosition(getX(), getY() + 1);
-			break;
-		case LEFT:
-			setPosition(getX() - 1, getY());
-			break;
-		case RIGHT:
-			setPosition(getX() + 1, getY());
-			break;
-		case UP:
-			setPosition(getX(), getY() - 1);
-			break;
-		default:
-			break;
-		
+			case DOWN:
+				setPosition(getX(), getY() + 1);
+				break;
+			case LEFT:
+				setPosition(getX() - 1, getY());
+				break;
+			case RIGHT:
+				setPosition(getX() + 1, getY());
+				break;
+			case UP:
+				setPosition(getX(), getY() - 1);
+				break;
+			default:
+				break;		
 		}
+		
+		animateMovement(direction);
 	}
 	
 	public boolean canMove(Direction direction) {
@@ -142,6 +150,42 @@ public class Monster extends Block implements Updateable {
 		return Assets.MONSTER;
 	}
 	
+
 	
+	private void animateMovement(Direction direction) {
+		
+		TweenManager manager = getMaze().getTweenManager();
+		int blockSize = getMaze().getBlockSize();
+		
+		manager.killTarget(this);
+		
+		int tweenType = BlockTween.OFFSET_Y;
+		
+		if (direction == Direction.LEFT || direction == Direction.RIGHT) {
+			tweenType = BlockTween.OFFSET_X;
+		}
+		
+		switch (direction) {
+			case DOWN:
+				setOffsetY(-blockSize);
+				break;
+			case LEFT:
+				setOffsetX(blockSize);
+				break;
+			case RIGHT:
+				setOffsetX(-blockSize);
+				break;
+			case UP:
+				setOffsetY(blockSize);
+				break;
+			default:
+				break;		
+		}
+		
+		Tween.to(this, tweenType, StupidMonsterLogic.INTERVAL / 1000f)
+		     .target(0f)
+		     .ease(TweenEquations.easeInOutCubic)
+		     .start(manager);
+	}
 
 }

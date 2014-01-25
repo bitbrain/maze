@@ -11,9 +11,11 @@ import org.globalgamejam.maze.util.Timer;
 
 public class StupidMonsterLogic implements MonsterLogic {
 	
-	public static final int INTERVAL = 200;
+	public static final int INTERVAL = 600;
 	
 	private Map<Monster, Timer> timers;
+	
+	private boolean first = true;
 	
 	public StupidMonsterLogic() {
 		timers = new HashMap<Monster, Timer>();
@@ -26,14 +28,18 @@ public class StupidMonsterLogic implements MonsterLogic {
 			Timer timer = new Timer();
 			timer.start();
 			timers.put(monster, timer);
-		} else {
-			Timer timer = timers.get(monster);
+		} 
+		
+		Timer timer = timers.get(monster);
 			
-			if (timer.getTicks() >= INTERVAL) {		
-				monster.move(calculateDirection(monster));
-				timer.reset();
-			}
+		if (timer.getTicks() >= INTERVAL || first) {		
+			monster.move(calculateDirection(monster));
+			timer.reset();
+			first = false;
 		}
+		
+		
+		
 	}
 	
 	private Direction calculateDirection(Monster monster) {

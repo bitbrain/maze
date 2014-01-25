@@ -4,6 +4,9 @@ import java.io.IOException;
 
 import org.globalgamejam.maze.io.MazeFileReader;
 import org.globalgamejam.maze.screens.IngameScreen;
+import org.globalgamejam.maze.tweens.BlockTween;
+
+import aurelienribon.tweenengine.Tween;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -20,8 +23,13 @@ public class MazeGame extends Game {
 		MazeFileReader reader = new MazeFileReader();
 		
 		String[] data;
+		
 		try {
 			data = reader.read("test.mz");
+			
+			// Load tweens
+			Tween.registerAccessor(Block.class, new BlockTween());			
+			
 			setScreen(new IngameScreen(this, data));
 		} catch (IOException e) {
 			e.printStackTrace();
