@@ -3,6 +3,7 @@ package org.globalgamejam.maze.ai;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.globalgamejam.maze.Block.BlockType;
 import org.globalgamejam.maze.Maze;
 import org.globalgamejam.maze.Monster;
 import org.globalgamejam.maze.Monster.MonsterColor;
@@ -51,34 +52,24 @@ public class StupidMonsterLogic implements MonsterLogic {
 		int newX = Direction.translateX(direction, monster.getX());
 		int newY = Direction.translateY(direction, monster.getY());
 		
-//		if (maze.getBlock(newX, newY).getType() ==  BlockType.MONSTER) {
-//			Monster other = (Monster)maze.getBlock(newX, newY);
-//			System.out.println(monster + " collides with " + other);
-//			MonsterColor huntColor = huntColors.get(monster);
-//			
-//			if (huntColor != null && other.isColorOf(huntColor)) {
-//				other.kill();
-//			} else {
-//				huntColors.remove(monster);
-//				direction = Direction.getOpposite(direction);
-//				other.setDirection(Direction.getOpposite(other.getDirection()));
-//			}
-//		}
-		
 		if (huntColors.containsKey(monster)) {
 			 MonsterColor color = huntColors.get(monster);
 			 MonsterColor previous = color.getPrevious();
 			 
 			 if (previous != null) {
 				 huntColors.put(monster, color.getPrevious());
+				 monster.setAngry(true);
 			 } else {
 				 huntColors.remove(monster);
+				 monster.setAngry(false);
 			 }
 		} else if (maze.hasColor(newX, newY) && !monster.isColorOf(maze.getMonsterColor(newX, newY))) {
 			MonsterColor foreignColor = maze.getMonsterColor(newX, newY);
 			huntColors.put(monster, foreignColor);
+			monster.setAngry(true);
 		} else {
 			huntColors.remove(monster);
+			monster.setAngry(false);
 		}
 		
 		if (huntColors.containsKey(monster)) {

@@ -34,6 +34,8 @@ public class Monster extends Block implements Updateable {
 	
 	private Queue<MonsterColor> colors;
 	
+	private boolean angry;
+	
 	public Monster(int x, int y, Maze maze, MonsterLogic logic) {
 		super(x, y, maze, BlockType.MONSTER);
 		this.logic = logic;
@@ -153,6 +155,23 @@ public class Monster extends Block implements Updateable {
 		return true;
 	}
 	
+	public void setAngry(boolean angry) {
+		if (this.angry != angry) {
+			
+			if (angry) {
+				Tween.to(this, BlockTween.SCALE, 0.2f)
+					 .target(1.2f)
+					 .ease(TweenEquations.easeInOutBounce)
+					 .repeatYoyo(Tween.INFINITY, 0f)
+					 .start(getMaze().getTweenManager());
+			} else {
+				getMaze().getTweenManager().killTarget(this, BlockTween.SCALE);
+			}
+			
+			this.angry = angry;
+		}
+	}
+	
 	public void appendColor(MonsterColor color) {
 		
 		if (!colors.isEmpty() && colors.size() >= LENGTH) {
@@ -197,20 +216,12 @@ public class Monster extends Block implements Updateable {
 		
 		switch (getDirection()) {
 		case LEFT:
-			if (sprite.getRotation() == 90f) {
-				factor = -270f;
-			} else {
-				factor = 90f;
-			}
+			factor = 90f;
 			break;
 		case NONE:
 			break;
 		case RIGHT:
-			if (sprite.getRotation() == 90f) {
-				factor = 270f;
-			} else {
-				factor = -90f;
-			}
+			factor = -90f;
 			break;
 		case UP:
 			factor = 180f;
@@ -243,7 +254,8 @@ public class Monster extends Block implements Updateable {
 		TweenManager manager = getMaze().getTweenManager();
 		int blockSize = getMaze().getBlockSize();
 		
-		manager.killTarget(this);
+		manager.killTarget(this, BlockTween.OFFSET_X);
+		manager.killTarget(this, BlockTween.OFFSET_Y);
 		
 		int tweenType = BlockTween.OFFSET_Y;
 		

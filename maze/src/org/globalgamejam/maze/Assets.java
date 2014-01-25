@@ -2,8 +2,10 @@ package org.globalgamejam.maze;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 
 public class Assets extends AssetManager {
@@ -36,9 +38,9 @@ public class Assets extends AssetManager {
 	public static final String KILL = "kill2.ogg";	
 	public static final String RUN = "runfaster.ogg";
 	public static final String DRIP = "dripMenuLeft.ogg";
-	public static final String MUSIK = "HPmusik.ogg";
+	public static final String MUSIC = "HPmusik.ogg";
 
-	
+	public static final String FONT = "medium.fnt";
 
 	public static final String MENU = "menuWummern.ogg";
 	
@@ -82,8 +84,9 @@ public class Assets extends AssetManager {
 		load(AGGRO_15, Sound.class);
 		load(KILL, Sound.class);
 		load(RUN, Sound.class);
-		load(DRIP, Sound.class);
-		load(MUSIK, Sound.class);
+		load(DRIP, Music.class);
+		load(MUSIC, Music.class);
+		load(FONT, BitmapFont.class);
 	}
 
 	/* (non-Javadoc)
