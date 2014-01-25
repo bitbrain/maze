@@ -10,6 +10,7 @@ public class BlockTween implements TweenAccessor<Block> {
 
 	public static final int OFFSET_Y = 2;
 	
+	public static final int SCALE = 3;
 	@Override
 	public int getValues(Block target, int tweenType, float[] returnValues) {
 		
@@ -19,6 +20,9 @@ public class BlockTween implements TweenAccessor<Block> {
 				return 1;
 			case OFFSET_Y:
 				returnValues[0] = target.getOffsetY();
+				return 1;
+			case SCALE:
+				returnValues[0] = target.getScale();
 				return 1;
 		}
 		
@@ -33,6 +37,9 @@ public class BlockTween implements TweenAccessor<Block> {
 			break;
 		case OFFSET_Y:
 			target.setOffsetY(newValues[0]);
+			break;
+		case SCALE:
+			target.setScale(newValues[0]);
 			break;
 	}
 	}

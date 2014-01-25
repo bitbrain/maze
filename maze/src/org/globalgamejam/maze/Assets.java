@@ -13,7 +13,8 @@ public class Assets extends AssetManager {
 	public static final String MONSTER = "monster.png";
 	public static final String WALL = "wall.png";
 	public static final String FLOOR = "floor.png";	
-	
+	public static final String LOGO = "title.png";	
+	public static final String BACKGROUND = "background.png";	
 	
 	public static final String FLARE = "flare.p";
 	
@@ -61,6 +62,8 @@ public class Assets extends AssetManager {
 		load(MONSTER, Texture.class);
 		load(WALL, Texture.class);
 		load(FLOOR, Texture.class);
+		load(LOGO, Texture.class);
+		load(BACKGROUND, Texture.class);
 		load(FLARE, ParticleEffect.class);
 		load(AGGRO_1, Sound.class);
 		load(AGGRO_2, Sound.class);

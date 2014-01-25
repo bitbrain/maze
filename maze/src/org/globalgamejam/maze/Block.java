@@ -22,11 +22,14 @@ public class Block implements Indexable, Drawable {
 	
 	private float offsetX, offsetY;
 	
+	private float scale;
+	
 	public Block(int x, int y, Maze maze, BlockType type) {
 		this.x = x;
 		this.y = y;
 		this.type = type;
 		this.maze = maze;
+		scale = 1f;
 		color = new Color(1f, 1f, 1f, 1f);
 		
 		if (getTextureID() != null) {
@@ -35,6 +38,8 @@ public class Block implements Indexable, Drawable {
 			sprite = new Sprite(texture);
 			sprite.flip(false, true);
 		}
+		
+		// Start this!
 	}
 	
 	public void setColor(Color color) {
@@ -47,6 +52,14 @@ public class Block implements Indexable, Drawable {
 
 	public BlockType getType() {
 		return type;
+	}
+	
+	public void setScale(float scale) {
+		this.scale = scale;
+	}
+	
+	public float getScale() {
+		return scale;
 	}
 	
 	public float getOffsetX() {
@@ -93,10 +106,12 @@ public class Block implements Indexable, Drawable {
 
 	@Override
 	public void draw(Batch batch) {
-		
 		if (sprite != null) {
 			int size = maze.getBlockSize();
-			sprite.setBounds(x * size + maze.getX() + offsetX, y * size + maze.getY() + offsetY, size, size);
+			
+			float padding = 0f;//size * scale - size;
+			
+			sprite.setBounds(x * size + maze.getX() + offsetX - padding, y * size + maze.getY() + offsetY - padding, size + padding * 2, size + padding * 2);
 			sprite.setColor(color);
 			sprite.draw(batch);
 		}
