@@ -27,7 +27,7 @@ public class MazeGame extends Game {
 		String[] data;
 		
 		try {
-			data = reader.read("test.mz");
+			data = reader.read("maze4.mz");
 			
 			// Load tweens
 			Tween.registerAccessor(Block.class, new BlockTween());			
