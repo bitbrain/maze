@@ -79,7 +79,7 @@ public class Monster extends Block implements Updateable {
 	
 	public boolean canMove(Direction direction) {
 		
-		if (direction.equals(Direction.getOpposite(lastDirection))) {
+		if (direction.equals(Direction.getOpposite(direction))) {
 			return false;
 		}
 		

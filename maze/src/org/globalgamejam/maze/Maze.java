@@ -122,6 +122,17 @@ public class Maze {
 			
 			sprite.draw(batch);
 		}
+
+		
+//		for (int y = 0; y < getHeight() / getBlockSize(); ++y) {
+//			for (int x = 0; x < getWidth() / getBlockSize(); ++x) {
+//				if (isBlocked(x, y)) {
+//					batch.setColor(Color.PINK);
+//					Texture texture = Assets.getInstance().get("monster.png", Texture.class);
+//					batch.draw(texture, x * getBlockSize() + getX(), y * getBlockSize() + getY(), getBlockSize(), getBlockSize());
+//				}
+//			}
+//		}
 		
 		for (Block block : blocks) {
 			if (block instanceof Updateable) {
@@ -129,16 +140,6 @@ public class Maze {
 			}
 			
 			block.draw(batch);
-		}
-		
-		for (int y = 0; y < getHeight() / getBlockSize(); ++y) {
-			for (int x = 0; x < getWidth() / getBlockSize(); ++x) {
-				if (isBlocked(x, y)) {
-					batch.setColor(Color.PINK);
-					Texture texture = Assets.getInstance().get("monster.png", Texture.class);
-					batch.draw(texture, x * getBlockSize() + getX(), y * getBlockSize() + getY(), getBlockSize(), getBlockSize());
-				}
-			}
 		}
 	}
 }
