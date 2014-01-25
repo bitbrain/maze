@@ -15,6 +15,7 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
@@ -117,6 +118,9 @@ public class Monster extends Block implements Updateable {
 		}
 		
 		animateMovement(direction);
+		
+		Sound sound = Assets.getInstance().get(Assets.RUN, Sound.class);
+		sound.play(0.05f, (float) (0.2f + Math.random() * 0.5f), 1f);
 	}
 	
 	

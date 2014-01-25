@@ -2,6 +2,7 @@ package org.globalgamejam.maze;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 
@@ -30,13 +31,13 @@ public class Assets extends AssetManager {
 	public static final String AGGRO_12 = "aggro12.ogg";
 	public static final String AGGRO_13 = "aggro13.ogg";
 	public static final String AGGRO_14 = "aggro14.ogg";
-	public static final String AGGRO_15 = "aggro15.ogg";
-	
-	public static final String KILL = "kill2.ogg";
-	
+	public static final String AGGRO_15 = "aggro15.ogg";	
+	public static final String KILL = "kill2.ogg";	
 	public static final String RUN = "runfaster.ogg";
-	public static final String MENU = "menuWummern.ogg";
 	public static final String DRIP = "dripMenuLeft.ogg";
+	
+
+	public static final String MENU = "menuWummern.ogg";
 	
 	
 
@@ -59,6 +60,24 @@ public class Assets extends AssetManager {
 		load(WALL, Texture.class);
 		load(FLOOR, Texture.class);
 		load(FLARE, ParticleEffect.class);
+		load(AGGRO_1, Sound.class);
+		load(AGGRO_2, Sound.class);
+		load(AGGRO_3, Sound.class);
+		load(AGGRO_4, Sound.class);
+		load(AGGRO_5, Sound.class);
+		load(AGGRO_6, Sound.class);
+		load(AGGRO_7, Sound.class);
+		load(AGGRO_8, Sound.class);
+		load(AGGRO_9, Sound.class);
+		load(AGGRO_10, Sound.class);
+		load(AGGRO_11, Sound.class);
+		load(AGGRO_12, Sound.class);
+		load(AGGRO_13, Sound.class);
+		load(AGGRO_14, Sound.class);
+		load(AGGRO_15, Sound.class);
+		load(KILL, Sound.class);
+		load(RUN, Sound.class);
+		load(DRIP, Sound.class);
 	}
 
 	/* (non-Javadoc)

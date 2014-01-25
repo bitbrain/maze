@@ -3,6 +3,7 @@ package org.globalgamejam.maze.ai;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.globalgamejam.maze.Assets;
 import org.globalgamejam.maze.Maze;
 import org.globalgamejam.maze.Monster;
 import org.globalgamejam.maze.Monster.MonsterColor;
@@ -10,6 +11,8 @@ import org.globalgamejam.maze.MonsterLogic;
 import org.globalgamejam.maze.util.Direction;
 import org.globalgamejam.maze.util.RandomBag;
 import org.globalgamejam.maze.util.Timer;
+
+import com.badlogic.gdx.audio.Sound;
 
 public class StupidMonsterLogic implements MonsterLogic {
 	
@@ -77,6 +80,7 @@ public class StupidMonsterLogic implements MonsterLogic {
 		} else if (maze.hasColor(newX, newY) && !monster.isColorOf(maze.getMonsterColor(newX, newY))) {
 			MonsterColor foreignColor = maze.getMonsterColor(newX, newY);
 			huntColors.put(monster, foreignColor);
+			playRandomAggroSound();
 		} else {
 			huntColors.remove(monster);
 		}
@@ -86,6 +90,10 @@ public class StupidMonsterLogic implements MonsterLogic {
 			MonsterColor huntColor = huntColors.get(monster);
 			Direction huntDirection = Direction.translate(monster, huntColor.getX(), huntColor.getY());
 			monster.move(huntDirection);
+
+			if (Math.random() < 0.5f) {
+				playRandomAggroSound();
+			}
 		} else {
 			monster.move(direction);
 		}
@@ -115,6 +123,24 @@ public class StupidMonsterLogic implements MonsterLogic {
 		}
 		
 		return direction;
+	}
+	
+	private void playRandomAggroSound() {
+		
+		RandomBag<Sound> sounds = new RandomBag<Sound>();
+		
+		int sound_count = 15;
+		
+		for (int i = 1; i <= sound_count; ++i) {
+			String name = "aggro" + i + ".ogg";
+			Assets.getInstance().finishLoading();
+			Sound sound = Assets.getInstance().get(name, Sound.class);
+			sounds.put(sound);
+		}
+		
+		Sound random = sounds.fetch();
+		
+		random.play(1f, (float) (Math.random() * 1f + 0.5), 1f);
 	}
 	
 }
