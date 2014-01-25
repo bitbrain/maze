@@ -1,6 +1,7 @@
 package org.globalgamejam.maze;
 
 import org.globalgamejam.maze.Block.BlockType;
+import org.globalgamejam.maze.Monster.MonsterColor;
 import org.globalgamejam.maze.graphics.ParticleManager;
 import org.globalgamejam.maze.util.MatrixList;
 import org.globalgamejam.maze.util.Updateable;
@@ -15,7 +16,7 @@ import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
-public class Maze {
+public class Maze implements MonsterListener {
 	
 	private Sprite sprite;
 	
@@ -24,6 +25,8 @@ public class Maze {
 	private int width, height;
 	
 	private MatrixList<Block> blocks;
+	
+	private MatrixList<MonsterColor> colors;
 	
 	private float mazeX, mazeY;
 	
@@ -36,6 +39,7 @@ public class Maze {
 	public Maze(String[] data) {
 		this.data = data;
 		blocks = new MatrixList<Block>();
+		colors = new MatrixList<MonsterColor>();
 		tweenManager = new TweenManager();
 		particleManager = new ParticleManager();
 	}
@@ -117,7 +121,12 @@ public class Maze {
 				}
 				
 				Block block = factory.create(character, x, y);
-				blocks.add(block);				
+				blocks.add(block);		
+				
+				// Event handling
+				if (block instanceof Monster) {
+					((Monster)block).addListener(this);
+				}
 			}
 		}
 		
@@ -157,5 +166,33 @@ public class Maze {
 			
 			block.draw(batch);
 		}
+		
+		for (int y = 0; y < getHeight() / blockSize; ++y) {
+			for (int x = 0; x < getWidth() / blockSize; ++x) {
+				MonsterColor color = colors.get(x, y);
+				
+				if (color != null) {
+					Texture tex = Assets.getInstance().get(Assets.MONSTER, Texture.class);
+					batch.setColor(color);
+					batch.draw(tex, x * blockSize + getX(), y * blockSize + getY(), blockSize, blockSize);
+				}
+			}
+		}
+	}
+
+	@Override
+	public void onMove(Monster monster, int oldX, int oldY) {
+		MonsterColor color = new MonsterColor(monster.getX(), monster.getY());
+		monster.appendColor(color);
+	}
+
+	@Override
+	public void onRemoveColor(Monster monster, MonsterColor color) {
+		colors.remove(color);
+	}
+
+	@Override
+	public void onCreateColor(Monster monster, MonsterColor color) {		
+		colors.add(color);
 	}
 }

@@ -1,18 +1,26 @@
 package org.globalgamejam.maze;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
 import org.globalgamejam.maze.ai.StupidMonsterLogic;
 import org.globalgamejam.maze.tweens.BlockTween;
 import org.globalgamejam.maze.tweens.SpriteTween;
 import org.globalgamejam.maze.util.Direction;
+import org.globalgamejam.maze.util.Indexable;
 import org.globalgamejam.maze.util.Updateable;
 
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
 public class Monster extends Block implements Updateable {
+	
+	public static final int LENGTH = 10;
 
 	private MonsterLogic logic;
 	
@@ -20,11 +28,19 @@ public class Monster extends Block implements Updateable {
 	
 	private Direction lastDirection;
 	
+	private ArrayList<MonsterListener> listeners;
+
+	private MonsterColor firstColor;
+	
+	private Queue<MonsterColor> colors;
+	
 	public Monster(int x, int y, Maze maze, MonsterLogic logic) {
 		super(x, y, maze, BlockType.MONSTER);
 		this.logic = logic;
 		direction = Direction.NONE;
 		lastDirection = direction;
+		listeners = new ArrayList<MonsterListener>();
+		colors = new LinkedList<MonsterColor>();
 	}
 	
 	@Override
@@ -38,6 +54,14 @@ public class Monster extends Block implements Updateable {
 	
 	public Direction getLastDirection() {
 		return lastDirection;
+	}
+	
+	public void addListener(MonsterListener l) {
+		listeners.add(l);
+	}
+	
+	public void removeListener(MonsterListener l) {
+		listeners.remove(l);
 	}
 
 	/* (non-Javadoc)
@@ -63,7 +87,14 @@ public class Monster extends Block implements Updateable {
 			direction = Direction.UP;
 		}
 		
+		int oldX = getX();
+		int oldY = getY();
+		
 		super.setPosition(x, y);
+		
+		for (MonsterListener l : listeners) {
+			l.onMove(this, oldX, oldY);
+		}
 	}
 	
 	public void move(Direction direction) {
@@ -110,7 +141,28 @@ public class Monster extends Block implements Updateable {
 		return true;
 	}
 	
-	
+	public void appendColor(MonsterColor color) {
+		
+		if (!colors.isEmpty() && colors.size() >= LENGTH) {
+			MonsterColor junk = colors.remove();
+			for (MonsterListener l : listeners) {
+				l.onRemoveColor(this, junk);
+			}
+		}
+		
+		color.setNext(firstColor);
+		firstColor = color;
+		colors.add(color);
+		
+		color.r = getColor().r;
+		color.g = getColor().g;
+		color.b = getColor().b;
+		color.a = getColor().a;
+		
+		for (MonsterListener l : listeners) {
+			l.onCreateColor(this, color);
+		}
+	}
 
 	/* (non-Javadoc)
 	 * @see org.globalgamejam.maze.Block#draw(com.badlogic.gdx.graphics.g2d.Batch)
@@ -191,6 +243,46 @@ public class Monster extends Block implements Updateable {
 		     .target(0f)
 		     .ease(TweenEquations.easeInOutCubic)
 		     .start(manager);
+	}
+	
+	public static class MonsterColor extends Color implements Indexable {
+		
+		private int x, y;
+		
+		private MonsterColor next;
+		
+		public MonsterColor(int x, int y) {
+			this.x = x;
+			this.y = y;
+			this.next = null;
+		}
+
+		@Override
+		public int getX() {
+			return x;
+		}
+
+		@Override
+		public int getY() {
+			return y;
+		}
+		
+		public void setX(int x) {
+			this.x = x;
+		}
+		
+		public void setY(int y) {
+			this.y = y;
+		}
+		
+		public MonsterColor getNext() {
+			return next;
+		}
+		
+		public void setNext(MonsterColor next) {
+			this.next = next;
+		}
+		
 	}
 
 }
