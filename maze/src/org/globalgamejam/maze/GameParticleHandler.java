@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.globalgamejam.maze.Monster.MonsterColor;
+import org.globalgamejam.maze.ai.StupidMonsterLogic;
 import org.globalgamejam.maze.graphics.ParticleManager;
 
 import com.badlogic.gdx.Gdx;
@@ -53,6 +54,10 @@ public class GameParticleHandler implements MonsterListener {
 		
 		for (ParticleEmitter e : effect.getEmitters()) {
 			e.getScale().setLow(Gdx.graphics.getWidth() / 100f);
+			e.getDuration().setLow(Monster.LENGTH * StupidMonsterLogic.INTERVAL);
+			e.getLife().setLow(Monster.LENGTH * StupidMonsterLogic.INTERVAL);
+			e.getDuration().setLowMin(Monster.LENGTH * StupidMonsterLogic.INTERVAL);
+			e.getLife().setLowMin(Monster.LENGTH * StupidMonsterLogic.INTERVAL);
 			e.getVelocity().setLow(Gdx.graphics.getWidth() / 300f);
 		}
 		

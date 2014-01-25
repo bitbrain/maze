@@ -123,10 +123,6 @@ public class Maze implements MonsterListener {
 					map.drawPixmap(wallMap, 0, 0, wall.getWidth(), wall.getHeight(), x * blockSize, y * blockSize, blockSize, blockSize);
 				}
 				
-				String s = String.valueOf(character).replace("\\", "");
-				
-				System.out.println("ESCAPE:" + s);
-				
 				if (character != ' ' && character != '\n' && character != '\r' && character != '\f') {
 					Block block = factory.create(character, x, y);
 					blocks.add(block);		

@@ -20,7 +20,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 
 public class Monster extends Block implements Updateable {
 	
-	public static final int LENGTH = 8;
+	public static final int LENGTH = 22;
 
 	private MonsterLogic logic;
 	
@@ -177,12 +177,20 @@ public class Monster extends Block implements Updateable {
 		
 		switch (getDirection()) {
 		case LEFT:
-			factor = 90f;
+			if (sprite.getRotation() == 90f) {
+				factor = -270f;
+			} else {
+				factor = 90f;
+			}
 			break;
 		case NONE:
 			break;
 		case RIGHT:
-			factor = -90f;
+			if (sprite.getRotation() == 90f) {
+				factor = 270f;
+			} else {
+				factor = -90f;
+			}
 			break;
 		case UP:
 			factor = 180f;
