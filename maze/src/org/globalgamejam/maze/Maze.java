@@ -152,6 +152,14 @@ public class Maze implements MonsterListener {
 		blocks.add(block);
 	}
 	
+	public boolean hasColor(int x, int y) {
+		return colors.contains(x, y);
+	}
+	
+	public MonsterColor getMonsterColor(int x, int y) {
+		return colors.get(x, y);
+	}
+	
 	public void draw(Batch batch, float delta) {
 		
 		tweenManager.update(delta);

@@ -69,24 +69,10 @@ public class Monster extends Block implements Updateable {
 	 */
 	@Override
 	public void setPosition(int x, int y) {
-		
-		float deltaX = x - getX();
-		float deltaY = y - getY();
-		
+
 		lastDirection = direction;
 		
-		if (deltaX > 0) {
-			direction = Direction.RIGHT;
-		} else if (deltaX < 0) {
-			direction = Direction.LEFT;
-		}
-		
-		if (deltaY > 0) {
-			direction = Direction.DOWN;
-		} else if (deltaY < 0) {
-			direction = Direction.UP;
-		}
-		
+		direction = Direction.translate(this, x, y);
 		int oldX = getX();
 		int oldY = getY();
 		
@@ -95,6 +81,12 @@ public class Monster extends Block implements Updateable {
 		for (MonsterListener l : listeners) {
 			l.onMove(this, oldX, oldY);
 		}
+	}
+	
+	public boolean isColorOf(MonsterColor color) {
+		return getColor().r == color.r &&
+				getColor().g == color.g &&
+				getColor().b == color.b;
 	}
 	
 	public void move(Direction direction) {
@@ -151,6 +143,9 @@ public class Monster extends Block implements Updateable {
 		}
 		
 		color.setNext(firstColor);
+		if (firstColor != null) {
+			firstColor.setPrevious(color);
+		}
 		firstColor = color;
 		colors.add(color);
 		
@@ -252,10 +247,12 @@ public class Monster extends Block implements Updateable {
 	}
 	
 	public static class MonsterColor extends Color implements Indexable {
-		
+
+		/* (non-Javadoc)
+		 * @see java.lang.Object */
 		private int x, y;
 		
-		private MonsterColor next;
+		private MonsterColor next, previous;
 		
 		private Monster monster;
 		
@@ -292,8 +289,16 @@ public class Monster extends Block implements Updateable {
 			return next;
 		}
 		
+		public MonsterColor getPrevious() {
+			return previous;
+		}
+		
 		public void setNext(MonsterColor next) {
 			this.next = next;
+		}
+		
+		public void setPrevious(MonsterColor previous) {
+			this.previous = previous;
 		}
 
 		/* (non-Javadoc)
