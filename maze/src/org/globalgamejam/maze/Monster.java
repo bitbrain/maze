@@ -2,11 +2,11 @@ package org.globalgamejam.maze;
 
 import org.globalgamejam.maze.ai.StupidMonsterLogic;
 import org.globalgamejam.maze.tweens.BlockTween;
+import org.globalgamejam.maze.tweens.SpriteTween;
 import org.globalgamejam.maze.util.Direction;
 import org.globalgamejam.maze.util.Updateable;
 
 import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenEquation;
 import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
@@ -119,25 +119,30 @@ public class Monster extends Block implements Updateable {
 	public void draw(Batch batch) {
 		sprite.setOrigin(sprite.getWidth() / 2, sprite.getHeight() / 2);
 		
+		float factor = 0f;
+		TweenManager tweenManager = getMaze().getTweenManager();
+		
 		switch (getDirection()) {
-		case DOWN:
-			sprite.setRotation(0f);
-			break;
 		case LEFT:
-			sprite.setRotation(90f);
+			factor = 90f;
 			break;
 		case NONE:
 			break;
 		case RIGHT:
-			sprite.setRotation(-90f);
+			factor = -90f;
 			break;
 		case UP:
-			sprite.setRotation(180f);
+			factor = 180f;
 			break;
 		default:
 			break;
 		
 		}
+		
+		Tween.to(sprite, SpriteTween.ROTATION, 0.105f)
+		     .target(factor)
+		     .ease(TweenEquations.easeInBounce)
+		     .start(tweenManager);
 		
 		super.draw(batch);
 	}
