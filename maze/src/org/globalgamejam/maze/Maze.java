@@ -3,6 +3,7 @@ package org.globalgamejam.maze;
 import org.globalgamejam.maze.Block.BlockType;
 import org.globalgamejam.maze.graphics.ParticleManager;
 import org.globalgamejam.maze.util.MatrixList;
+import org.globalgamejam.maze.util.PositionColor;
 import org.globalgamejam.maze.util.Updateable;
 
 import aurelienribon.tweenengine.TweenManager;
@@ -16,6 +17,11 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Maze {
+	
+	private MatrixList<PositionColor> positionColors;
+
+	
+	
 	
 	private Sprite sprite;
 	
@@ -38,6 +44,7 @@ public class Maze {
 		blocks = new MatrixList<Block>();
 		tweenManager = new TweenManager();
 		particleManager = new ParticleManager();
+		positionColors = new MatrixList<PositionColor>();
 	}
 	
 	public Block getBlock(int x, int y) {
