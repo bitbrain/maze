@@ -11,8 +11,9 @@ public class Assets extends AssetManager {
 	
 	public static final String MONSTER = "monster.png";
 	public static final String WALL = "wall.png";
-	public static final String FLOOR = "floor.png";
+	public static final String FLOOR = "floor.png";	
 	
+	public static final String FLARE = "flare.p";
 	
 	private static Assets instance;
 	
@@ -31,6 +32,7 @@ public class Assets extends AssetManager {
 		load(MONSTER, Texture.class);
 		load(WALL, Texture.class);
 		load(FLOOR, Texture.class);
+		load(FLARE, ParticleEffect.class);
 	}
 
 	/* (non-Javadoc)
