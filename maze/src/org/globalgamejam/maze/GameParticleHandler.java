@@ -6,7 +6,9 @@ import java.util.Map;
 import org.globalgamejam.maze.Monster.MonsterColor;
 import org.globalgamejam.maze.graphics.ParticleManager;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 
 public class GameParticleHandler implements MonsterListener {
 	
@@ -48,6 +50,11 @@ public class GameParticleHandler implements MonsterListener {
 
 		manager.setColor(effect, new float[]{color.r, color.g, color.b}, new float[]{0f});
 		effect.start();
+		
+		for (ParticleEmitter e : effect.getEmitters()) {
+			e.getScale().setLow(Gdx.graphics.getWidth() / 100f);
+			e.getVelocity().setLow(Gdx.graphics.getWidth() / 300f);
+		}
 		
 		effects.put(color, effect);
 	}

@@ -165,7 +165,9 @@ public class Monster extends Block implements Updateable {
 	}
 	
 	public void removeColor(MonsterColor color) {
-		
+		for (MonsterListener l : listeners) {
+			l.onRemoveColor(this, color);
+		}
 	}
 
 	/* (non-Javadoc)
