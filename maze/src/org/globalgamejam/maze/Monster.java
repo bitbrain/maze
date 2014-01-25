@@ -20,7 +20,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 
 public class Monster extends Block implements Updateable {
 	
-	public static final int LENGTH = 10;
+	public static final int LENGTH = 8;
 
 	private MonsterLogic logic;
 	
@@ -163,6 +163,10 @@ public class Monster extends Block implements Updateable {
 			l.onCreateColor(this, color);
 		}
 	}
+	
+	public void removeColor(MonsterColor color) {
+		
+	}
 
 	/* (non-Javadoc)
 	 * @see org.globalgamejam.maze.Block#draw(com.badlogic.gdx.graphics.g2d.Batch)
@@ -251,10 +255,17 @@ public class Monster extends Block implements Updateable {
 		
 		private MonsterColor next;
 		
-		public MonsterColor(int x, int y) {
+		private Monster monster;
+		
+		public MonsterColor(int x, int y, Monster monster) {
 			this.x = x;
 			this.y = y;
 			this.next = null;
+			this.monster = monster;
+		}
+		
+		public Monster getMonster() {
+			return monster;
 		}
 
 		@Override
@@ -282,7 +293,44 @@ public class Monster extends Block implements Updateable {
 		public void setNext(MonsterColor next) {
 			this.next = next;
 		}
-		
+
+		/* (non-Javadoc)
+		 * @see java.lang.Object#hashCode()
+		 */
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = super.hashCode();
+			result = prime * result + ((next == null) ? 0 : next.hashCode());
+			result = prime * result + x;
+			result = prime * result + y;
+			return result;
+		}
+
+		/* (non-Javadoc)
+		 * @see java.lang.Object#equals(java.lang.Object)
+		 */
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (!super.equals(obj))
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			MonsterColor other = (MonsterColor) obj;
+			if (next == null) {
+				if (other.next != null)
+					return false;
+			} else if (!next.equals(other.next))
+				return false;
+			if (x != other.x)
+				return false;
+			if (y != other.y)
+				return false;
+			return true;
+		}
+
 	}
 
 }

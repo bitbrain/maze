@@ -32,6 +32,8 @@ public class Maze implements MonsterListener {
 	
 	private int blockSize;
 	
+	private GameParticleHandler particleHandler;
+	
 	private TweenManager tweenManager;
 	
 	private ParticleManager particleManager;
@@ -42,6 +44,7 @@ public class Maze implements MonsterListener {
 		colors = new MatrixList<MonsterColor>();
 		tweenManager = new TweenManager();
 		particleManager = new ParticleManager();
+		particleHandler = new GameParticleHandler(particleManager);
 	}
 	
 	public Block getBlock(int x, int y) {
@@ -126,6 +129,7 @@ public class Maze implements MonsterListener {
 				// Event handling
 				if (block instanceof Monster) {
 					((Monster)block).addListener(this);
+					((Monster)block).addListener(particleHandler);					
 				}
 			}
 		}
@@ -166,23 +170,11 @@ public class Maze implements MonsterListener {
 			
 			block.draw(batch);
 		}
-		
-		for (int y = 0; y < getHeight() / blockSize; ++y) {
-			for (int x = 0; x < getWidth() / blockSize; ++x) {
-				MonsterColor color = colors.get(x, y);
-				
-				if (color != null) {
-					Texture tex = Assets.getInstance().get(Assets.MONSTER, Texture.class);
-					batch.setColor(color);
-					batch.draw(tex, x * blockSize + getX(), y * blockSize + getY(), blockSize, blockSize);
-				}
-			}
-		}
 	}
 
 	@Override
 	public void onMove(Monster monster, int oldX, int oldY) {
-		MonsterColor color = new MonsterColor(monster.getX(), monster.getY());
+		MonsterColor color = new MonsterColor(monster.getX(), monster.getY(), monster);
 		monster.appendColor(color);
 	}
 
@@ -192,7 +184,14 @@ public class Maze implements MonsterListener {
 	}
 
 	@Override
-	public void onCreateColor(Monster monster, MonsterColor color) {		
+	public void onCreateColor(Monster monster, MonsterColor color) {
+		
+		if (colors.contains(color.getX(), color.getY())) {
+			MonsterColor otherColor = colors.get(color.getX(), color.getY());
+			Monster otherMonster = otherColor.getMonster();
+			otherMonster.removeColor(otherColor);
+		}
+		
 		colors.add(color);
 	}
 }
