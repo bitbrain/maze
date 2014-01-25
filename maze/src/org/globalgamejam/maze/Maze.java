@@ -149,11 +149,13 @@ public class Maze implements MonsterListener {
 	}
 	
 	void moveBlock(Block block, int oldX, int oldY) {
-		Block air = new Block(oldX, oldY, this, BlockType.AIR);
-		blocks.add(air);
+		blocks.remove(oldX, oldY);
 		blocks.add(block);
 	}
 	
+	public void removeBlock(Block block) {
+		blocks.remove(block);
+	}
 	public boolean hasColor(int x, int y) {
 		return colors.contains(x, y);
 	}

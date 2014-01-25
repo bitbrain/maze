@@ -3,6 +3,7 @@ package org.globalgamejam.maze.ai;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.globalgamejam.maze.Block.BlockType;
 import org.globalgamejam.maze.Maze;
 import org.globalgamejam.maze.Monster;
 import org.globalgamejam.maze.Monster.MonsterColor;
@@ -51,6 +52,20 @@ public class StupidMonsterLogic implements MonsterLogic {
 		int newX = Direction.translateX(direction, monster.getX());
 		int newY = Direction.translateY(direction, monster.getY());
 		
+//		if (maze.getBlock(newX, newY).getType() ==  BlockType.MONSTER) {
+//			Monster other = (Monster)maze.getBlock(newX, newY);
+//			System.out.println(monster + " collides with " + other);
+//			MonsterColor huntColor = huntColors.get(monster);
+//			
+//			if (huntColor != null && other.isColorOf(huntColor)) {
+//				other.kill();
+//			} else {
+//				huntColors.remove(monster);
+//				direction = Direction.getOpposite(direction);
+//				other.setDirection(Direction.getOpposite(other.getDirection()));
+//			}
+//		}
+		
 		if (huntColors.containsKey(monster)) {
 			 MonsterColor color = huntColors.get(monster);
 			 MonsterColor previous = color.getPrevious();
@@ -73,7 +88,7 @@ public class StupidMonsterLogic implements MonsterLogic {
 			Direction huntDirection = Direction.translate(monster, huntColor.getX(), huntColor.getY());
 			monster.move(huntDirection);
 		} else {
-			monster.move(calculateDirection(monster));
+			monster.move(direction);
 		}
 	}
 	

@@ -20,7 +20,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 
 public class Monster extends Block implements Updateable {
 	
-	public static final int LENGTH = 22;
+	public static final int LENGTH = 7;
 
 	private MonsterLogic logic;
 	
@@ -89,6 +89,15 @@ public class Monster extends Block implements Updateable {
 				getColor().b == color.b;
 	}
 	
+	public void setDirection(Direction direction) {
+		lastDirection = this.direction;
+		this.direction = direction;
+	}
+	
+	public void kill() {
+		getMaze().removeBlock(this);
+	}
+	
 	public void move(Direction direction) {
 		switch (direction) {
 			case DOWN:
@@ -110,6 +119,17 @@ public class Monster extends Block implements Updateable {
 		animateMovement(direction);
 	}
 	
+	
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Monster [direction=" + direction + ", firstColor=" + firstColor
+				+ "]";
+	}
+
 	public boolean canMove(Direction direction) {
 		
 		if (direction.equals(Direction.getOpposite(direction))) {
@@ -250,7 +270,7 @@ public class Monster extends Block implements Updateable {
 		
 		Tween.to(this, tweenType, StupidMonsterLogic.INTERVAL / 1000f)
 		     .target(0f)
-		     .ease(TweenEquations.easeInOutCubic)
+		     .ease(TweenEquations.easeNone)
 		     .start(manager);
 	}
 	
