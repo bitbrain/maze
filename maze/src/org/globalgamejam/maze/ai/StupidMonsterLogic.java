@@ -3,7 +3,6 @@ package org.globalgamejam.maze.ai;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.globalgamejam.maze.Block.BlockType;
 import org.globalgamejam.maze.Maze;
 import org.globalgamejam.maze.Monster;
 import org.globalgamejam.maze.Monster.MonsterColor;

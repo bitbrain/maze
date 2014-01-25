@@ -1,9 +1,9 @@
 package org.globalgamejam.maze;
 
 import org.globalgamejam.maze.Block.BlockType;
+import org.globalgamejam.maze.Monster.MonsterColor;
 import org.globalgamejam.maze.graphics.ParticleManager;
 import org.globalgamejam.maze.util.MatrixList;
-import org.globalgamejam.maze.util.PositionColor;
 import org.globalgamejam.maze.util.Updateable;
 
 import aurelienribon.tweenengine.TweenManager;
@@ -16,12 +16,7 @@ import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
-public class Maze {
-	
-	private MatrixList<PositionColor> positionColors;
-
-	
-	
+public class Maze implements MonsterListener {
 	
 	private Sprite sprite;
 	
@@ -31,9 +26,13 @@ public class Maze {
 	
 	private MatrixList<Block> blocks;
 	
+	private MatrixList<MonsterColor> colors;
+	
 	private float mazeX, mazeY;
 	
 	private int blockSize;
+	
+	private GameParticleHandler particleHandler;
 	
 	private TweenManager tweenManager;
 	
@@ -42,9 +41,10 @@ public class Maze {
 	public Maze(String[] data) {
 		this.data = data;
 		blocks = new MatrixList<Block>();
+		colors = new MatrixList<MonsterColor>();
 		tweenManager = new TweenManager();
 		particleManager = new ParticleManager();
-		positionColors = new MatrixList<PositionColor>();
+		particleHandler = new GameParticleHandler(particleManager);
 	}
 	
 	public Block getBlock(int x, int y) {
@@ -123,8 +123,16 @@ public class Maze {
 					map.drawPixmap(wallMap, 0, 0, wall.getWidth(), wall.getHeight(), x * blockSize, y * blockSize, blockSize, blockSize);
 				}
 				
-				Block block = factory.create(character, x, y);
-				blocks.add(block);				
+				if (character != ' ' && character != '\n' && character != '\r' && character != '\f') {
+					Block block = factory.create(character, x, y);
+					blocks.add(block);		
+					
+					// Event handling
+					if (block instanceof Monster) {
+						((Monster)block).addListener(this);
+						((Monster)block).addListener(particleHandler);					
+					}
+				}
 			}
 		}
 		
@@ -141,9 +149,19 @@ public class Maze {
 	}
 	
 	void moveBlock(Block block, int oldX, int oldY) {
-		Block air = new Block(oldX, oldY, this, BlockType.AIR);
-		blocks.add(air);
+		blocks.remove(oldX, oldY);
 		blocks.add(block);
+	}
+	
+	public void removeBlock(Block block) {
+		blocks.remove(block);
+	}
+	public boolean hasColor(int x, int y) {
+		return colors.contains(x, y);
+	}
+	
+	public MonsterColor getMonsterColor(int x, int y) {
+		return colors.get(x, y);
 	}
 	
 	public void draw(Batch batch, float delta) {
@@ -164,5 +182,28 @@ public class Maze {
 			
 			block.draw(batch);
 		}
+	}
+
+	@Override
+	public void onMove(Monster monster, int oldX, int oldY) {
+		MonsterColor color = new MonsterColor(monster.getX(), monster.getY(), monster);
+		monster.appendColor(color);
+	}
+
+	@Override
+	public void onRemoveColor(Monster monster, MonsterColor color) {
+		colors.remove(color);
+	}
+
+	@Override
+	public void onCreateColor(Monster monster, MonsterColor color) {
+		
+		if (colors.contains(color.getX(), color.getY())) {
+			MonsterColor otherColor = colors.get(color.getX(), color.getY());
+			Monster otherMonster = otherColor.getMonster();
+			otherMonster.removeColor(otherColor);
+		}
+		
+		colors.add(color);
 	}
 }
