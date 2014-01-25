@@ -5,9 +5,7 @@ import org.globalgamejam.maze.MazeGame;
 import org.globalgamejam.maze.controls.GameOverControls;
 import org.globalgamejam.maze.tweens.ActorTween;
 
-import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenEquations;
 import aurelienribon.tweenengine.TweenManager;
 
@@ -90,18 +88,14 @@ public class GameOverScreen implements Screen {
 				 .start(tweenManager);
 			
 			image.setY(Gdx.graphics.getHeight() - image.getHeight() - 10f);
-			
-			Tween.to(image, ActorTween.ALPHA, 1f)
-				  .target(1f)
-				  .ease(TweenEquations.easeInOutCubic)
-				  .start(tweenManager);
-			
+
 			Tween.to(image, ActorTween.POPUP, 2f)
 			.target(Gdx.graphics.getHeight() - image.getHeight())
 			.ease(TweenEquations.easeInOutQuad)
 			.repeatYoyo(Tween.INFINITY, 0f)
 			.start(tweenManager);
 		}
+			
 	}
 
 	@Override

@@ -40,7 +40,6 @@ public class Assets extends AssetManager {
 	public static final String RUN = "runfaster.ogg";
 	public static final String DRIP = "dripMenuLeft.ogg";
 	public static final String MUSIC = "HPmusik.ogg";
-
 	public static BitmapFont FONT;
 
 	public static final String MENU = "menuWummern.ogg";
@@ -87,7 +86,6 @@ public class Assets extends AssetManager {
 		load(RUN, Sound.class);
 		load(DRIP, Music.class);
 		load(MUSIC, Music.class);
-		
 		FONT = new BitmapFont(Gdx.files.internal("medium.fnt"));
 	}
 
