@@ -1,5 +1,6 @@
 package org.globalgamejam.maze;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +48,8 @@ public class Maze implements MonsterListener {
 	private TweenManager tweenManager;
 
 	private ParticleManager particleManager;
+	
+	private List<MazeListener> listeners;
 
 	public Maze(String[] data) {
 		this.data = data;
@@ -57,6 +60,8 @@ public class Maze implements MonsterListener {
 		particleHandler = new GameParticleHandler(particleManager);
 		monsters = new CopyOnWriteArrayList<Monster>();
 		count = new HashMap<Color, Integer>();
+		listeners = new ArrayList<MazeListener>();
+		addListener(particleHandler);
 	}
 
 	public Block getBlock(int x, int y) {
@@ -216,8 +221,16 @@ public class Maze implements MonsterListener {
 		if (color != null) {
 			Monster m = color.getMonster();
 			m.removeColor(color);
+			
+			for (MazeListener l : listeners) {
+				l.onRemoveTrailColor(color);
+			}
 		}
 		
+	}
+	
+	public void addListener(MazeListener listener) {
+		listeners.add(listener);
 	}
 
 	public void draw(Batch batch, float delta) {

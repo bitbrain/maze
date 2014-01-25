@@ -111,6 +111,11 @@ public class Monster extends Block implements Updateable {
 	}
 
 	public void move(Direction direction) {
+		
+		if (!canMove(direction)) {
+			return;
+		}
+		
 		switch (direction) {
 		case DOWN:
 			setPosition(getX(), getY() + 1);

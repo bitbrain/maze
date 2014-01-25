@@ -11,7 +11,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 
-public class GameParticleHandler implements MonsterListener {
+public class GameParticleHandler implements MonsterListener, MazeListener {
 	
 	private ParticleManager manager;
 	
@@ -59,6 +59,30 @@ public class GameParticleHandler implements MonsterListener {
 			e.getDuration().setLowMin(Monster.LENGTH * StupidMonsterLogic.INTERVAL);
 			e.getLife().setLowMin(Monster.LENGTH * StupidMonsterLogic.INTERVAL);
 			e.getVelocity().setLow(Gdx.graphics.getWidth() / 300f);
+		}
+		
+		effects.put(color, effect);
+	}
+
+	@Override
+	public void onRemoveTrailColor(MonsterColor color) {
+		Maze maze = color.getMonster().getMaze();
+		ParticleEffect effect = manager.create(Assets.getInstance().get(Assets.FLARE, ParticleEffect.class), false);
+		float x = color.getX() * maze.getBlockSize() + maze.getX() + maze.getBlockSize() / 2;
+		float y = color.getY() * maze.getBlockSize() + maze.getY() + maze.getBlockSize() / 2;
+		
+		effect.setPosition(x, y);
+
+		manager.setColor(effect, new float[]{color.r, color.g, color.b}, new float[]{0f});
+		effect.start();
+		
+		for (ParticleEmitter e : effect.getEmitters()) {
+			e.getScale().setLow(Gdx.graphics.getWidth() / 30f);
+			e.getDuration().setLow(Monster.LENGTH * StupidMonsterLogic.INTERVAL / 2);
+			e.getLife().setLow(Monster.LENGTH * StupidMonsterLogic.INTERVAL / 2);
+			e.getDuration().setLowMin(Monster.LENGTH * StupidMonsterLogic.INTERVAL / 2);
+			e.getLife().setLowMin(Monster.LENGTH * StupidMonsterLogic.INTERVAL / 2);
+			e.getVelocity().setLow(Gdx.graphics.getWidth() / 20f);
 		}
 		
 		effects.put(color, effect);
