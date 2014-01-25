@@ -109,7 +109,7 @@ public class Block implements Indexable, Drawable {
 		if (sprite != null) {
 			int size = maze.getBlockSize();
 			
-			float padding = 0f;//size * scale - size;
+			float padding = size * scale - size;
 			
 			sprite.setBounds(x * size + maze.getX() + offsetX - padding, y * size + maze.getY() + offsetY - padding, size + padding * 2, size + padding * 2);
 			sprite.setColor(color);

@@ -2,6 +2,7 @@ package org.globalgamejam.maze.screens;
 
 import org.globalgamejam.maze.Maze;
 import org.globalgamejam.maze.MazeGame;
+import org.globalgamejam.maze.controls.IngameControls;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class IngameScreen implements Screen {
 	
@@ -18,8 +20,13 @@ public class IngameScreen implements Screen {
 	
 	private OrthographicCamera camera;
 	
+	private Stage stage;
+	
+	private MazeGame game;
+	
 	public IngameScreen(MazeGame game, String[] data) {
 		this.maze = new Maze(data);
+		this.game = game;
 	}
 
 	@Override
@@ -39,6 +46,13 @@ public class IngameScreen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
+		
+		if (stage != null) {
+			stage.setViewport(width, height, false);
+		} else {
+			stage = new IngameControls(game, maze, width, height);
+			Gdx.input.setInputProcessor(stage);
+		}
 		camera.setToOrtho(true, width, height);
 		maze.build(width, height);
 	}
