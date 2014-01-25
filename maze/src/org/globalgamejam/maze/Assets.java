@@ -13,7 +13,33 @@ public class Assets extends AssetManager {
 	public static final String WALL = "wall.png";
 	public static final String FLOOR = "floor.png";	
 	
+	
 	public static final String FLARE = "flare.p";
+	
+	public static final String AGGRO_1 = "aggro1.ogg";
+	public static final String AGGRO_2 = "aggro2.ogg";
+	public static final String AGGRO_3 = "aggro3.ogg";
+	public static final String AGGRO_4 = "aggro4.ogg";
+	public static final String AGGRO_5 = "aggro5.ogg";
+	public static final String AGGRO_6 = "aggro6.ogg";
+	public static final String AGGRO_7 = "aggro7.ogg";
+	public static final String AGGRO_8 = "aggro8.ogg";
+	public static final String AGGRO_9 = "aggro9.ogg";
+	public static final String AGGRO_10 = "aggro10.ogg";
+	public static final String AGGRO_11 = "aggro11.ogg";
+	public static final String AGGRO_12 = "aggro12.ogg";
+	public static final String AGGRO_13 = "aggro13.ogg";
+	public static final String AGGRO_14 = "aggro14.ogg";
+	public static final String AGGRO_15 = "aggro15.ogg";
+	
+	public static final String KILL = "kill2.ogg";
+	
+	public static final String RUN = "runfaster.ogg";
+	public static final String MENU = "menuWummern.ogg";
+	public static final String DRIP = "dripMenuLeft.ogg";
+	
+	
+
 	
 	private static Assets instance;
 	
