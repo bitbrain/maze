@@ -1,21 +1,14 @@
 package org.globalgamejam.maze;
 
+import java.io.IOException;
+
+import org.globalgamejam.maze.io.MazeFileReader;
 import org.globalgamejam.maze.screens.IngameScreen;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 
 public class MazeGame extends Game {
-	
-	public static final String[] data = new String[]{
-		"111111111111",
-		"1r01000010b1",
-		"100100100011",
-		"100000101011",
-		"100000101011",
-		"100000101011",
-		"1g01001010y1",
-		"111111111111"
-	};
 
 	@Override
 	public void create() {		
@@ -23,7 +16,17 @@ public class MazeGame extends Game {
 		Assets manager = Assets.getInstance();
 		manager.loadAll();
 		
-		setScreen(new IngameScreen(this, data));
+		// Load sample level
+		MazeFileReader reader = new MazeFileReader();
+		
+		String[] data;
+		try {
+			data = reader.read("test.mz");
+			setScreen(new IngameScreen(this, data));
+		} catch (IOException e) {
+			e.printStackTrace();
+			Gdx.app.exit();
+		}		
 	}
 
 	/* (non-Javadoc)

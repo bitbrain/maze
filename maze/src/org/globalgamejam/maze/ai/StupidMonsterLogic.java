@@ -9,8 +9,6 @@ import org.globalgamejam.maze.util.Direction;
 import org.globalgamejam.maze.util.RandomBag;
 import org.globalgamejam.maze.util.Timer;
 
-import com.badlogic.gdx.graphics.Color;
-
 public class StupidMonsterLogic implements MonsterLogic {
 	
 	public static final int INTERVAL = 200;
@@ -32,9 +30,7 @@ public class StupidMonsterLogic implements MonsterLogic {
 			Timer timer = timers.get(monster);
 			
 			if (timer.getTicks() >= INTERVAL) {		
-				//if (monster.getColor().equals(Color.YELLOW)) {
-					monster.move(calculateDirection(monster));
-				//}
+				monster.move(calculateDirection(monster));
 				timer.reset();
 			}
 		}
@@ -60,8 +56,6 @@ public class StupidMonsterLogic implements MonsterLogic {
 		}
 		
 		if (direction.equals(Direction.NONE) || !monster.canMove(direction)) {
-			// <<<<<<<<<<<<<<<< !!!_!_!_!_!_!_
-			// TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			direction = Direction.getOpposite(monster.getDirection());
 		}
 		

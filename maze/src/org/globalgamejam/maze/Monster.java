@@ -3,6 +3,8 @@ package org.globalgamejam.maze;
 import org.globalgamejam.maze.util.Direction;
 import org.globalgamejam.maze.util.Updateable;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
+
 public class Monster extends Block implements Updateable {
 
 	private MonsterLogic logic;
@@ -98,6 +100,38 @@ public class Monster extends Block implements Updateable {
 		}
 		
 		return true;
+	}
+	
+	
+
+	/* (non-Javadoc)
+	 * @see org.globalgamejam.maze.Block#draw(com.badlogic.gdx.graphics.g2d.Batch)
+	 */
+	@Override
+	public void draw(Batch batch) {
+		sprite.setOrigin(sprite.getWidth() / 2, sprite.getHeight() / 2);
+		
+		switch (getDirection()) {
+		case DOWN:
+			sprite.setRotation(0f);
+			break;
+		case LEFT:
+			sprite.setRotation(90f);
+			break;
+		case NONE:
+			break;
+		case RIGHT:
+			sprite.setRotation(-90f);
+			break;
+		case UP:
+			sprite.setRotation(180f);
+			break;
+		default:
+			break;
+		
+		}
+		
+		super.draw(batch);
 	}
 
 	/* (non-Javadoc)

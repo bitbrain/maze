@@ -1,20 +1,24 @@
 package org.globalgamejam.maze;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 
 public class Assets extends AssetManager {
 	
 	// ============ TYPES ==================
 	
 	public static final String MONSTER = "monster.png";
-	
+	public static final String WALL = "wall.png";
+	public static final String FLOOR = "floor.png";
 	
 	
 	private static Assets instance;
 	
 	static {
 		instance = new Assets();
+		instance.setLoader(ParticleEffect.class, new ParticleLoader(new InternalFileHandleResolver()));
 	}
 	
 	private Assets() { }
@@ -25,6 +29,8 @@ public class Assets extends AssetManager {
 	
 	public void loadAll() {
 		load(MONSTER, Texture.class);
+		load(WALL, Texture.class);
+		load(FLOOR, Texture.class);
 	}
 
 	/* (non-Javadoc)

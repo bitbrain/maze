@@ -1,13 +1,17 @@
 package org.globalgamejam.maze;
 
 import org.globalgamejam.maze.Block.BlockType;
+import org.globalgamejam.maze.graphics.ParticleManager;
 import org.globalgamejam.maze.util.MatrixList;
 import org.globalgamejam.maze.util.Updateable;
+
+import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
@@ -24,10 +28,16 @@ public class Maze {
 	private float mazeX, mazeY;
 	
 	private int blockSize;
+	
+	private TweenManager tweenManager;
+	
+	private ParticleManager particleManager;
 
 	public Maze(String[] data) {
 		this.data = data;
 		blocks = new MatrixList<Block>();
+		tweenManager = new TweenManager();
+		particleManager = new ParticleManager();
 	}
 	
 	public Block getBlock(int x, int y) {
@@ -64,6 +74,10 @@ public class Maze {
 		}
 	}
 	
+	public TweenManager getTweenManager() {
+		return tweenManager;
+	}
+	
 	public void build(int width, int height) {
 		
 		BlockFactory factory = new BlockFactory(this);
@@ -81,6 +95,14 @@ public class Maze {
 		mazeY = height / 2 - mazeHeight / 2;
 		
 		Pixmap map = new Pixmap(mazeWidth, mazeHeight, Format.RGBA8888);
+		Texture wall = Assets.getInstance().get(Assets.WALL, Texture.class);
+		TextureData texData = wall.getTextureData();
+		texData.prepare();
+		Pixmap wallMap = texData.consumePixmap();
+		Texture floor = Assets.getInstance().get(Assets.FLOOR, Texture.class);
+		TextureData floorData = floor.getTextureData();
+		floorData.prepare();
+		Pixmap floorMap = floorData.consumePixmap();
 		
 		for (int y = 0; y < data.length; y++) {
 			
@@ -88,19 +110,19 @@ public class Maze {
 			
 			for (int x = 0; x < line.length(); ++x) {
 				char character = line.charAt(x);
-									
+				map.drawPixmap(floorMap, 0, 0, wall.getWidth(), wall.getHeight(), x * blockSize, y * blockSize, blockSize, blockSize);
 				if (character == '1') {
-					map.setColor(Color.GRAY);
-				} else {
-					map.setColor(Color.BLACK);
+					map.setColor(Color.WHITE);
+					map.drawPixmap(wallMap, 0, 0, wall.getWidth(), wall.getHeight(), x * blockSize, y * blockSize, blockSize, blockSize);
 				}
-				
-				map.fillRectangle(x * blockSize, y * blockSize, blockSize, blockSize);
 				
 				Block block = factory.create(character, x, y);
 				blocks.add(block);				
 			}
 		}
+		
+		wallMap.dispose();
+		floorMap.dispose();
 		
 		sprite = new Sprite(new Texture(map));
 		sprite.flip(false, true);
@@ -118,21 +140,15 @@ public class Maze {
 	}
 	
 	public void draw(Batch batch, float delta) {
+		
+		tweenManager.update(delta);
+		
 		if (sprite != null) {
 			
 			sprite.draw(batch);
 		}
 
-		
-//		for (int y = 0; y < getHeight() / getBlockSize(); ++y) {
-//			for (int x = 0; x < getWidth() / getBlockSize(); ++x) {
-//				if (isBlocked(x, y)) {
-//					batch.setColor(Color.PINK);
-//					Texture texture = Assets.getInstance().get("monster.png", Texture.class);
-//					batch.draw(texture, x * getBlockSize() + getX(), y * getBlockSize() + getY(), getBlockSize(), getBlockSize());
-//				}
-//			}
-//		}
+		particleManager.render(batch, delta);
 		
 		for (Block block : blocks) {
 			if (block instanceof Updateable) {
