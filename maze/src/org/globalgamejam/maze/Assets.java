@@ -83,6 +83,7 @@ public class Assets extends AssetManager {
 		load(KILL, Sound.class);
 		load(RUN, Sound.class);
 		load(DRIP, Sound.class);
+		load(MUSIK, Sound.class);
 	}
 
 	/* (non-Javadoc)
