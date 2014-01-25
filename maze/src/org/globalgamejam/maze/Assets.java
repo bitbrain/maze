@@ -1,5 +1,6 @@
 package org.globalgamejam.maze;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
@@ -40,7 +41,7 @@ public class Assets extends AssetManager {
 	public static final String DRIP = "dripMenuLeft.ogg";
 	public static final String MUSIC = "HPmusik.ogg";
 
-	public static final String FONT = "medium.fnt";
+	public static BitmapFont FONT;
 
 	public static final String MENU = "menuWummern.ogg";
 	
@@ -86,7 +87,8 @@ public class Assets extends AssetManager {
 		load(RUN, Sound.class);
 		load(DRIP, Music.class);
 		load(MUSIC, Music.class);
-		load(FONT, BitmapFont.class);
+		
+		FONT = new BitmapFont(Gdx.files.internal("medium.fnt"));
 	}
 
 	/* (non-Javadoc)

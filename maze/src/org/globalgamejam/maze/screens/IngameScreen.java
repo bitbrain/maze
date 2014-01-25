@@ -1,11 +1,13 @@
 package org.globalgamejam.maze.screens;
 
+import org.globalgamejam.maze.Assets;
 import org.globalgamejam.maze.Maze;
 import org.globalgamejam.maze.MazeGame;
 import org.globalgamejam.maze.controls.IngameControls;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -61,12 +63,18 @@ public class IngameScreen implements Screen {
 	public void show() {
 		batch = new SpriteBatch();
 		camera = new OrthographicCamera();
+		
+		Music music = Assets.getInstance().get(Assets.DRIP, Music.class);
+		music.setLooping(true);
+		music.play();
+		music = Assets.getInstance().get(Assets.MUSIC, Music.class);
+		music.setLooping(true);
+		music.play();
 	}
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
-		
+		Assets.getInstance().get(Assets.MUSIC, Music.class).stop();
 	}
 
 	@Override

@@ -14,6 +14,8 @@ import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -21,6 +23,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
 public class MainMenuScreen implements Screen {
 	
@@ -72,6 +76,28 @@ public class MainMenuScreen implements Screen {
 			image.setY(Gdx.graphics.getHeight());
 			background.setBounds(0, 0, width, height);
 			
+			LabelStyle labelStyle = new LabelStyle();
+			labelStyle.font = Assets.FONT;
+			labelStyle.fontColor = new Color(1f, 1f, 1f, 0.4f);
+			
+			Label credits = new Label("GGJ14", labelStyle);
+			credits.setPosition(Gdx.graphics.getWidth() / 2 - credits.getPrefWidth() / 2, 20f);
+			stage.addActor(credits);
+			
+			LabelStyle startStyle = new LabelStyle();
+			startStyle.font = Assets.FONT;
+			startStyle.fontColor = new Color(1f, 1f, 1f, 1f);
+			
+			Label start = new Label("Enter dungeon...", startStyle);
+			start.setPosition(Gdx.graphics.getWidth() / 2 - start.getPrefWidth() / 2, Gdx.graphics.getHeight() / 4.5f);
+			stage.addActor(start);
+			
+			Tween.to(start, ActorTween.ALPHA, 0.7f)
+				 .target(0.0f)
+				 .ease(TweenEquations.easeInOutCubic)
+				 .repeatYoyo(Tween.INFINITY, 0f)
+				 .start(tweenManager);
+			
 			Tween.to(image, ActorTween.ALPHA, 1f)
 				  .target(1f)
 				  .ease(TweenEquations.easeInOutCubic)
@@ -104,6 +130,10 @@ public class MainMenuScreen implements Screen {
 		batch = new SpriteBatch();
 		background = new Sprite(Assets.getInstance().get(Assets.BACKGROUND, Texture.class));
 		tweenManager = new TweenManager();
+		
+		Music music = Assets.getInstance().get(Assets.DRIP, Music.class);
+		music.setLooping(true);
+		music.play();
 	}
 
 	@Override

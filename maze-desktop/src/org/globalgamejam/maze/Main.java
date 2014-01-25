@@ -11,6 +11,7 @@ public class Main {
 		cfg.width = 800;
 		cfg.height = 600;
 		cfg.resizable = false;
+		cfg.fullscreen = true;
 		
 		new LwjglApplication(new MazeGame(), cfg);
 	}

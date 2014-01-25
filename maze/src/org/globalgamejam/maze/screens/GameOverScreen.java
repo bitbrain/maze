@@ -13,6 +13,7 @@ import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -20,6 +21,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
 public class GameOverScreen implements Screen {
 	
@@ -71,30 +74,33 @@ public class GameOverScreen implements Screen {
 			image.setY(Gdx.graphics.getHeight());
 			background.setBounds(0, 0, width, height);
 			
+			LabelStyle startStyle = new LabelStyle();
+			startStyle.font = Assets.FONT;
+			startStyle.fontColor = new Color(1f, 1f, 1f, 1f);
+			
+			Label start = new Label("Game Over!", startStyle);
+			start.setFontScale(2f);
+			start.setPosition(Gdx.graphics.getWidth() / 2 - start.getPrefWidth() / 2, Gdx.graphics.getHeight() / 4.5f);
+			stage.addActor(start);
+			
+			Tween.to(start, ActorTween.ALPHA, 0.7f)
+				 .target(0.0f)
+				 .ease(TweenEquations.easeInOutCubic)
+				 .repeatYoyo(Tween.INFINITY, 0f)
+				 .start(tweenManager);
+			
+			image.setY(Gdx.graphics.getHeight() - image.getHeight() - 10f);
+			
 			Tween.to(image, ActorTween.ALPHA, 1f)
 				  .target(1f)
 				  .ease(TweenEquations.easeInOutCubic)
 				  .start(tweenManager);
 			
-			Tween.to(image, ActorTween.POPUP, 1f)
-			  .target(Gdx.graphics.getHeight() - image.getHeight() - 10f)
-			  .ease(TweenEquations.easeInOutElastic)
-			  .setCallback(new TweenCallback() {
-
-				@Override
-				public void onEvent(int type, BaseTween<?> source) {
-					
-					Tween.to(image, ActorTween.POPUP, 2f)
-					.target(Gdx.graphics.getHeight() - image.getHeight())
-					.ease(TweenEquations.easeInOutQuad)
-					.repeatYoyo(Tween.INFINITY, 0f)
-					.start(tweenManager);
-					
-				}
-				  
-			  })
-			  .setCallbackTriggers(TweenCallback.COMPLETE)			  
-			  .start(tweenManager);
+			Tween.to(image, ActorTween.POPUP, 2f)
+			.target(Gdx.graphics.getHeight() - image.getHeight())
+			.ease(TweenEquations.easeInOutQuad)
+			.repeatYoyo(Tween.INFINITY, 0f)
+			.start(tweenManager);
 		}
 	}
 
