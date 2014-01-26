@@ -62,7 +62,13 @@ public class StupidMonsterLogic implements MonsterLogic {
 				Monster other = (Monster)next;
 				
 				if (monster.isAngry()) {
+					monster.setAngry(false);
+					huntColors.remove(monster);
+					//System.out.println(monster.getX() + "|" + monster.getY() + " killed " + other.getX() + "|" + other.getY());
+					
 					other.kill();
+					monster.move(direction);
+					return;
 				}
 				
 			}

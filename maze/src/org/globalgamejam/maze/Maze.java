@@ -106,7 +106,7 @@ public class Maze implements MonsterListener {
 
 		BlockFactory factory = new BlockFactory(this);
 
-		if (width > height) {
+		if (width <= height) {
 			blockSize = width / data[0].length();
 		} else {
 			blockSize = height / data.length;
