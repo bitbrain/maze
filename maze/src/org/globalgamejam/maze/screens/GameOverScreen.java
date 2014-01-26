@@ -81,7 +81,7 @@ public class GameOverScreen implements Screen {
 			startStyle.fontColor = new Color(1f, 1f, 1f, 1f);
 			
 			Label start = new Label("Game Over!", startStyle);
-			start.setFontScale(2f);
+			start.setFontScale(Gdx.graphics.getHeight() / 300f);
 			start.setPosition(Gdx.graphics.getWidth() / 2 - start.getPrefWidth() / 2, Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 4.5f);
 			stage.addActor(start);
 			
@@ -90,6 +90,12 @@ public class GameOverScreen implements Screen {
 				 .ease(TweenEquations.easeInOutCubic)
 				 .repeatYoyo(Tween.INFINITY, 0f)
 				 .start(tweenManager);
+			
+			Label score = new Label(player.getPoints() + " Points", startStyle);
+			score.setFontScale(Gdx.graphics.getHeight() / 500f);
+			score.setColor(Color.valueOf("330077"));
+			score.setPosition(Gdx.graphics.getWidth() / 2 - score.getPrefWidth() / 2, Gdx.graphics.getHeight() / 4.5f);
+			stage.addActor(score);
 			
 			image.setY(Gdx.graphics.getHeight() - image.getHeight() - 10f);
 

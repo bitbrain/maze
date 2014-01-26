@@ -81,7 +81,11 @@ private float currentValue;
                  lifeWidth = 0;
          }
          
-         life.setColor(getColor());
+         if (target.canSmatch()) {
+        	 life.setColor(getColor());
+         } else {
+        	 life.setColor(getColor().r, getColor().g, getColor().b, 0.3f);
+         }
          life.setBounds(getX() + padding, getY() + padding, lifeWidth,
                          getHeight() - padding * 2);
          life.draw(batch);

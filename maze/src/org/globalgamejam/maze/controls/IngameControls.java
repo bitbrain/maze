@@ -28,7 +28,7 @@ public class IngameControls extends Stage {
 		
 		switch (keyCode) {
 			case Keys.BACK: case Keys.ESCAPE:
-				game.setScreen(new GameOverScreen(game));
+				game.setScreen(new GameOverScreen(game, maze.getDungeonKeeper()));
 				break;
 		}
 		

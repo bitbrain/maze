@@ -46,7 +46,7 @@ public class IngameScreen implements Screen {
 		stage.act(delta);
 		
 		if (maze.gameover()) {
-			game.setScreen(new GameOverScreen(game));
+			game.setScreen(new GameOverScreen(game, maze.getDungeonKeeper()));
 		}
 		
 		camera.update();

@@ -12,12 +12,14 @@ public class DungeonKeeper {
 
 	private int points;
 	
-	private Timer smatchTimer;
+	private Timer smatchTimer, subTimer;
 	
 	public DungeonKeeper() {
 		smatchTimer = new Timer();
-		maxSmatch = 5000;
+		maxSmatch = 3000;
 		smatch = maxSmatch;
+		subTimer = new Timer();
+		subTimer.start();
 	}
 
 	public int getPoints() {
@@ -45,10 +47,22 @@ public class DungeonKeeper {
 		if (smatchTimer.getTicks() >= 300) {
 			if (smatch < maxSmatch) {
 				smatch += SECOND_INTERVAL;
+				
+				if (smatch > maxSmatch) {
+					smatch = maxSmatch;
+				}
+				
 				smatchTimer.reset();
 			} else {
 				smatchTimer.reset();
 				smatchTimer.stop();
+			}
+		}  else if (subTimer.getTicks() > 500) {
+			subTimer.reset();
+			smatch += 35;
+					
+			if (smatch > maxSmatch) {
+				smatch = maxSmatch;
 			}
 		}
 	}
