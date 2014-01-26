@@ -104,6 +104,7 @@ public class Monster extends Block implements Updateable {
 	public void kill() {
 		getMaze().removeBlock(this);
 		dead = true;
+		
 	}
 	
 	public boolean isDead() {
@@ -184,6 +185,10 @@ public class Monster extends Block implements Updateable {
 
 			this.angry = angry;
 		}
+	}
+	
+	public boolean isAngry() {
+		return angry;
 	}
 
 	public void appendColor(MonsterColor color) {

@@ -225,6 +225,8 @@ public class Maze implements MonsterListener {
 			for (MazeListener l : listeners) {
 				l.onRemoveTrailColor(color);
 			}
+			
+			colors.remove(x, y);
 		}
 		
 	}
@@ -249,7 +251,27 @@ public class Maze implements MonsterListener {
 			m.draw(batch);
 		}
 		
-		if (Gdx.input.isKeyPressed(Keys.F1)) {
+		if (Gdx.input.isKeyPressed(Keys.F1) && MazeGame.DEBUG) {
+			for (Block b : blocks) {
+				Texture tex = Assets.getInstance().get(Assets.WALL, Texture.class);
+				
+				Color color = new Color(0.6f, 0.6f, 0.6f, 0.7f);
+				
+				if (b.getType() == BlockType.MONSTER) {
+					Monster m = (Monster)b;
+					color.r = m.getColor().r;
+					color.g = m.getColor().g;
+					color.b = m.getColor().b;
+				} else {
+					color.a = 0f;
+				}
+				
+				batch.setColor(color);
+				batch.draw(tex, b.getX() * blockSize + getX(), b.getY() * blockSize + getY(), blockSize, blockSize);
+			}
+		}
+		
+		if (Gdx.input.isKeyPressed(Keys.F2) && MazeGame.DEBUG) {
 			for (MonsterColor color : colors) {
 				Texture tex = Assets.getInstance().get(Assets.WALL, Texture.class);
 				

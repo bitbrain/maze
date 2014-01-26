@@ -3,8 +3,10 @@ package org.globalgamejam.maze.ai;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.globalgamejam.maze.Block;
 import org.globalgamejam.maze.Maze;
 import org.globalgamejam.maze.Monster;
+import org.globalgamejam.maze.Block.BlockType;
 import org.globalgamejam.maze.Monster.MonsterColor;
 import org.globalgamejam.maze.MonsterLogic;
 import org.globalgamejam.maze.util.Direction;
@@ -52,6 +54,19 @@ public class StupidMonsterLogic implements MonsterLogic {
 			Maze maze = monster.getMaze();
 			int newX = Direction.translateX(direction, monster.getX());
 			int newY = Direction.translateY(direction, monster.getY());
+			
+			Block next = maze.getBlock(newX, newY);
+			
+			if (next.getType() == BlockType.MONSTER) {
+				
+				Monster other = (Monster)next;
+				
+				if (monster.isAngry()) {
+					other.kill();
+					
+				}
+				
+			}
 			
 			if (huntColors.containsKey(monster)) {
 				 MonsterColor color = huntColors.get(monster);
