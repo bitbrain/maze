@@ -63,7 +63,6 @@ public class StupidMonsterLogic implements MonsterLogic {
 				
 				if (monster.isAngry()) {
 					other.kill();
-					
 				}
 				
 			}

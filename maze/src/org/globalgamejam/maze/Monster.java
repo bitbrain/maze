@@ -105,6 +105,12 @@ public class Monster extends Block implements Updateable {
 		if (!dead) {
 			getMaze().removeBlock(this);
 			dead = true;
+			
+			for (MonsterColor c : colors) {
+				getMaze().removeMonsterColor(c);
+			}
+			
+			colors.clear();
 		}
 		
 	}
@@ -195,28 +201,30 @@ public class Monster extends Block implements Updateable {
 
 	public void appendColor(MonsterColor color) {
 
-		if (!colors.isEmpty() && colors.size() >= LENGTH) {
-			MonsterColor junk = colors.remove();
-			for (MonsterListener l : listeners) {
-				l.onRemoveColor(this, junk);
+		if (!isDead()) {
+			if (!colors.isEmpty() && colors.size() >= LENGTH) {
+				MonsterColor junk = colors.remove();
+				for (MonsterListener l : listeners) {
+					l.onRemoveColor(this, junk);
+				}
 			}
-		}
-
-		color.setNext(firstColor);
-		
-		if (firstColor != null) {
-			firstColor.setPrevious(color);
-		}
-		firstColor = color;
-		colors.add(color);
-
-		color.r = getColor().r;
-		color.g = getColor().g;
-		color.b = getColor().b;
-		color.a = getColor().a;
-
-		for (MonsterListener l : listeners) {
-			l.onCreateColor(this, color);
+	
+			color.setNext(firstColor);
+			
+			if (firstColor != null) {
+				firstColor.setPrevious(color);
+			}
+			firstColor = color;
+			colors.add(color);
+	
+			color.r = getColor().r;
+			color.g = getColor().g;
+			color.b = getColor().b;
+			color.a = getColor().a;
+	
+			for (MonsterListener l : listeners) {
+				l.onCreateColor(this, color);
+			}
 		}
 	}
 

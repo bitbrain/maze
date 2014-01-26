@@ -230,6 +230,10 @@ public class Maze implements MonsterListener {
 		
 	}
 	
+	public void removeMonsterColor(MonsterColor color) {
+		colors.remove(color);
+	}
+	
 	public void addListener(MazeListener listener) {
 		listeners.add(listener);
 	}
