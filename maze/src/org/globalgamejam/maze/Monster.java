@@ -157,22 +157,41 @@ public class Monster extends Block implements Updateable {
 		if (direction.equals(Direction.getOpposite(direction))) {
 			return false;
 		}
+		
+		int x = -1, y = -1;
 
 		switch (direction) {
 		case DOWN:
-			return !getMaze().isBlocked(getX(), getY() + 1);
+			x = getX();
+			y = getY() + 1;
+			break;
+			//return !getMaze().isBlocked(getX(), getY() + 1);
 		case LEFT:
-			return !getMaze().isBlocked(getX() - 1, getY());
+			x = getX() - 1;
+			y = getY();
+			break;
+			//return !getMaze().isBlocked(getX() - 1, getY());
 		case RIGHT:
-			return !getMaze().isBlocked(getX() + 1, getY());
+			x = getX() + 1;
+			y = getY();
+			break;
+			//return !getMaze().isBlocked(getX() + 1, getY());
 		case UP:
-			return !getMaze().isBlocked(getX(), getY() - 1);
+			x = getX();
+			y = getY() - 1;
+			break;
+			//return !getMaze().isBlocked(getX(), getY() - 1);
 		default:
 			break;
-
 		}
-
-		return true;
+		
+		Block block = getMaze().getBlock(x, y);
+		
+		if (block != null && !isAngry() && block.getType() == BlockType.MONSTER) {
+			return false;
+		} 
+		
+		return !getMaze().isBlocked(x, y);
 	}
 
 	public void setAngry(boolean angry) {

@@ -57,7 +57,7 @@ public class StupidMonsterLogic implements MonsterLogic {
 			
 			Block next = maze.getBlock(newX, newY);
 			
-			if (next != null && next.getType() == BlockType.MONSTER) {
+			if (next.getType() == BlockType.MONSTER) {
 				
 				Monster other = (Monster)next;
 				
@@ -69,6 +69,9 @@ public class StupidMonsterLogic implements MonsterLogic {
 					other.kill();
 					monster.move(direction);
 					return;
+				} else if (!other.isAngry()) {
+					Direction otherDirection = Direction.getOpposite(other.getDirection());
+					other.setDirection(otherDirection);
 				}
 				
 			}
