@@ -15,6 +15,8 @@ import org.globalgamejam.maze.util.Timer;
 
 public class StupidMonsterLogic implements MonsterLogic {
 	
+	public static Map<Monster, Boolean> manualMove = new HashMap<Monster, Boolean>();
+	
 	public static final float INTERVAL = 0.8f;
 	
 	private Map<Monster, Timer> timers;
@@ -56,7 +58,7 @@ public class StupidMonsterLogic implements MonsterLogic {
 	
 	private void moveMonster(Monster monster) {
 
-		if (!monster.isDead()) {
+		if (!monster.isDead() && (!manualMove.containsKey(monster) || !manualMove.get(monster))) {
 			
 			Direction direction = calculateDirection(monster);			
 			
@@ -77,7 +79,6 @@ public class StupidMonsterLogic implements MonsterLogic {
 			
 			if (next != null && next.getType() == BlockType.MONSTER) {
 
-				System.out.println("SHOULD COME!");
 				Monster other = (Monster)next;
 				
 				if (monster.isAngry()) {
@@ -86,10 +87,11 @@ public class StupidMonsterLogic implements MonsterLogic {
 					other.kill();
 					monster.move(direction);
 					return;
-				} else if (!other.isAngry()) {
+				} else if (!other.isAngry()) {					
 					Direction otherDirection = Direction.getOpposite(other.getDirection());
-					other.setDirection(otherDirection);
 					other.move(otherDirection);
+					monster.move(direction);
+					manualMove.put(other, true);
 					return;
 				}
 				
@@ -123,6 +125,10 @@ public class StupidMonsterLogic implements MonsterLogic {
 			} else {
 				monster.move(direction);
 			}
+		}
+		
+		if (manualMove.containsKey(monster)) {
+			manualMove.put(monster, false);
 		}
 	}
 	
