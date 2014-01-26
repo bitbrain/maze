@@ -107,7 +107,7 @@ public class MainMenuScreen implements Screen {
 				.repeatYoyo(Tween.INFINITY, 0f)
 				.start(tweenManager);
 			
-			Tween.to(start, ActorTween.ALPHA, 0.7f)
+			Tween.to(start, ActorTween.ALPHA, 1.7f)
 				 .target(0.0f)
 				 .ease(TweenEquations.easeInOutCubic)
 				 .repeatYoyo(Tween.INFINITY, 0f)

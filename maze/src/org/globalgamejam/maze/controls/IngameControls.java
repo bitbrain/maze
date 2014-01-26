@@ -55,7 +55,10 @@ public class IngameControls extends Stage {
 	
 	private void removeTrail(int x, int y) {
 		
-		if (!maze.isPaused()) {
+		if (!maze.isPaused() && maze.getDungeonKeeper().canSmatch()) {
+			
+			maze.getDungeonKeeper().useSmatch();
+			
 			x -= maze.getX();
 			y -= maze.getY();
 			

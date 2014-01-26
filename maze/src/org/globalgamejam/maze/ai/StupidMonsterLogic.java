@@ -65,7 +65,7 @@ public class StupidMonsterLogic implements MonsterLogic {
 			
 			Block next = maze.getBlock(newX, newY);
 			
-			if (next.getType() == BlockType.MONSTER) {
+			if (next != null && next.getType() == BlockType.MONSTER) {
 				
 				Monster other = (Monster)next;
 				

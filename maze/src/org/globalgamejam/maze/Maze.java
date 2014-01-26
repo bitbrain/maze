@@ -52,9 +52,12 @@ public class Maze implements MonsterListener {
 	private List<MazeListener> listeners;
 	
 	private boolean paused;
+	
+	private DungeonKeeper player;
 
 	public Maze(String[] data) {
 		this.data = data;
+		player = new DungeonKeeper();
 		blocks = new MatrixList<Block>();
 		colors = new MatrixList<MonsterColor>();
 		tweenManager = new TweenManager();
@@ -64,6 +67,10 @@ public class Maze implements MonsterListener {
 		count = new HashMap<Color, Integer>();
 		listeners = new ArrayList<MazeListener>();
 		addListener(particleHandler);
+	}
+	
+	public DungeonKeeper getDungeonKeeper() {
+		return player;
 	}
 
 	public Block getBlock(int x, int y) {

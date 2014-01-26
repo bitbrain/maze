@@ -129,6 +129,8 @@ public class Monster extends Block implements Updateable {
 			} else {
 				Assets.getInstance().get(Assets.KILL2, Sound.class).play(0.5f, (float) (Math.random() * 0.5 + 0.5f), 1f);
 			}
+			
+			SoundUtils.playRandomSound("voicec", 5);
 		}
 	}
 	
@@ -155,7 +157,7 @@ public class Monster extends Block implements Updateable {
 			break;
 		}
 		
-		if (Math.random() < 0.5f) {
+		if (Math.random() < 0.1f) {
 			
 			if (isAngry()) {
 				Assets.getInstance().get(Assets.RUNFASTER, Sound.class).play(0.5f, (float) (Math.random() * 0.5 + 0.5f), 1f);
@@ -165,7 +167,7 @@ public class Monster extends Block implements Updateable {
 			
 		}
 		
-		if (Math.random() < 0.01f) {
+		if (Math.random() < 0.005f) {
 			SoundUtils.playRandomSound("voicec", 5);
 		}
 
@@ -380,7 +382,7 @@ public class Monster extends Block implements Updateable {
 			break;
 		}
 
-		Tween.to(this, tweenType, moveInterval / 1000f)
+		Tween.to(this, tweenType, moveInterval * 0.001f)
 				.target(0f).ease(TweenEquations.easeNone).start(manager);
 	}
 

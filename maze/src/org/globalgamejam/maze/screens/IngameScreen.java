@@ -1,6 +1,7 @@
 package org.globalgamejam.maze.screens;
 
 import org.globalgamejam.maze.Assets;
+import org.globalgamejam.maze.DungeonKeeper;
 import org.globalgamejam.maze.Maze;
 import org.globalgamejam.maze.MazeGame;
 import org.globalgamejam.maze.controls.IngameControls;
