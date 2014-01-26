@@ -126,11 +126,13 @@ public class Monster extends Block implements Updateable {
 			Assets.getInstance().get(Assets.SPLASH, Sound.class).play(0.5f, (float) (Math.random() * 0.5 + 0.5f), 1f);
 			if (Math.random() < 0.5f) {
 				Assets.getInstance().get(Assets.KILL1, Sound.class).play(0.5f, (float) (Math.random() * 0.5 + 0.5f), 1f);
-			} else {
+			} else if (Math.random() < 0.5f) {
 				Assets.getInstance().get(Assets.KILL2, Sound.class).play(0.5f, (float) (Math.random() * 0.5 + 0.5f), 1f);
+			} else if (Math.random() < 0.5f) {
+				SoundUtils.playRandomSound("diec", 4);
+			} else {
+				SoundUtils.playRandomSound("dier", 5);
 			}
-			
-			SoundUtils.playRandomSound("voicec", 5);
 		}
 	}
 	

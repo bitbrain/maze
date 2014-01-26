@@ -78,7 +78,8 @@ public class StupidMonsterLogic implements MonsterLogic {
 				} else if (!other.isAngry()) {
 					Direction otherDirection = Direction.getOpposite(other.getLastDirection());
 					other.setDirection(otherDirection);
-					//other.move(otherDirection);
+					other.move(otherDirection);
+					return;
 				}
 				
 			}

@@ -5,6 +5,7 @@ import org.globalgamejam.maze.DungeonKeeper;
 import org.globalgamejam.maze.MazeGame;
 import org.globalgamejam.maze.controls.GameOverControls;
 import org.globalgamejam.maze.tweens.ActorTween;
+import org.globalgamejam.maze.tweens.SpriteTween;
 
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenEquations;
@@ -29,7 +30,7 @@ public class GameOverScreen implements Screen {
 	
 	private Stage stage;
 	
-	private Sprite background;
+	private Sprite background, foreground;
 	
 	private Batch batch;
 	
@@ -52,6 +53,7 @@ public class GameOverScreen implements Screen {
 		stage.act(delta);
 		batch.begin();
 		background.draw(batch);
+		foreground.draw(batch);
 		batch.end();
 		
 		stage.draw();
@@ -98,9 +100,20 @@ public class GameOverScreen implements Screen {
 			stage.addActor(score);
 			
 			image.setY(Gdx.graphics.getHeight() - image.getHeight() - 10f);
+			
+			foreground = new Sprite(Assets.getInstance().get(Assets.GAMEOVER, Texture.class));
+			
+			float scale = foreground.getWidth() / Gdx.graphics.getWidth();			
+			foreground.setScale(scale);
 
 			Tween.to(image, ActorTween.POPUP, 2f)
 			.target(Gdx.graphics.getHeight() - image.getHeight())
+			.ease(TweenEquations.easeInOutQuad)
+			.repeatYoyo(Tween.INFINITY, 0f)
+			.start(tweenManager);
+			
+			Tween.to(foreground, SpriteTween.ALPHA, 4f)
+			.target(0.5f)
 			.ease(TweenEquations.easeInOutQuad)
 			.repeatYoyo(Tween.INFINITY, 0f)
 			.start(tweenManager);
