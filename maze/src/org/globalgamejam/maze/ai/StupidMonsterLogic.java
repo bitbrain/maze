@@ -15,7 +15,7 @@ import org.globalgamejam.maze.util.Timer;
 
 public class StupidMonsterLogic implements MonsterLogic {
 	
-	public static final int INTERVAL = 900;
+	public static final float INTERVAL = 0.8f;
 	
 	private Map<Monster, Timer> timers;
 	
@@ -40,14 +40,14 @@ public class StupidMonsterLogic implements MonsterLogic {
 		Timer timer = timers.get(monster);
 		
 		if (monster.isAngry()) {
-			monster.setInterval((long) (0.65f * INTERVAL));
+			monster.setInterval((0.65f * INTERVAL));
 		} else {
 			monster.setInterval(INTERVAL);
 		}
 		
-		long interval = monster.getInterval();
+		float interval = monster.getInterval();
 			
-		if (timer.getTicks() >= interval || first) {		
+		if (timer.getTicks() >= (interval * 1000) || first) {		
 			moveMonster(monster);
 			timer.reset();
 			first = false;
@@ -58,25 +58,36 @@ public class StupidMonsterLogic implements MonsterLogic {
 
 		if (!monster.isDead()) {
 			
-			Direction direction = calculateDirection(monster);
+			Direction direction = calculateDirection(monster);			
+			
 			Maze maze = monster.getMaze();
 			int newX = Direction.translateX(direction, monster.getX());
 			int newY = Direction.translateY(direction, monster.getY());
 			
+			Direction otherRootDirection = Direction.getOpposite(direction);
+			
+			int anotherX = Direction.translateX(otherRootDirection, monster.getX());
+			int anotherY = Direction.translateY(otherRootDirection, monster.getY());
+			
 			Block next = maze.getBlock(newX, newY);
 			
+			if (next != null && next.getType() != BlockType.MONSTER) {
+				next = maze.getBlock(anotherX, anotherY);
+			}
+			
 			if (next != null && next.getType() == BlockType.MONSTER) {
-				
+
+				System.out.println("SHOULD COME!");
 				Monster other = (Monster)next;
 				
 				if (monster.isAngry()) {
 					monster.setAngry(false);
 					huntColors.remove(monster);					
 					other.kill();
-					//monster.move(direction);
+					monster.move(direction);
 					return;
 				} else if (!other.isAngry()) {
-					Direction otherDirection = Direction.getOpposite(other.getLastDirection());
+					Direction otherDirection = Direction.getOpposite(other.getDirection());
 					other.setDirection(otherDirection);
 					other.move(otherDirection);
 					return;

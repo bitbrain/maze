@@ -40,7 +40,7 @@ public class Monster extends Block implements Updateable {
 
 	private boolean dead;
 	
-	private long moveInterval;
+	private float moveInterval;
 
 	public Monster(int x, int y, Maze maze, MonsterLogic logic) {
 		super(x, y, maze, BlockType.MONSTER);
@@ -65,11 +65,11 @@ public class Monster extends Block implements Updateable {
 		return lastDirection;
 	}
 	
-	public long getInterval() {
+	public float getInterval() {
 		return moveInterval;
 	}
 	
-	public void setInterval(long interval) {
+	public void setInterval(float interval) {
 		this.moveInterval = interval;
 	}
 	
@@ -234,7 +234,7 @@ public class Monster extends Block implements Updateable {
 
 			if (angry) {
 				SoundUtils.playRandomSound("aggro", 15);
-				Tween.to(this, BlockTween.SCALE, 0.2f).target(1.2f)
+				Tween.to(this, BlockTween.SCALE, 0.2f).target(1.1f)
 						.ease(TweenEquations.easeInOutBounce)
 						.repeatYoyo(Tween.INFINITY, 0f)
 						.start(getMaze().getTweenManager());
@@ -361,8 +361,6 @@ public class Monster extends Block implements Updateable {
 		manager.killTarget(this, BlockTween.OFFSET_X);
 		manager.killTarget(this, BlockTween.OFFSET_Y);
 		
-		this.setOffsetX(0f);
-		this.setOffsetX(0f);
 		int tweenType = BlockTween.OFFSET_Y;
 
 		if (direction == Direction.LEFT || direction == Direction.RIGHT) {
@@ -386,7 +384,7 @@ public class Monster extends Block implements Updateable {
 			break;
 		}
 
-		Tween.to(this, tweenType, moveInterval * 0.001f)
+		Tween.to(this, tweenType, moveInterval)
 				.target(0f).ease(TweenEquations.easeNone).start(manager);
 	}
 
