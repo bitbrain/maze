@@ -14,7 +14,9 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -31,6 +33,8 @@ public class IngameScreen implements Screen {
 	
 	private MazeGame game;
 	
+	private Sprite background;
+	
 	public IngameScreen(MazeGame game, String[] data) {
 		this.maze = new Maze(data);
 		this.game = game;
@@ -46,6 +50,7 @@ public class IngameScreen implements Screen {
 		stage.act(delta);
 		
 		if (maze.gameover()) {
+			background.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 			game.setScreen(new GameOverScreen(game, maze.getDungeonKeeper()));
 		}
 		
@@ -54,6 +59,7 @@ public class IngameScreen implements Screen {
 		batch.setProjectionMatrix(camera.combined);
 		
 		batch.begin();
+		background.draw(batch);
 		maze.draw(batch, delta);
 		batch.end();
 		
@@ -102,6 +108,7 @@ public class IngameScreen implements Screen {
 		music = Assets.getInstance().get(Assets.INGAME, Music.class);
 		music.setLooping(true);
 		music.play();
+		background = new Sprite(Assets.getInstance().get(Assets.BACKGROUND, Texture.class));
 	}
 
 	@Override

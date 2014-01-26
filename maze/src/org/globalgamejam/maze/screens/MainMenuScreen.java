@@ -54,6 +54,7 @@ public class MainMenuScreen implements Screen {
 		tweenManager.update(delta);
 		stage.act(delta);
 		batch.begin();
+		background.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		background.draw(batch);
 		minions.draw(batch);
 		batch.end();
@@ -84,7 +85,9 @@ public class MainMenuScreen implements Screen {
 			labelStyle.font = Assets.FONT;
 			labelStyle.fontColor = new Color(1f, 1f, 1f, 0.4f);
 			
-			Label credits = new Label("GGJ14", labelStyle);
+			Label credits = new Label("A GGJ14 Production", labelStyle);
+
+			credits.setFontScale(0.5f);
 			credits.setPosition(Gdx.graphics.getWidth() / 2 - credits.getPrefWidth() / 2, 20f);
 			stage.addActor(credits);
 			

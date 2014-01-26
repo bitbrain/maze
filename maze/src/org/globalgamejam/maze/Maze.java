@@ -14,8 +14,6 @@ import org.globalgamejam.maze.util.Timer;
 
 import aurelienribon.tweenengine.TweenManager;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
@@ -292,36 +290,36 @@ public class Maze implements MonsterListener {
 			m.draw(batch);
 		}
 		
-		if (Gdx.input.isKeyPressed(Keys.F1) && MazeGame.DEBUG) {
-			for (Block b : blocks) {
-				Texture tex = Assets.getInstance().get(Assets.WALL, Texture.class);
-				
-				Color color = new Color(0.6f, 0.6f, 0.6f, 0.7f);
-				
-				if (b.getType() == BlockType.MONSTER) {
-					Monster m = (Monster)b;
-					color.r = m.getColor().r;
-					color.g = m.getColor().g;
-					color.b = m.getColor().b;
-				} else {
-					color.a = 0f;
-				}
-				
-				batch.setColor(color);
-				batch.draw(tex, b.getX() * blockSize + getX(), b.getY() * blockSize + getY(), blockSize, blockSize);
-			}
-		}
-		
-		if (Gdx.input.isKeyPressed(Keys.F2) && MazeGame.DEBUG) {
-			for (MonsterColor color : colors) {
-				Texture tex = Assets.getInstance().get(Assets.WALL, Texture.class);
-				
-				Color clr = new Color(color);
-				clr.a = 0.8f;
-				batch.setColor(clr);
-				batch.draw(tex, color.getX() * blockSize + getX(), color.getY() * blockSize + getY(), blockSize, blockSize);
-			}
-		}
+//		if (Gdx.input.isKeyPressed(Keys.F1) && MazeGame.DEBUG) {
+//			for (Block b : blocks) {
+//				Texture tex = Assets.getInstance().get(Assets.WALL, Texture.class);
+//				
+//				Color color = new Color(0.6f, 0.6f, 0.6f, 0.7f);
+//				
+//				if (b.getType() == BlockType.MONSTER) {
+//					Monster m = (Monster)b;
+//					color.r = m.getColor().r;
+//					color.g = m.getColor().g;
+//					color.b = m.getColor().b;
+//				} else {
+//					color.a = 0f;
+//				}
+//				
+//				batch.setColor(color);
+//				batch.draw(tex, b.getX() * blockSize + getX(), b.getY() * blockSize + getY(), blockSize, blockSize);
+//			}
+//		}
+//		
+//		if (Gdx.input.isKeyPressed(Keys.F2) && MazeGame.DEBUG) {
+//			for (MonsterColor color : colors) {
+//				Texture tex = Assets.getInstance().get(Assets.WALL, Texture.class);
+//				
+//				Color clr = new Color(color);
+//				clr.a = 0.8f;
+//				batch.setColor(clr);
+//				batch.draw(tex, color.getX() * blockSize + getX(), color.getY() * blockSize + getY(), blockSize, blockSize);
+//			}
+//		}
 
 	}
 

@@ -32,7 +32,7 @@ public class MainMenuControls extends Stage {
 		
 		try {
 			Assets.getInstance().get(Assets.MENU, Music.class).stop();
-			game.setScreen(new IngameScreen(game, reader.read("test.mz")));
+			game.setScreen(new IngameScreen(game, reader.read("ribbon.mz")));
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
