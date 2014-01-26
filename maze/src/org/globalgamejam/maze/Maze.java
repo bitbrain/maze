@@ -180,6 +180,8 @@ public class Maze implements MonsterListener {
 
 	void moveBlock(Block block, int oldX, int oldY) {
 		blocks.remove(oldX, oldY);
+		Block air = new Block(oldX, oldY, this, BlockType.AIR);
+		blocks.add(air);
 		blocks.add(block);
 	}
 

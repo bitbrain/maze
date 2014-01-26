@@ -96,8 +96,8 @@ public class Block implements Indexable, Drawable {
 	
 	public void setPosition(int x, int y) {
 		
-		int oldX = x;
-		int oldY = y;
+		int oldX = this.x;
+		int oldY = this.y;
 		this.x = x;
 		this.y = y;
 

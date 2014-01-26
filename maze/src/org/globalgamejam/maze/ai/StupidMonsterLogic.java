@@ -57,14 +57,14 @@ public class StupidMonsterLogic implements MonsterLogic {
 			
 			Block next = maze.getBlock(newX, newY);
 			
-			if (next.getType() == BlockType.MONSTER) {
+			if (next != null && next.getType() == BlockType.MONSTER) {
 				
 				Monster other = (Monster)next;
 				
 				if (monster.isAngry()) {
 					monster.setAngry(false);
 					huntColors.remove(monster);
-					//System.out.println(monster.getX() + "|" + monster.getY() + " killed " + other.getX() + "|" + other.getY());
+					System.out.println(monster.getX() + "|" + monster.getY() + " killed " + other.getX() + "|" + other.getY() + "(" + newX + "|" + newY + ")");
 					
 					other.kill();
 					monster.move(direction);
