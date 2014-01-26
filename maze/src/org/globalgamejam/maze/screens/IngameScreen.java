@@ -15,6 +15,7 @@ import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenEquations;
+import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -51,13 +52,16 @@ public class IngameScreen implements Screen {
 	
 	private int level;
 	
+	private TweenManager tweenManager;
+	
 	public IngameScreen(int level, MazeGame game, String[] data) {
 		this.maze = new Maze(data);
 		this.game = game;
 		maze.setPaused(true);
-		clock = new Clock(0, 2, 0);
-		clockTimer = new Timer();
+		clock = new Clock(0, 0, 5);
+		clockTimer = new Timer();	
 		this.level = level;
+		tweenManager = new TweenManager();
 	}
 
 	@Override
@@ -67,9 +71,11 @@ public class IngameScreen implements Screen {
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
 		if (clockTimer.getTicks() >= 1000) {
-			clockTimer.reset();
 			clock.tick();
+			clockTimer.reset();
 		}
+		
+		tweenManager.update(delta);
 		
 		if (!maze.isPaused()) {
 			stage.act(delta);
@@ -78,9 +84,9 @@ public class IngameScreen implements Screen {
 		background.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
 		if ((clock.getTicks() <= 0 || maze.gameover()) && !toogleGameOver) {
+			clockTimer.stop();
 			toogleGameOver = true;
 			maze.setPaused(true);	
-			
 			Tween.to(fade, SpriteTween.ALPHA, 5f)
 				 .target(1f)
 				 .ease(TweenEquations.easeInOutQuad)
@@ -91,17 +97,17 @@ public class IngameScreen implements Screen {
 					public void onEvent(int type, BaseTween<?> source) {
 						
 						if (maze.gameover()) {
-							game.setScreen(new GameOverScreen(level, game, maze.getDungeonKeeper()));
+							game.setScreen(new GameOverScreen(level, game, maze.getDungeonKeeper(), true));
 						}
 						
 						if (clock.getTicks() <= 0) {
-							game.setScreen(new GameOverScreen(level + 1, game, maze.getDungeonKeeper()));
+							game.setScreen(new GameOverScreen(level + 1, game, maze.getDungeonKeeper(), false));
 						}
 						
 					}
 					 
 				 })
-				 .start(maze.getTweenManager());
+				 .start(tweenManager);
 			
 			
 		}
@@ -117,11 +123,21 @@ public class IngameScreen implements Screen {
 		
 		stage.draw();
 		
-		if (maze.gameover()) {
+		if (maze.gameover() || clock.getTicks() <= 0) {
 			batch.begin();
 			fade.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 			fade.draw(batch);
 			batch.end();
+		}
+	}
+	
+	public void setPaused(boolean pause) {
+		maze.setPaused(pause);
+		
+		if (!pause) {
+			clockTimer.start();
+		} else {
+			clockTimer.pause();
 		}
 	}
 
@@ -140,7 +156,7 @@ public class IngameScreen implements Screen {
 				text = "Level " + level;;
 			}
 			
-			stage.addActor(new InfoBox(text, maze.getTweenManager(), maze));
+			stage.addActor(new InfoBox(text, maze.getTweenManager(), this));
 			
 			DungeonMeter meter = new DungeonMeter(maze.getDungeonKeeper());
 			stage.addActor(meter);
@@ -151,8 +167,6 @@ public class IngameScreen implements Screen {
 			LabelStyle style = new LabelStyle();
 			style.font = Assets.FONT;
 			style.fontColor = new Color(1f, 1f, 1f, 0.5f);
-			
-			clockTimer.start();
 			
 			ScoreLabel label = new ScoreLabel(clock, maze.getDungeonKeeper(), maze.getTweenManager(), style);
 			

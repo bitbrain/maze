@@ -2,7 +2,6 @@ package org.globalgamejam.maze.screens;
 
 import org.globalgamejam.maze.Assets;
 import org.globalgamejam.maze.DungeonKeeper;
-import org.globalgamejam.maze.Levels;
 import org.globalgamejam.maze.MazeGame;
 import org.globalgamejam.maze.controls.GameOverControls;
 import org.globalgamejam.maze.tweens.ActorTween;
@@ -42,10 +41,13 @@ public class GameOverScreen implements Screen {
 	
 	private int next;
 	
-	public GameOverScreen(int next, MazeGame game, DungeonKeeper player) {
+	private boolean repeat;
+	
+	public GameOverScreen(int next, MazeGame game, DungeonKeeper player, boolean repeat) {
 		this.game = game;
 		this.player = player;
 		this.next = next;
+		this.repeat = repeat;
 	}
 
 	@Override
@@ -69,7 +71,7 @@ public class GameOverScreen implements Screen {
 		if (stage != null) {
 			stage.setViewport(width, height);
 		} else {
-			stage = new GameOverControls(next, game, width, height);
+			stage = new GameOverControls(repeat, next, game, width, height);
 			Gdx.input.setInputProcessor(stage);
 			Gdx.input.setCatchBackKey(true);
 			
@@ -87,7 +89,13 @@ public class GameOverScreen implements Screen {
 			startStyle.font = Assets.FONT;
 			startStyle.fontColor = new Color(1f, 1f, 1f, 1f);
 			
-			Label start = new Label("Level " + next + " complete!", startStyle);
+			String text = "Level " + (next - 1) + " complete!";
+			
+			if (repeat) {
+				text = "You lost";
+			}
+			
+			Label start = new Label(text, startStyle);
 			
 			while (start.getPrefWidth() >= Gdx.graphics.getWidth() / 1.2f) {
 				start.setFontScale(start.getFontScaleX() * 0.9f);

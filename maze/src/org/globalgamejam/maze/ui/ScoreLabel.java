@@ -2,7 +2,6 @@ package org.globalgamejam.maze.ui;
 
 import org.globalgamejam.maze.DungeonKeeper;
 import org.globalgamejam.maze.util.Clock;
-import org.globalgamejam.maze.util.Timer;
 
 import aurelienribon.tweenengine.TweenManager;
 

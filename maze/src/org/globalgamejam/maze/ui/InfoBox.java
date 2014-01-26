@@ -1,7 +1,7 @@
 package org.globalgamejam.maze.ui;
 
 import org.globalgamejam.maze.Assets;
-import org.globalgamejam.maze.Maze;
+import org.globalgamejam.maze.screens.IngameScreen;
 import org.globalgamejam.maze.tweens.ActorTween;
 
 import aurelienribon.tweenengine.BaseTween;
@@ -28,7 +28,7 @@ public class InfoBox extends Actor {
 	
 	private Label label;
 
-	public InfoBox(String text, TweenManager tweenManager, final Maze maze) {
+	public InfoBox(String text, TweenManager tweenManager, final IngameScreen screen) {
 		
 		setColor(1f, 1f, 1f, 0f);
 		
@@ -58,7 +58,7 @@ public class InfoBox extends Actor {
 
 				@Override
 				public void onEvent(int type, BaseTween<?> source) {
-					maze.setPaused(false);
+					screen.setPaused(false);
 				}
 				 
 			 })

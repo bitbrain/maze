@@ -44,10 +44,16 @@ public class MainMenuScreen implements Screen {
 	
 	private int nextLevel;
 	
+	private boolean repeat;
+	
 	public MainMenuScreen(MazeGame game, int nextLevel) {
+		this(game, nextLevel, false);
+	}
+	
+	public MainMenuScreen(MazeGame game, int nextLevel, boolean repeat) {
 		this.game = game;
 		this.nextLevel = nextLevel;
-		
+		this.repeat = repeat;
 		
 		if (Levels.levels.get(nextLevel) == null) {
 			Gdx.app.exit();
@@ -109,6 +115,10 @@ public class MainMenuScreen implements Screen {
 			startStyle.fontColor = new Color(1f, 1f, 1f, 1f);
 			
 			String label = "Enter Level " + nextLevel;
+			
+			if (repeat) {
+				label = "Retry Level " + nextLevel;
+			}
 			
 			Label start = new Label(label, startStyle);
 			start.setPosition(Gdx.graphics.getWidth() / 2 - start.getPrefWidth() / 2, Gdx.graphics.getHeight() / 4.5f);

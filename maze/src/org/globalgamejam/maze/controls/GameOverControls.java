@@ -12,10 +12,13 @@ public class GameOverControls extends Stage {
 	
 	private int level;
 	
-	public GameOverControls(int level, MazeGame game, int width, int height) {
+	private boolean retry;
+	
+	public GameOverControls(boolean retry, int level, MazeGame game, int width, int height) {
 		super(width, height, true);
 		this.game = game;
 		this.level = level;
+		this.retry = retry;
 	}
 
 	/* (non-Javadoc)
@@ -25,7 +28,7 @@ public class GameOverControls extends Stage {
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		super.touchDown(screenX, screenY, pointer, button);
 		
-		game.setScreen(new MainMenuScreen(game, level));		
+		game.setScreen(new MainMenuScreen(game, level, retry));		
 		
 		return true;
 	}
@@ -39,7 +42,7 @@ public class GameOverControls extends Stage {
 		
 		switch (keyCode) {
 			case Keys.BACK: case Keys.ESCAPE:
-				game.setScreen(new MainMenuScreen(game, level));
+				game.setScreen(new MainMenuScreen(game, level, retry));
 				break;
 		}
 		
