@@ -19,6 +19,6 @@ public final class SoundUtils {
 
 		Sound random = sounds.fetch();
 
-		random.play(1f, (float) (Math.random() * 1f + 0.5), 1f);
+		random.play(1f, (float) (Math.random() * 0.5f + 0.5), 1f);
 	}
 }

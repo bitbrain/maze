@@ -169,7 +169,7 @@ public class Monster extends Block implements Updateable {
 			
 		}
 		
-		if (Math.random() < 0.005f) {
+		if (Math.random() < 0.01f) {
 			SoundUtils.playRandomSound("voicec", 5);
 		}
 

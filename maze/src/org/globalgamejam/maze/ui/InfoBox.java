@@ -20,6 +20,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
 public class InfoBox extends Actor {
 	
@@ -46,6 +47,7 @@ public class InfoBox extends Actor {
 		labelStyle.fontColor = Color.WHITE;
 		
 		label = new Label(text, labelStyle);
+		label.setAlignment(Align.left, Align.center);
 		
 		Tween.to(this, ActorTween.ALPHA, 2.3f)
 			 .target(1f)

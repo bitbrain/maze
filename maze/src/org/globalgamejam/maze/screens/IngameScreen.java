@@ -4,9 +4,16 @@ import org.globalgamejam.maze.Assets;
 import org.globalgamejam.maze.Maze;
 import org.globalgamejam.maze.MazeGame;
 import org.globalgamejam.maze.controls.IngameControls;
+import org.globalgamejam.maze.tweens.SpriteTween;
 import org.globalgamejam.maze.ui.DungeonMeter;
 import org.globalgamejam.maze.ui.InfoBox;
 import org.globalgamejam.maze.ui.ScoreLabel;
+
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.TweenEquation;
+import aurelienribon.tweenengine.TweenEquations;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -33,7 +40,9 @@ public class IngameScreen implements Screen {
 	
 	private MazeGame game;
 	
-	private Sprite background;
+	private Sprite background, fade;
+	
+	private boolean toogleGameOver;
 	
 	public IngameScreen(MazeGame game, String[] data) {
 		this.maze = new Maze(data);
@@ -47,14 +56,31 @@ public class IngameScreen implements Screen {
 		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1f);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
-		stage.act(delta);
+		if (!maze.isPaused()) {
+			stage.act(delta);
+		}
 
 		background.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
-		if (maze.gameover()) {
+		if (maze.gameover() && !toogleGameOver) {
+			toogleGameOver = true;
+			maze.setPaused(true);	
 			
-			maze.setPaused(true);			
-			//game.setScreen(new GameOverScreen(game, maze.getDungeonKeeper()));
+			Tween.to(fade, SpriteTween.ALPHA, 5f)
+				 .target(1f)
+				 .ease(TweenEquations.easeInOutQuad)
+				 .setCallbackTriggers(TweenCallback.COMPLETE)
+				 .setCallback(new TweenCallback() {
+
+					@Override
+					public void onEvent(int type, BaseTween<?> source) {
+						game.setScreen(new GameOverScreen(game, maze.getDungeonKeeper()));
+					}
+					 
+				 })
+				 .start(maze.getTweenManager());
+			
+			
 		}
 		
 		camera.update();
@@ -67,6 +93,13 @@ public class IngameScreen implements Screen {
 		batch.end();
 		
 		stage.draw();
+		
+		if (maze.gameover()) {
+			batch.begin();
+			fade.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+			fade.draw(batch);
+			batch.end();
+		}
 	}
 
 	@Override
@@ -78,7 +111,7 @@ public class IngameScreen implements Screen {
 			stage = new IngameControls(game, maze, width, height);
 			Gdx.input.setInputProcessor(stage);
 			
-			stage.addActor(new InfoBox("Prevent the monsters from huntin each other", maze.getTweenManager(), maze));
+			stage.addActor(new InfoBox("Prevent the monsters from\nhunting each other down.", maze.getTweenManager(), maze));
 			DungeonMeter meter = new DungeonMeter(maze.getDungeonKeeper());
 			stage.addActor(meter);
 			
@@ -112,6 +145,8 @@ public class IngameScreen implements Screen {
 		music.setLooping(true);
 		music.play();
 		background = new Sprite(Assets.getInstance().get(Assets.BACKGROUND, Texture.class));
+		fade =  new Sprite(Assets.getInstance().get(Assets.BACKGROUND, Texture.class));
+		fade.setColor(1f, 1f, 1f, 0f);
 	}
 
 	@Override
