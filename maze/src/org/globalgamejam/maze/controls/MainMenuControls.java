@@ -29,7 +29,7 @@ public class MainMenuControls extends Stage {
 		MazeFileReader reader = new MazeFileReader();
 		
 		try {
-			game.setScreen(new IngameScreen(game, reader.read("maze5.mz")));
+			game.setScreen(new IngameScreen(game, reader.read("test.mz")));
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
