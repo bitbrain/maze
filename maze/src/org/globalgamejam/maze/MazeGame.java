@@ -26,7 +26,7 @@ public class MazeGame extends Game {
 		Tween.registerAccessor(Sprite.class, new SpriteTween());		
 		Tween.registerAccessor(Actor.class, new ActorTween());	
 		
-		setScreen(new MainMenuScreen(this, "maze1.mz"));
+		setScreen(new MainMenuScreen(this,Levels.levels.get(1)));
 	
 	}
 

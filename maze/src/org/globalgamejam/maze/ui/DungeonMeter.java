@@ -35,7 +35,7 @@ private float currentValue;
      background = new Sprite(texture);
      
      map = new Pixmap(128, 128, Format.RGBA8888);
-     map.setColor(Color.valueOf("330077"));
+     map.setColor(Color.valueOf("99aa66"));
      map.fill();
 
      texture = new Texture(map);

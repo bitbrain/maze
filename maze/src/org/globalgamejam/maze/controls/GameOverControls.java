@@ -1,6 +1,8 @@
 package org.globalgamejam.maze.controls;
 
+import org.globalgamejam.maze.Levels;
 import org.globalgamejam.maze.MazeGame;
+import org.globalgamejam.maze.screens.IngameScreen;
 import org.globalgamejam.maze.screens.MainMenuScreen;
 
 import com.badlogic.gdx.Input.Keys;
@@ -47,25 +49,7 @@ public class GameOverControls extends Stage {
 	}
 	
 	private String generateNext() {
-		
-		if (lastLevel.equals("maze1.mz")) {
-			return "maze2.mz";
-		}
-		
-		if (lastLevel.equals("maze2.mz")) {
-			return "maze3.mz";
-		}
-		
-		if (lastLevel.equals("maze3.mz")) {
-			return "maze4.mz";
-		}
-		
-		if (lastLevel.equals("maze3.mz")) {
-			return "maze5.mz";
-		}
-		
-		return null;
-		
+		return Levels.levels.get(IngameScreen.levelCount + 1);	
 	}
 	
 	

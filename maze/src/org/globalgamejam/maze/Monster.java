@@ -3,6 +3,7 @@ package org.globalgamejam.maze;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
 
 import org.globalgamejam.maze.ai.StupidMonsterLogic;
 import org.globalgamejam.maze.tweens.BlockTween;
@@ -22,7 +23,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 
 public class Monster extends Block implements Updateable {
 
-	public static final int LENGTH = 11;
+	public static final int LENGTH = 8;
 
 	private MonsterLogic logic;
 
@@ -41,6 +42,8 @@ public class Monster extends Block implements Updateable {
 	private boolean dead;
 	
 	private float moveInterval;
+	
+	private float intervalOffset;
 
 	public Monster(int x, int y, Maze maze, MonsterLogic logic) {
 		super(x, y, maze, BlockType.MONSTER);
@@ -50,6 +53,7 @@ public class Monster extends Block implements Updateable {
 		listeners = new ArrayList<MonsterListener>();
 		colors = new LinkedList<MonsterColor>();
 		moveInterval = StupidMonsterLogic.INTERVAL;
+		intervalOffset = 0;
 	}
 
 	@Override
@@ -66,7 +70,7 @@ public class Monster extends Block implements Updateable {
 	}
 	
 	public float getInterval() {
-		return moveInterval;
+		return moveInterval - intervalOffset;
 	}
 	
 	public void setInterval(float interval) {
@@ -232,8 +236,13 @@ public class Monster extends Block implements Updateable {
 
 	public void setAngry(boolean angry) {
 		if (this.angry != angry) {
-
+			
 			if (angry) {
+				
+				Random random = new Random(System.currentTimeMillis());
+				
+				intervalOffset =  (float) random.nextFloat() * 0.35f;
+				
 				SoundUtils.playRandomSound("aggro", 15);
 				Tween.to(this, BlockTween.SCALE, 0.2f).target(1.1f)
 						.ease(TweenEquations.easeInOutBounce)
@@ -244,6 +253,7 @@ public class Monster extends Block implements Updateable {
 				Tween.to(this, BlockTween.SCALE, 0.2f).target(1f)
 				.ease(TweenEquations.easeInOutBounce)
 				.start(getMaze().getTweenManager());
+				intervalOffset = 0;
 			}
 
 			this.angry = angry;
@@ -358,9 +368,6 @@ public class Monster extends Block implements Updateable {
 
 		TweenManager manager = getMaze().getTweenManager();
 		int blockSize = getMaze().getBlockSize();
-
-		manager.killTarget(this, BlockTween.OFFSET_X);
-		manager.killTarget(this, BlockTween.OFFSET_Y);
 		
 		int tweenType = BlockTween.OFFSET_Y;
 
@@ -371,15 +378,19 @@ public class Monster extends Block implements Updateable {
 		switch (direction) {
 		case DOWN:
 			setOffsetY(-blockSize);
+			manager.killTarget(this, BlockTween.OFFSET_Y);
 			break;
 		case LEFT:
 			setOffsetX(blockSize);
+			manager.killTarget(this, BlockTween.OFFSET_X);
 			break;
 		case RIGHT:
 			setOffsetX(-blockSize);
+			manager.killTarget(this, BlockTween.OFFSET_X);
 			break;
 		case UP:
 			setOffsetY(blockSize);
+			manager.killTarget(this, BlockTween.OFFSET_Y);
 			break;
 		default:
 			break;

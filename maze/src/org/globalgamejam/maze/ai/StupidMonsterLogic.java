@@ -41,12 +41,6 @@ public class StupidMonsterLogic implements MonsterLogic {
 		
 		Timer timer = timers.get(monster);
 		
-		if (monster.isAngry()) {
-			monster.setInterval((0.65f * INTERVAL));
-		} else {
-			monster.setInterval(INTERVAL);
-		}
-		
 		float interval = monster.getInterval();
 			
 		if (timer.getTicks() >= (interval * 1000) || first) {		

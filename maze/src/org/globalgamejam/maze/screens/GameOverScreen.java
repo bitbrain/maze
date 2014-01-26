@@ -87,7 +87,11 @@ public class GameOverScreen implements Screen {
 			startStyle.fontColor = new Color(1f, 1f, 1f, 1f);
 			
 			Label start = new Label("Level " + IngameScreen.levelCount + " complete!", startStyle);
-			start.setFontScale(Gdx.graphics.getHeight() / 300f);
+			
+			while (start.getPrefWidth() >= Gdx.graphics.getWidth() / 1.2f) {
+				start.setFontScale(start.getFontScaleX() * 0.9f);
+			}
+			
 			start.setPosition(Gdx.graphics.getWidth() / 2 - start.getPrefWidth() / 2, Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 4.5f);
 			stage.addActor(start);
 			
