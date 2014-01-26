@@ -154,24 +154,6 @@ public class MatrixList<Type extends Indexable> implements Collection<Type> {
                 return objects;
         }
 
-        public boolean remove(int indexX, int indexY) {
-        	HashMap<Integer, Type> yChunkMap = chunks.get(indexX);
-
-                if (yChunkMap != null) {
-                        yChunkMap.remove(indexY);
-                        // X axis
-                        if (yChunkMap.isEmpty()) {
-                                chunks.remove(indexX);
-                        } else {
-                                return false;
-                        }
-                        elementSize--;
-                        return true;
-                } else {
-                        return false;
-                }
-        }
-
         public MatrixList<Type> copy() {
                 MatrixList<Type> copyList = new MatrixList<Type>();
                 for (Type element : this) {
@@ -197,6 +179,22 @@ public class MatrixList<Type extends Indexable> implements Collection<Type> {
                         }
                 } else {
                         return null;
+                }
+        }
+
+        public boolean remove(int indexX, int indexY) {
+        	HashMap<Integer, Type> yChunkMap = chunks.get(indexX);
+
+                if (yChunkMap != null) {
+                        yChunkMap.remove(indexY);
+                        // X axis
+                        if (yChunkMap.isEmpty()) {
+                                chunks.remove(indexX);
+                        }
+                        elementSize--;
+                        return true;
+                } else {
+                        return false;
                 }
         }
 

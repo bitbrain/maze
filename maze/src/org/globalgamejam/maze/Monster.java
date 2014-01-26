@@ -102,8 +102,10 @@ public class Monster extends Block implements Updateable {
 	}
 
 	public void kill() {
-		getMaze().removeBlock(this);
-		dead = true;
+		if (!dead) {
+			getMaze().removeBlock(this);
+			dead = true;
+		}
 		
 	}
 	

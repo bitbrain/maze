@@ -184,8 +184,7 @@ public class Maze implements MonsterListener {
 	}
 
 	public void removeBlock(Block block) {
-
-		blocks.remove(block.getX(), block.getY());
+		
 		if (block instanceof Monster) {
 			Monster m = (Monster)block;
 			monsters.remove(m);
