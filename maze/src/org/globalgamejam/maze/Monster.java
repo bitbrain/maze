@@ -176,8 +176,10 @@ public class Monster extends Block implements Updateable {
 						.repeatYoyo(Tween.INFINITY, 0f)
 						.start(getMaze().getTweenManager());
 			} else {
-				getMaze().getTweenManager().killTarget(this);
-				setScale(1f);
+				getMaze().getTweenManager().killTarget(this, BlockTween.SCALE);
+				Tween.to(this, BlockTween.SCALE, 0.2f).target(1f)
+				.ease(TweenEquations.easeInOutBounce)
+				.start(getMaze().getTweenManager());
 			}
 
 			this.angry = angry;
