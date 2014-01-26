@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class MazeGame extends Game {
 	
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 
 	@Override
 	public void create() {		

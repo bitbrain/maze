@@ -358,7 +358,9 @@ public class Monster extends Block implements Updateable {
 
 		manager.killTarget(this, BlockTween.OFFSET_X);
 		manager.killTarget(this, BlockTween.OFFSET_Y);
-
+		
+		this.setOffsetX(0f);
+		this.setOffsetX(0f);
 		int tweenType = BlockTween.OFFSET_Y;
 
 		if (direction == Direction.LEFT || direction == Direction.RIGHT) {

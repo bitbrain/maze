@@ -40,7 +40,7 @@ public class IngameControls extends Stage {
 	 */
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		removeTrail(screenX, screenY);
+		//removeTrail(screenX, screenY);
 		return super.touchDown(screenX, screenY, pointer, button);
 	}
 

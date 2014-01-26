@@ -10,6 +10,7 @@ import org.globalgamejam.maze.Block.BlockType;
 import org.globalgamejam.maze.Monster.MonsterColor;
 import org.globalgamejam.maze.graphics.ParticleManager;
 import org.globalgamejam.maze.util.MatrixList;
+import org.globalgamejam.maze.util.Timer;
 
 import aurelienribon.tweenengine.TweenManager;
 
@@ -53,6 +54,8 @@ public class Maze implements MonsterListener {
 	
 	private boolean paused;
 	
+	private Timer timer;
+	
 	private DungeonKeeper player;
 
 	public Maze(String[] data) {
@@ -67,6 +70,8 @@ public class Maze implements MonsterListener {
 		count = new HashMap<Color, Integer>();
 		listeners = new ArrayList<MazeListener>();
 		addListener(particleHandler);
+		timer = new Timer();
+		timer.start();
 	}
 	
 	public DungeonKeeper getDungeonKeeper() {
@@ -257,8 +262,17 @@ public class Maze implements MonsterListener {
 	}
 
 	public void draw(Batch batch, float delta) {
+		
+		if (!paused) {
+			if (timer.getTicks() >= 1000) {
+				player.addPoints(10);
+				timer.reset();
+			}
+		}
 
 		tweenManager.update(delta);
+		
+		player.update(delta);
 		
 
 		if (sprite != null) {

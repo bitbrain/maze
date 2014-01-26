@@ -15,7 +15,7 @@ import org.globalgamejam.maze.util.Timer;
 
 public class StupidMonsterLogic implements MonsterLogic {
 	
-	public static final int INTERVAL = 500;
+	public static final int INTERVAL = 900;
 	
 	private Map<Monster, Timer> timers;
 	

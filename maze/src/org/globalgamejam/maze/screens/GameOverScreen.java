@@ -1,6 +1,7 @@
 package org.globalgamejam.maze.screens;
 
 import org.globalgamejam.maze.Assets;
+import org.globalgamejam.maze.DungeonKeeper;
 import org.globalgamejam.maze.MazeGame;
 import org.globalgamejam.maze.controls.GameOverControls;
 import org.globalgamejam.maze.tweens.ActorTween;
@@ -34,8 +35,11 @@ public class GameOverScreen implements Screen {
 	
 	private TweenManager tweenManager;
 	
-	public GameOverScreen(MazeGame game) {
+	private DungeonKeeper player;
+	
+	public GameOverScreen(MazeGame game, DungeonKeeper player) {
 		this.game = game;
+		this.player = player;
 	}
 
 	@Override
@@ -78,7 +82,7 @@ public class GameOverScreen implements Screen {
 			
 			Label start = new Label("Game Over!", startStyle);
 			start.setFontScale(2f);
-			start.setPosition(Gdx.graphics.getWidth() / 2 - start.getPrefWidth() / 2, Gdx.graphics.getHeight() / 4.5f);
+			start.setPosition(Gdx.graphics.getWidth() / 2 - start.getPrefWidth() / 2, Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 4.5f);
 			stage.addActor(start);
 			
 			Tween.to(start, ActorTween.ALPHA, 0.7f)
