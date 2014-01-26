@@ -17,7 +17,7 @@ public class StupidMonsterLogic implements MonsterLogic {
 	
 	public static Map<Monster, Boolean> manualMove = new HashMap<Monster, Boolean>();
 	
-	public static final float INTERVAL = 0.8f;
+	public static final float INTERVAL = 0.7f;
 	
 	private Map<Monster, Timer> timers;
 	
@@ -90,7 +90,7 @@ public class StupidMonsterLogic implements MonsterLogic {
 				} else if (!other.isAngry()) {					
 					Direction otherDirection = Direction.getOpposite(other.getDirection());
 					other.move(otherDirection);
-					monster.move(direction);
+					monster.setDirection(direction);
 					manualMove.put(other, true);
 					return;
 				}

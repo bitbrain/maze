@@ -22,7 +22,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 
 public class Monster extends Block implements Updateable {
 
-	public static final int LENGTH = 7;
+	public static final int LENGTH = 11;
 
 	private MonsterLogic logic;
 
@@ -174,6 +174,7 @@ public class Monster extends Block implements Updateable {
 		}
 
 		animateMovement(direction);
+		
 	}
 
 	/*

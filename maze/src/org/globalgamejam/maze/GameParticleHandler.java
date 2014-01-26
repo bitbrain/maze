@@ -86,6 +86,8 @@ public class GameParticleHandler implements MonsterListener, MazeListener {
 		}
 		
 		effects.put(color, effect);
+		
+		Gdx.input.vibrate(20);
 	}
 
 }

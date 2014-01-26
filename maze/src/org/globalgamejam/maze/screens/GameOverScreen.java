@@ -88,7 +88,7 @@ public class GameOverScreen implements Screen {
 			start.setPosition(Gdx.graphics.getWidth() / 2 - start.getPrefWidth() / 2, Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 4.5f);
 			stage.addActor(start);
 			
-			Tween.to(start, ActorTween.ALPHA, 0.7f)
+			Tween.to(start, ActorTween.ALPHA, 1.7f)
 				 .target(0.0f)
 				 .ease(TweenEquations.easeInOutCubic)
 				 .repeatYoyo(Tween.INFINITY, 0f)
@@ -104,8 +104,10 @@ public class GameOverScreen implements Screen {
 			
 			foreground = new Sprite(Assets.getInstance().get(Assets.GAMEOVER, Texture.class));
 			
-			float scale = foreground.getWidth() / Gdx.graphics.getWidth();			
+			float scale = Gdx.graphics.getWidth() / foreground.getWidth();			
 			foreground.setScale(scale);
+			foreground.setX(Gdx.graphics.getWidth() / 2 - foreground.getWidth() / 2);
+			foreground.setY(0);
 
 			Tween.to(image, ActorTween.POPUP, 2f)
 			.target(Gdx.graphics.getHeight() - image.getHeight())

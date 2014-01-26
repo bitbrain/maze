@@ -101,9 +101,10 @@ public class MainMenuScreen implements Screen {
 			
 			minions = new Sprite(Assets.getInstance().get(Assets.MINIONS, Texture.class));
 			
-			float scale = minions.getWidth() / Gdx.graphics.getWidth();			
+			float scale = Gdx.graphics.getWidth() / minions.getWidth();			
 			minions.setScale(scale);
-			
+			minions.setX(Gdx.graphics.getWidth() / 2 - minions.getWidth() / 2);
+			minions.setY(0);
 			Tween.to(minions, SpriteTween.ALPHA, 4f)
 				.target(0.2f)
 				.ease(TweenEquations.easeInOutQuad)

@@ -48,10 +48,13 @@ public class IngameScreen implements Screen {
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
 		stage.act(delta);
+
+		background.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
 		if (maze.gameover()) {
-			background.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-			game.setScreen(new GameOverScreen(game, maze.getDungeonKeeper()));
+			
+			maze.setPaused(true);			
+			//game.setScreen(new GameOverScreen(game, maze.getDungeonKeeper()));
 		}
 		
 		camera.update();
@@ -75,7 +78,7 @@ public class IngameScreen implements Screen {
 			stage = new IngameControls(game, maze, width, height);
 			Gdx.input.setInputProcessor(stage);
 			
-			stage.addActor(new InfoBox("Defend your minions!", maze.getTweenManager(), maze));
+			stage.addActor(new InfoBox("Prevent the monsters from huntin each other", maze.getTweenManager(), maze));
 			DungeonMeter meter = new DungeonMeter(maze.getDungeonKeeper());
 			stage.addActor(meter);
 			
