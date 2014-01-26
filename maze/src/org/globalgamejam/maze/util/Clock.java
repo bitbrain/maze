@@ -25,6 +25,10 @@ public class Clock {
 		seconds.reset();
 	}
 	
+	public long getTicks() {
+		return hours.getValue() * 60 * 60 + minutes.getValue() * 60 + seconds.getValue();
+	}
+	
 	@Override
 	public String toString() {
 		return hours + ":" + minutes + ":" + seconds;
@@ -41,6 +45,10 @@ public class Clock {
 			this.min = min;
 			this.max = max;
 			this.number = number;
+		}
+		
+		public int getValue() {
+			return number;
 		}
 		
 		@Override

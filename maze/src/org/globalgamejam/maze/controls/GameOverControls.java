@@ -1,8 +1,6 @@
 package org.globalgamejam.maze.controls;
 
-import org.globalgamejam.maze.Levels;
 import org.globalgamejam.maze.MazeGame;
-import org.globalgamejam.maze.screens.IngameScreen;
 import org.globalgamejam.maze.screens.MainMenuScreen;
 
 import com.badlogic.gdx.Input.Keys;
@@ -12,12 +10,12 @@ public class GameOverControls extends Stage {
 
 	private MazeGame game;
 	
-	private String lastLevel;
+	private int level;
 	
-	public GameOverControls(String lastLevel, MazeGame game, int width, int height) {
+	public GameOverControls(int level, MazeGame game, int width, int height) {
 		super(width, height, true);
 		this.game = game;
-		this.lastLevel = lastLevel;
+		this.level = level;
 	}
 
 	/* (non-Javadoc)
@@ -27,7 +25,7 @@ public class GameOverControls extends Stage {
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		super.touchDown(screenX, screenY, pointer, button);
 		
-		game.setScreen(new MainMenuScreen(game, generateNext()));		
+		game.setScreen(new MainMenuScreen(game, level));		
 		
 		return true;
 	}
@@ -41,15 +39,11 @@ public class GameOverControls extends Stage {
 		
 		switch (keyCode) {
 			case Keys.BACK: case Keys.ESCAPE:
-				game.setScreen(new MainMenuScreen(game, generateNext()));
+				game.setScreen(new MainMenuScreen(game, level));
 				break;
 		}
 		
 		return false;
-	}
-	
-	private String generateNext() {
-		return Levels.levels.get(IngameScreen.levelCount + 1);	
 	}
 	
 	

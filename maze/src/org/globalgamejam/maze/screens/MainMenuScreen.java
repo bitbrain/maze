@@ -1,6 +1,7 @@
 package org.globalgamejam.maze.screens;
 
 import org.globalgamejam.maze.Assets;
+import org.globalgamejam.maze.Levels;
 import org.globalgamejam.maze.MazeGame;
 import org.globalgamejam.maze.controls.MainMenuControls;
 import org.globalgamejam.maze.tweens.ActorTween;
@@ -41,18 +42,19 @@ public class MainMenuScreen implements Screen {
 	
 	private Sprite minions;
 	
-	private String nextLevel;
+	private int nextLevel;
 	
-	public MainMenuScreen(MazeGame game, String nextLevel) {
+	public MainMenuScreen(MazeGame game, int nextLevel) {
 		this.game = game;
 		this.nextLevel = nextLevel;
 		
-		if (nextLevel == null) {
+		
+		if (Levels.levels.get(nextLevel) == null) {
 			Gdx.app.exit();
 		}
 	}
 	
-	public String getNextLevel() {
+	public int getNextLevel() {
 		return nextLevel;
 	}
 
@@ -106,7 +108,7 @@ public class MainMenuScreen implements Screen {
 			startStyle.font = Assets.FONT;
 			startStyle.fontColor = new Color(1f, 1f, 1f, 1f);
 			
-			String label = "Enter Level " + (IngameScreen.levelCount + 1);
+			String label = "Enter Level " + nextLevel;
 			
 			Label start = new Label(label, startStyle);
 			start.setPosition(Gdx.graphics.getWidth() / 2 - start.getPrefWidth() / 2, Gdx.graphics.getHeight() / 4.5f);

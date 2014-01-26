@@ -3,6 +3,7 @@ package org.globalgamejam.maze.controls;
 import java.io.IOException;
 
 import org.globalgamejam.maze.Assets;
+import org.globalgamejam.maze.Levels;
 import org.globalgamejam.maze.MazeGame;
 import org.globalgamejam.maze.io.MazeFileReader;
 import org.globalgamejam.maze.screens.IngameScreen;
@@ -16,9 +17,9 @@ public class MainMenuControls extends Stage {
 
 	private MazeGame game;
 	
-	private String level;
+	private int level;
 	
-	public MainMenuControls(String level, MazeGame game, int width, int height) {
+	public MainMenuControls(int level, MazeGame game, int width, int height) {
 		super(width, height, true);
 		this.game = game;
 		this.level = level;
@@ -35,7 +36,10 @@ public class MainMenuControls extends Stage {
 		
 		try {
 			Assets.getInstance().get(Assets.MENU, Music.class).stop();
-			game.setScreen(new IngameScreen(game, reader.read(level), level));
+			
+			
+			String name = Levels.levels.get(level);
+			game.setScreen(new IngameScreen(level, game, reader.read(name)));
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;

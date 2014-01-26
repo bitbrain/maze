@@ -15,9 +15,9 @@ public class IngameControls extends Stage {
 	
 	private Maze maze;
 	
-	private String level;
+	private int level;
 	
-	public IngameControls(String level, MazeGame game, Maze maze, int width, int height) {
+	public IngameControls(int level, MazeGame game, Maze maze, int width, int height) {
 		super(width, height, false);
 		this.game = game;
 		this.maze = maze;

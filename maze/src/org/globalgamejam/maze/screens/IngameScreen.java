@@ -8,6 +8,8 @@ import org.globalgamejam.maze.tweens.SpriteTween;
 import org.globalgamejam.maze.ui.DungeonMeter;
 import org.globalgamejam.maze.ui.InfoBox;
 import org.globalgamejam.maze.ui.ScoreLabel;
+import org.globalgamejam.maze.util.Clock;
+import org.globalgamejam.maze.util.Timer;
 
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
@@ -29,8 +31,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
 public class IngameScreen implements Screen {
 	
-	public static int levelCount = 0;
-	
 	private Maze maze;
 	
 	private Batch batch;
@@ -45,14 +45,19 @@ public class IngameScreen implements Screen {
 	
 	private boolean toogleGameOver;
 	
-	private String level;
+	private Clock clock;
 	
-	public IngameScreen(MazeGame game, String[] data, String level) {
+	private Timer clockTimer;
+	
+	private int level;
+	
+	public IngameScreen(int level, MazeGame game, String[] data) {
 		this.maze = new Maze(data);
 		this.game = game;
 		maze.setPaused(true);
+		clock = new Clock(0, 2, 0);
+		clockTimer = new Timer();
 		this.level = level;
-		levelCount++;
 	}
 
 	@Override
@@ -61,13 +66,18 @@ public class IngameScreen implements Screen {
 		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1f);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
+		if (clockTimer.getTicks() >= 1000) {
+			clockTimer.reset();
+			clock.tick();
+		}
+		
 		if (!maze.isPaused()) {
 			stage.act(delta);
 		}
 
 		background.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
-		if (maze.gameover() && !toogleGameOver) {
+		if ((clock.getTicks() <= 0 || maze.gameover()) && !toogleGameOver) {
 			toogleGameOver = true;
 			maze.setPaused(true);	
 			
@@ -79,7 +89,15 @@ public class IngameScreen implements Screen {
 
 					@Override
 					public void onEvent(int type, BaseTween<?> source) {
-						game.setScreen(new GameOverScreen(level, game, maze.getDungeonKeeper()));
+						
+						if (maze.gameover()) {
+							game.setScreen(new GameOverScreen(level, game, maze.getDungeonKeeper()));
+						}
+						
+						if (clock.getTicks() <= 0) {
+							game.setScreen(new GameOverScreen(level + 1, game, maze.getDungeonKeeper()));
+						}
+						
 					}
 					 
 				 })
@@ -118,8 +136,8 @@ public class IngameScreen implements Screen {
 			
 			String text = "Prevent the monsters from\nhunting each other down.";
 			
-			if (levelCount > 1) {
-				text = "Level " + levelCount;
+			if (level > 1) {
+				text = "Level " + level;;
 			}
 			
 			stage.addActor(new InfoBox(text, maze.getTweenManager(), maze));
@@ -134,7 +152,9 @@ public class IngameScreen implements Screen {
 			style.font = Assets.FONT;
 			style.fontColor = new Color(1f, 1f, 1f, 0.5f);
 			
-			ScoreLabel label = new ScoreLabel(maze.getDungeonKeeper(), maze.getTweenManager(), style);
+			clockTimer.start();
+			
+			ScoreLabel label = new ScoreLabel(clock, maze.getDungeonKeeper(), maze.getTweenManager(), style);
 			
 			label.setX(30f);
 			label.setY(Gdx.graphics.getHeight() - label.getPrefHeight() - 30f);

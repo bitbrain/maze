@@ -14,8 +14,6 @@ public class DungeonKeeper {
 	
 	private Timer smatchTimer, subTimer;
 	
-	private Timer playTime;
-	
 	public DungeonKeeper() {
 		smatchTimer = new Timer();
 		maxSmatch = 3000;
@@ -67,10 +65,6 @@ public class DungeonKeeper {
 				smatch = maxSmatch;
 			}
 		}
-	}
-	
-	public long getPlayTime() {
-		return playTime.getTicks();
 	}
 	
 	public float getSmatchValue() {
