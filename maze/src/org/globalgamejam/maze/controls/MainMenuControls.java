@@ -16,9 +16,12 @@ public class MainMenuControls extends Stage {
 
 	private MazeGame game;
 	
-	public MainMenuControls(MazeGame game, int width, int height) {
+	private String level;
+	
+	public MainMenuControls(String level, MazeGame game, int width, int height) {
 		super(width, height, true);
 		this.game = game;
+		this.level = level;
 	}
 
 	/* (non-Javadoc)
@@ -32,7 +35,7 @@ public class MainMenuControls extends Stage {
 		
 		try {
 			Assets.getInstance().get(Assets.MENU, Music.class).stop();
-			game.setScreen(new IngameScreen(game, reader.read("miguel_maze.mz")));
+			game.setScreen(new IngameScreen(game, reader.read(level), level));
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;

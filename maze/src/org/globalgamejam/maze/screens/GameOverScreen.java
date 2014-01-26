@@ -39,9 +39,12 @@ public class GameOverScreen implements Screen {
 	
 	private DungeonKeeper player;
 	
-	public GameOverScreen(MazeGame game, DungeonKeeper player) {
+	private String lastLevel;
+	
+	public GameOverScreen(String lastLevel, MazeGame game, DungeonKeeper player) {
 		this.game = game;
 		this.player = player;
+		this.lastLevel = lastLevel;
 	}
 
 	@Override
@@ -65,7 +68,7 @@ public class GameOverScreen implements Screen {
 		if (stage != null) {
 			stage.setViewport(width, height);
 		} else {
-			stage = new GameOverControls(game, width, height);
+			stage = new GameOverControls(lastLevel, game, width, height);
 			Gdx.input.setInputProcessor(stage);
 			Gdx.input.setCatchBackKey(true);
 			
@@ -83,7 +86,7 @@ public class GameOverScreen implements Screen {
 			startStyle.font = Assets.FONT;
 			startStyle.fontColor = new Color(1f, 1f, 1f, 1f);
 			
-			Label start = new Label("Game Over!", startStyle);
+			Label start = new Label("Level " + IngameScreen.levelCount + " complete!", startStyle);
 			start.setFontScale(Gdx.graphics.getHeight() / 300f);
 			start.setPosition(Gdx.graphics.getWidth() / 2 - start.getPrefWidth() / 2, Gdx.graphics.getHeight() - Gdx.graphics.getHeight() / 4.5f);
 			stage.addActor(start);

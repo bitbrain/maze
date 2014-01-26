@@ -1,10 +1,12 @@
 package org.globalgamejam.maze.controls;
 
+import org.globalgamejam.maze.Assets;
 import org.globalgamejam.maze.Maze;
 import org.globalgamejam.maze.MazeGame;
 import org.globalgamejam.maze.screens.GameOverScreen;
 
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class IngameControls extends Stage {
@@ -13,10 +15,13 @@ public class IngameControls extends Stage {
 	
 	private Maze maze;
 	
-	public IngameControls(MazeGame game, Maze maze, int width, int height) {
+	private String level;
+	
+	public IngameControls(String level, MazeGame game, Maze maze, int width, int height) {
 		super(width, height, false);
 		this.game = game;
 		this.maze = maze;
+		this.level = level;
 	}
 
 	/* (non-Javadoc)
@@ -28,7 +33,7 @@ public class IngameControls extends Stage {
 		
 		switch (keyCode) {
 			case Keys.BACK: case Keys.ESCAPE:
-				game.setScreen(new GameOverScreen(game, maze.getDungeonKeeper()));
+				game.setScreen(new GameOverScreen(level, game, maze.getDungeonKeeper()));
 				break;
 		}
 		
@@ -56,6 +61,9 @@ public class IngameControls extends Stage {
 	private void removeTrail(int x, int y) {
 		
 		if (!maze.isPaused() && maze.getDungeonKeeper().canSmatch()) {
+			
+			Sound sound = Assets.getInstance().get(Assets.WIPE,Sound.class);
+			sound.play(1f, (float) (Math.random()*0.3f+0.7f), 1f);
 			
 			maze.getDungeonKeeper().useSmatch();
 			

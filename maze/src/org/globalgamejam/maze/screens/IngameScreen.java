@@ -12,7 +12,6 @@ import org.globalgamejam.maze.ui.ScoreLabel;
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
-import aurelienribon.tweenengine.TweenEquation;
 import aurelienribon.tweenengine.TweenEquations;
 
 import com.badlogic.gdx.Gdx;
@@ -30,6 +29,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
 public class IngameScreen implements Screen {
 	
+	public static int levelCount = 0;
+	
 	private Maze maze;
 	
 	private Batch batch;
@@ -44,10 +45,14 @@ public class IngameScreen implements Screen {
 	
 	private boolean toogleGameOver;
 	
-	public IngameScreen(MazeGame game, String[] data) {
+	private String level;
+	
+	public IngameScreen(MazeGame game, String[] data, String level) {
 		this.maze = new Maze(data);
 		this.game = game;
 		maze.setPaused(true);
+		this.level = level;
+		levelCount++;
 	}
 
 	@Override
@@ -74,7 +79,7 @@ public class IngameScreen implements Screen {
 
 					@Override
 					public void onEvent(int type, BaseTween<?> source) {
-						game.setScreen(new GameOverScreen(game, maze.getDungeonKeeper()));
+						game.setScreen(new GameOverScreen(level, game, maze.getDungeonKeeper()));
 					}
 					 
 				 })
@@ -108,10 +113,17 @@ public class IngameScreen implements Screen {
 		if (stage != null) {
 			stage.setViewport(width, height, false);
 		} else {
-			stage = new IngameControls(game, maze, width, height);
+			stage = new IngameControls(level, game, maze, width, height);
 			Gdx.input.setInputProcessor(stage);
 			
-			stage.addActor(new InfoBox("Prevent the monsters from\nhunting each other down.", maze.getTweenManager(), maze));
+			String text = "Prevent the monsters from\nhunting each other down.";
+			
+			if (levelCount > 1) {
+				text = "Level " + levelCount;
+			}
+			
+			stage.addActor(new InfoBox(text, maze.getTweenManager(), maze));
+			
 			DungeonMeter meter = new DungeonMeter(maze.getDungeonKeeper());
 			stage.addActor(meter);
 			
