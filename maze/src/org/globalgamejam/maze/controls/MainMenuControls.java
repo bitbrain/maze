@@ -2,12 +2,14 @@ package org.globalgamejam.maze.controls;
 
 import java.io.IOException;
 
+import org.globalgamejam.maze.Assets;
 import org.globalgamejam.maze.MazeGame;
 import org.globalgamejam.maze.io.MazeFileReader;
 import org.globalgamejam.maze.screens.IngameScreen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class MainMenuControls extends Stage {
@@ -29,7 +31,8 @@ public class MainMenuControls extends Stage {
 		MazeFileReader reader = new MazeFileReader();
 		
 		try {
-			game.setScreen(new IngameScreen(game, reader.read("maze4.mz")));
+			Assets.getInstance().get(Assets.MENU, Music.class).stop();
+			game.setScreen(new IngameScreen(game, reader.read("test.mz")));
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;

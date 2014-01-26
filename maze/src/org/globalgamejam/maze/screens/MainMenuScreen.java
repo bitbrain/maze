@@ -14,6 +14,7 @@ import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
@@ -110,6 +111,8 @@ public class MainMenuScreen implements Screen {
 				@Override
 				public void onEvent(int type, BaseTween<?> source) {
 					
+					Assets.getInstance().get(Assets.MAZEVOICE, Sound.class).play();
+					
 					Tween.to(image, ActorTween.POPUP, 2f)
 					.target(Gdx.graphics.getHeight() - image.getHeight())
 					.ease(TweenEquations.easeInOutQuad)
@@ -131,6 +134,9 @@ public class MainMenuScreen implements Screen {
 		tweenManager = new TweenManager();
 		
 		Music music = Assets.getInstance().get(Assets.DRIP, Music.class);
+		music.setLooping(true);
+		music.play();
+		music = Assets.getInstance().get(Assets.MENU, Music.class);
 		music.setLooping(true);
 		music.play();
 	}

@@ -35,16 +35,36 @@ public class Assets extends AssetManager {
 	public static final String AGGRO_12 = "aggro12.ogg";
 	public static final String AGGRO_13 = "aggro13.ogg";
 	public static final String AGGRO_14 = "aggro14.ogg";
-	public static final String AGGRO_15 = "aggro15.ogg";	
-	public static final String KILL = "kill2.ogg";	
-	public static final String RUN = "runfaster.ogg";
+	public static final String AGGRO_15 = "aggro15.ogg";
+	public static final String RUN = "runMaybe.ogg";
+	public static final String RUNFASTER = "runfaster.ogg";
 	public static final String DRIP = "dripMenuLeft.ogg";
-	public static final String MUSIC = "HPmusik.ogg";
-	public static BitmapFont FONT;
-
+	public static final String INGAME = "HPmusik.ogg";
 	public static final String MENU = "menuWummern.ogg";
 	
+	public static final String MU = "mu.ogg";	
+	public static final String SPLASH = "splash.ogg";	
+	public static final String KILL1 = "kill1.ogg";	
+	public static final String KILL2 = "kill2.ogg";	
 	
+	public static final String DIER1 = "dier1.ogg";
+	public static final String DIER2 = "dier2.ogg";
+	public static final String DIER3 = "dier3.ogg";
+	public static final String DIER4 = "dier4.ogg";
+	public static final String DIER5 = "dier5.ogg";
+	public static final String MAZEVOICE = "mazevoicedemo.ogg";
+	
+	public static final String DIEC1 = "diec1.ogg";
+	public static final String DIEC2 = "diec2.ogg";
+	public static final String DIEC3 = "diec3.ogg";
+	public static final String DIEC4 = "diec4.ogg";
+	
+	public static final String VOICEC1 = "voicec1.ogg";
+	public static final String VOICEC2 = "voicec2.ogg";
+	public static final String VOICEC3 = "voicec3.ogg";
+	public static final String VOICEC4 = "voicec4.ogg";
+
+	public static BitmapFont FONT;
 
 	
 	private static Assets instance;
@@ -82,10 +102,35 @@ public class Assets extends AssetManager {
 		load(AGGRO_13, Sound.class);
 		load(AGGRO_14, Sound.class);
 		load(AGGRO_15, Sound.class);
-		load(KILL, Sound.class);
+		load(KILL1, Sound.class);
+		load(KILL2, Sound.class);
 		load(RUN, Sound.class);
+		load(RUNFASTER, Sound.class);
+		load(MU, Sound.class);
+		load(SPLASH, Sound.class);
+		
+		load(DIER1, Sound.class);
+		load(DIER2, Sound.class);
+		load(DIER3, Sound.class);
+		load(DIER4, Sound.class);
+		load(DIER5, Sound.class);
+		
+		load(DIEC1, Sound.class);
+		load(DIEC2, Sound.class);
+		load(DIEC3, Sound.class);
+		load(DIEC4, Sound.class);
+		
+		load(VOICEC1, Sound.class);
+		load(VOICEC2, Sound.class);
+		load(VOICEC3, Sound.class);
+		load(VOICEC4, Sound.class);
+		
+		load(MAZEVOICE, Sound.class);
+		
 		load(DRIP, Music.class);
-		load(MUSIC, Music.class);
+		load(INGAME, Music.class);
+		load(MENU, Music.class);
+		
 		FONT = new BitmapFont(Gdx.files.internal("medium.fnt"));
 	}
 

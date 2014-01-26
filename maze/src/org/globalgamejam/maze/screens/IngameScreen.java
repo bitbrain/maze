@@ -71,14 +71,14 @@ public class IngameScreen implements Screen {
 		Music music = Assets.getInstance().get(Assets.DRIP, Music.class);
 		music.setLooping(true);
 		music.play();
-		music = Assets.getInstance().get(Assets.MUSIC, Music.class);
+		music = Assets.getInstance().get(Assets.INGAME, Music.class);
 		music.setLooping(true);
 		music.play();
 	}
 
 	@Override
 	public void hide() {
-		Assets.getInstance().get(Assets.MUSIC, Music.class).stop();
+		Assets.getInstance().get(Assets.INGAME, Music.class).stop();
 	}
 
 	@Override
