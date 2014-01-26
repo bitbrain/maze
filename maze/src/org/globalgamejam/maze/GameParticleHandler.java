@@ -8,7 +8,6 @@ import org.globalgamejam.maze.ai.StupidMonsterLogic;
 import org.globalgamejam.maze.graphics.ParticleManager;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 

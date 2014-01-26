@@ -58,7 +58,7 @@ public class IngameScreen implements Screen {
 		this.maze = new Maze(data);
 		this.game = game;
 		maze.setPaused(true);
-		clock = new Clock(0, 0, 5);
+		clock = new Clock(0, 1, 30);
 		clockTimer = new Timer();	
 		this.level = level;
 		tweenManager = new TweenManager();
