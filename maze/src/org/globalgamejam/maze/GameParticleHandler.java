@@ -78,11 +78,11 @@ public class GameParticleHandler implements MonsterListener, MazeListener {
 		
 		for (ParticleEmitter e : effect.getEmitters()) {
 			e.getScale().setLow(Gdx.graphics.getWidth() / 30f);
-			e.getDuration().setLow(Monster.LENGTH * StupidMonsterLogic.INTERVAL / 2);
-			e.getLife().setLow(Monster.LENGTH * StupidMonsterLogic.INTERVAL / 2);
-			e.getDuration().setLowMin(Monster.LENGTH * StupidMonsterLogic.INTERVAL / 2);
-			e.getLife().setLowMin(Monster.LENGTH * StupidMonsterLogic.INTERVAL / 2);
-			e.getVelocity().setLow(Gdx.graphics.getWidth() / 20f);
+			e.getDuration().setLow(Monster.LENGTH * StupidMonsterLogic.INTERVAL / 104);
+			e.getLife().setLow(Monster.LENGTH * StupidMonsterLogic.INTERVAL / 140);
+			e.getDuration().setLowMin(Monster.LENGTH * StupidMonsterLogic.INTERVAL / 140);
+			e.getLife().setLowMin(Monster.LENGTH * StupidMonsterLogic.INTERVAL / 140);
+			e.getVelocity().setLow(Gdx.graphics.getWidth() / 50f);
 		}
 		
 		effects.put(color, effect);

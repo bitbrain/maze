@@ -55,21 +55,23 @@ public class IngameControls extends Stage {
 	
 	private void removeTrail(int x, int y) {
 		
-		x -= maze.getX();
-		y -= maze.getY();
-		
-		x /= maze.getBlockSize();
-		y /= maze.getBlockSize();
-		
-		if (x >= maze.getWidth() / maze.getBlockSize()) {
-			x = maze.getWidth() / maze.getBlockSize() - 1;
+		if (!maze.isPaused()) {
+			x -= maze.getX();
+			y -= maze.getY();
+			
+			x /= maze.getBlockSize();
+			y /= maze.getBlockSize();
+			
+			if (x >= maze.getWidth() / maze.getBlockSize()) {
+				x = maze.getWidth() / maze.getBlockSize() - 1;
+			}
+			
+			if (y >= maze.getHeight() / maze.getBlockSize()) {
+				y = maze.getHeight() / maze.getBlockSize() - 1;
+			}
+			
+			maze.removeColorTrail(x, y);
 		}
-		
-		if (y >= maze.getHeight() / maze.getBlockSize()) {
-			y = maze.getHeight() / maze.getBlockSize() - 1;
-		}
-		
-		maze.removeColorTrail(x, y);
 	}
 	
 	

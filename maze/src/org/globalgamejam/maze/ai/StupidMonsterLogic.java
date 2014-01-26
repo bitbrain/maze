@@ -42,7 +42,7 @@ public class StupidMonsterLogic implements MonsterLogic {
 		int interval = INTERVAL;
 		
 		if (monster.isAngry()) {
-			interval *= 0.85f;
+			interval *= 0.65f;
 		}
 			
 		if (timer.getTicks() >= interval || first) {		

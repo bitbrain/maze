@@ -50,6 +50,8 @@ public class Maze implements MonsterListener {
 	private ParticleManager particleManager;
 	
 	private List<MazeListener> listeners;
+	
+	private boolean paused;
 
 	public Maze(String[] data) {
 		this.data = data;
@@ -100,6 +102,10 @@ public class Maze implements MonsterListener {
 
 	public TweenManager getTweenManager() {
 		return tweenManager;
+	}
+	
+	public void setPaused(boolean paused) {
+		this.paused = paused;
 	}
 
 	public void build(int width, int height) {
@@ -244,16 +250,22 @@ public class Maze implements MonsterListener {
 	public void draw(Batch batch, float delta) {
 
 		tweenManager.update(delta);
+		
 
 		if (sprite != null) {
 
 			sprite.draw(batch);
 		}
 
-		particleManager.render(batch, delta);
+		
+		if (!paused) {
+			particleManager.render(batch, delta);
+		}
 
 		for (Monster m : monsters) {
-			m.update(delta);
+			if (!paused) {
+				m.update(delta);
+			}
 			m.draw(batch);
 		}
 		
@@ -312,5 +324,9 @@ public class Maze implements MonsterListener {
 		}
 
 		colors.add(color);
+	}
+
+	public boolean isPaused() {
+		return paused;
 	}
 }

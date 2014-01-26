@@ -63,7 +63,8 @@ public class Assets extends AssetManager {
 	public static final String VOICEC2 = "voicec2.ogg";
 	public static final String VOICEC3 = "voicec3.ogg";
 	public static final String VOICEC4 = "voicec4.ogg";
-
+	public static final String VOICEC5 = "voicec5.ogg";
+	
 	public static BitmapFont FONT;
 
 	
@@ -124,6 +125,7 @@ public class Assets extends AssetManager {
 		load(VOICEC2, Sound.class);
 		load(VOICEC3, Sound.class);
 		load(VOICEC4, Sound.class);
+		load(VOICEC5, Sound.class);
 		
 		load(MAZEVOICE, Sound.class);
 		

@@ -4,6 +4,7 @@ import org.globalgamejam.maze.Assets;
 import org.globalgamejam.maze.Maze;
 import org.globalgamejam.maze.MazeGame;
 import org.globalgamejam.maze.controls.IngameControls;
+import org.globalgamejam.maze.ui.InfoBox;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -29,6 +30,7 @@ public class IngameScreen implements Screen {
 	public IngameScreen(MazeGame game, String[] data) {
 		this.maze = new Maze(data);
 		this.game = game;
+		maze.setPaused(true);
 	}
 
 	@Override
@@ -37,8 +39,10 @@ public class IngameScreen implements Screen {
 		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1f);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
+		stage.act(delta);
+		
 		if (maze.gameover()) {
-			//game.setScreen(new GameOverScreen(game));
+			game.setScreen(new GameOverScreen(game));
 		}
 		
 		camera.update();
@@ -48,6 +52,8 @@ public class IngameScreen implements Screen {
 		batch.begin();
 		maze.draw(batch, delta);
 		batch.end();
+		
+		stage.draw();
 	}
 
 	@Override
@@ -58,6 +64,8 @@ public class IngameScreen implements Screen {
 		} else {
 			stage = new IngameControls(game, maze, width, height);
 			Gdx.input.setInputProcessor(stage);
+			
+			stage.addActor(new InfoBox("Defend your minions!", maze.getTweenManager(), maze));
 		}
 		camera.setToOrtho(true, width, height);
 		maze.build(width, height);

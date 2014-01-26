@@ -9,7 +9,7 @@ import org.globalgamejam.maze.tweens.BlockTween;
 import org.globalgamejam.maze.tweens.SpriteTween;
 import org.globalgamejam.maze.util.Direction;
 import org.globalgamejam.maze.util.Indexable;
-import org.globalgamejam.maze.util.RandomBag;
+import org.globalgamejam.maze.util.SoundUtils;
 import org.globalgamejam.maze.util.Updateable;
 
 import aurelienribon.tweenengine.Tween;
@@ -111,8 +111,13 @@ public class Monster extends Block implements Updateable {
 			}
 			
 			colors.clear();
+			Assets.getInstance().get(Assets.SPLASH, Sound.class).play(0.5f, (float) (Math.random() * 0.5 + 0.5f), 1f);
+			if (Math.random() < 0.5f) {
+				Assets.getInstance().get(Assets.KILL1, Sound.class).play(0.5f, (float) (Math.random() * 0.5 + 0.5f), 1f);
+			} else {
+				Assets.getInstance().get(Assets.KILL2, Sound.class).play(0.5f, (float) (Math.random() * 0.5 + 0.5f), 1f);
+			}
 		}
-		
 	}
 	
 	public boolean isDead() {
@@ -136,6 +141,20 @@ public class Monster extends Block implements Updateable {
 			break;
 		default:
 			break;
+		}
+		
+		if (Math.random() < 0.5f) {
+			
+			if (isAngry()) {
+				Assets.getInstance().get(Assets.RUNFASTER, Sound.class).play(0.5f, (float) (Math.random() * 0.5 + 0.5f), 1f);
+			} else {
+				Assets.getInstance().get(Assets.RUN, Sound.class).play(0.1f, (float) (Math.random() * 0.5 + 0.5f), 1f);
+			}
+			
+		}
+		
+		if (Math.random() < 0.01f) {
+			SoundUtils.playRandomSound("voicec", 5);
 		}
 
 		animateMovement(direction);
@@ -198,7 +217,7 @@ public class Monster extends Block implements Updateable {
 		if (this.angry != angry) {
 
 			if (angry) {
-				playRandomAggroSound();
+				SoundUtils.playRandomSound("aggro", 15);
 				Tween.to(this, BlockTween.SCALE, 0.2f).target(1.2f)
 						.ease(TweenEquations.easeInOutBounce)
 						.repeatYoyo(Tween.INFINITY, 0f)
@@ -277,7 +296,7 @@ public class Monster extends Block implements Updateable {
 	public void draw(Batch batch) {
 		
 		if (angry && Math.random() < 0.001f) {
-			playRandomAggroSound();
+			SoundUtils.playRandomSound("aggro", 15);
 		}
 		
 		sprite.setOrigin(sprite.getWidth() / 2, sprite.getHeight() / 2);
@@ -452,24 +471,6 @@ public class Monster extends Block implements Updateable {
 			return true;
 		}
 
-	}
-
-	private void playRandomAggroSound() {
-
-		RandomBag<Sound> sounds = new RandomBag<Sound>();
-
-		int sound_count = 15;
-
-		for (int i = 1; i <= sound_count; ++i) {
-			String name = "aggro" + i + ".ogg";
-			Assets.getInstance().finishLoading();
-			Sound sound = Assets.getInstance().get(name, Sound.class);
-			sounds.put(sound);
-		}
-
-		Sound random = sounds.fetch();
-
-		random.play(1f, (float) (Math.random() * 1f + 0.5), 1f);
 	}
 
 }
