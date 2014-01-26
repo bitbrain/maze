@@ -68,10 +68,6 @@ public class GameParticleHandler implements MonsterListener, MazeListener {
 	@Override
 	public void onRemoveTrailColor(MonsterColor color) {
 		
-		
-		Sound sound= Assets.getInstance().get(Assets.WIPE,Sound.class);
-		sound.play(1, (float) (Math.random()*0.3+0.7), 1);
-		
 		Maze maze = color.getMonster().getMaze();
 		ParticleEffect effect = manager.create(Assets.getInstance().get(Assets.FLARE, ParticleEffect.class), false);
 		float x = color.getX() * maze.getBlockSize() + maze.getX() + maze.getBlockSize() / 2;

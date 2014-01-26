@@ -41,8 +41,19 @@ public class MainMenuScreen implements Screen {
 	
 	private Sprite minions;
 	
-	public MainMenuScreen(MazeGame game) {
+	private String nextLevel;
+	
+	public MainMenuScreen(MazeGame game, String nextLevel) {
 		this.game = game;
+		this.nextLevel = nextLevel;
+		
+		if (nextLevel == null) {
+			Gdx.app.exit();
+		}
+	}
+	
+	public String getNextLevel() {
+		return nextLevel;
 	}
 
 	@Override
@@ -67,7 +78,7 @@ public class MainMenuScreen implements Screen {
 		if (stage != null) {
 			stage.setViewport(width, height);
 		} else {
-			stage = new MainMenuControls(game, width, height);
+			stage = new MainMenuControls(nextLevel, game, width, height);
 			Gdx.input.setInputProcessor(stage);
 			Gdx.input.setCatchBackKey(true);
 			
@@ -95,7 +106,9 @@ public class MainMenuScreen implements Screen {
 			startStyle.font = Assets.FONT;
 			startStyle.fontColor = new Color(1f, 1f, 1f, 1f);
 			
-			Label start = new Label("Enter dungeon...", startStyle);
+			String label = "Enter Level " + (IngameScreen.levelCount + 1);
+			
+			Label start = new Label(label, startStyle);
 			start.setPosition(Gdx.graphics.getWidth() / 2 - start.getPrefWidth() / 2, Gdx.graphics.getHeight() / 4.5f);
 			stage.addActor(start);
 			
