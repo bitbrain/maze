@@ -66,6 +66,7 @@ public class Assets extends AssetManager {
 	public static final String VOICEC3 = "voicec3.ogg";
 	public static final String VOICEC4 = "voicec4.ogg";
 	public static final String VOICEC5 = "voicec5.ogg";
+	public static final String GAMEOVERSOUND = "gameoversound.ogg";
 	
 	public static BitmapFont FONT;
 
@@ -136,6 +137,7 @@ public class Assets extends AssetManager {
 		load(DRIP, Music.class);
 		load(INGAME, Music.class);
 		load(MENU, Music.class);
+		load(GAMEOVERSOUND, Music.class);
 		
 		FONT = new BitmapFont(Gdx.files.internal("medium.fnt"));
 	}

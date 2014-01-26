@@ -13,6 +13,7 @@ import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
@@ -123,6 +124,7 @@ public class GameOverScreen implements Screen {
 
 	@Override
 	public void show() {
+		Assets.getInstance().get(Assets.GAMEOVERSOUND,Music.class).play();
 		batch = new SpriteBatch();
 		background = new Sprite(Assets.getInstance().get(Assets.BACKGROUND, Texture.class));
 		tweenManager = new TweenManager();
@@ -130,6 +132,7 @@ public class GameOverScreen implements Screen {
 
 	@Override
 	public void hide() {
+		Assets.getInstance().get(Assets.GAMEOVERSOUND,Music.class).stop();
 		// TODO Auto-generated method stub
 		
 	}
