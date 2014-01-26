@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.globalgamejam.maze.Block;
+import org.globalgamejam.maze.Block.BlockType;
 import org.globalgamejam.maze.Maze;
 import org.globalgamejam.maze.Monster;
-import org.globalgamejam.maze.Block.BlockType;
 import org.globalgamejam.maze.Monster.MonsterColor;
 import org.globalgamejam.maze.MonsterLogic;
 import org.globalgamejam.maze.util.Direction;
@@ -38,8 +38,14 @@ public class StupidMonsterLogic implements MonsterLogic {
 		} 
 		
 		Timer timer = timers.get(monster);
+		
+		int interval = INTERVAL;
+		
+		if (monster.isAngry()) {
+			interval *= 0.85f;
+		}
 			
-		if (timer.getTicks() >= INTERVAL || first) {		
+		if (timer.getTicks() >= interval || first) {		
 			moveMonster(monster);
 			timer.reset();
 			first = false;
