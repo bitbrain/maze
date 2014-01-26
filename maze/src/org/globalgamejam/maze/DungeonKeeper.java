@@ -4,7 +4,7 @@ import org.globalgamejam.maze.util.Timer;
 
 public class DungeonKeeper {
 	
-	public static long SECOND_INTERVAL = 100;
+	public static long SECOND_INTERVAL = 200;
 	
 	public long smatch;
 	
@@ -16,7 +16,7 @@ public class DungeonKeeper {
 	
 	public DungeonKeeper() {
 		smatchTimer = new Timer();
-		maxSmatch = 3000;
+		maxSmatch = 4000;
 		smatch = maxSmatch;
 		subTimer = new Timer();
 		subTimer.start();
@@ -44,7 +44,7 @@ public class DungeonKeeper {
 	
 	public void update(float delta) {
 		
-		if (smatchTimer.getTicks() >= 300) {
+		if (smatchTimer.getTicks() >= 200) {
 			if (smatch < maxSmatch) {
 				smatch += SECOND_INTERVAL;
 				
@@ -59,7 +59,7 @@ public class DungeonKeeper {
 			}
 		}  else if (subTimer.getTicks() > 500) {
 			subTimer.reset();
-			smatch += 35;
+			smatch += 70;
 					
 			if (smatch > maxSmatch) {
 				smatch = maxSmatch;
