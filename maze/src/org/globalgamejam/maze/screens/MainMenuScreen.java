@@ -4,6 +4,7 @@ import org.globalgamejam.maze.Assets;
 import org.globalgamejam.maze.MazeGame;
 import org.globalgamejam.maze.controls.MainMenuControls;
 import org.globalgamejam.maze.tweens.ActorTween;
+import org.globalgamejam.maze.tweens.SpriteTween;
 
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
@@ -38,6 +39,8 @@ public class MainMenuScreen implements Screen {
 	
 	private TweenManager tweenManager;
 	
+	private Sprite minions;
+	
 	public MainMenuScreen(MazeGame game) {
 		this.game = game;
 	}
@@ -52,6 +55,7 @@ public class MainMenuScreen implements Screen {
 		stage.act(delta);
 		batch.begin();
 		background.draw(batch);
+		minions.draw(batch);
 		batch.end();
 		
 		stage.draw();
@@ -70,7 +74,7 @@ public class MainMenuScreen implements Screen {
 			final Image image = new Image(Assets.getInstance().get(Assets.LOGO, Texture.class));
 			stage.addActor(image);
 			
-			image.setScale(Gdx.graphics.getWidth() / 1000f);
+			image.setScale(Gdx.graphics.getHeight() / 1000f);
 			image.setColor(1f, 1f, 1f, 0f);
 			image.setX(Gdx.graphics.getWidth() / 2 - (image.getWidth() * image.getScaleX()) / 2);
 			image.setY(Gdx.graphics.getHeight());
@@ -92,6 +96,17 @@ public class MainMenuScreen implements Screen {
 			start.setPosition(Gdx.graphics.getWidth() / 2 - start.getPrefWidth() / 2, Gdx.graphics.getHeight() / 4.5f);
 			stage.addActor(start);
 			
+			minions = new Sprite(Assets.getInstance().get(Assets.MINIONS, Texture.class));
+			
+			float scale = minions.getWidth() / Gdx.graphics.getWidth();			
+			minions.setScale(scale);
+			
+			Tween.to(minions, SpriteTween.ALPHA, 4f)
+				.target(0.2f)
+				.ease(TweenEquations.easeInOutQuad)
+				.repeatYoyo(Tween.INFINITY, 0f)
+				.start(tweenManager);
+			
 			Tween.to(start, ActorTween.ALPHA, 0.7f)
 				 .target(0.0f)
 				 .ease(TweenEquations.easeInOutCubic)
@@ -104,7 +119,7 @@ public class MainMenuScreen implements Screen {
 				  .start(tweenManager);
 			
 			Tween.to(image, ActorTween.POPUP, 1f)
-			  .target(Gdx.graphics.getHeight() - image.getHeight() - 10f)
+			  .target(Gdx.graphics.getHeight() - image.getHeight() / 1.1f)
 			  .ease(TweenEquations.easeInOutElastic)
 			  .setCallback(new TweenCallback() {
 
@@ -114,7 +129,7 @@ public class MainMenuScreen implements Screen {
 					Assets.getInstance().get(Assets.MAZEVOICE, Sound.class).play();
 					
 					Tween.to(image, ActorTween.POPUP, 2f)
-					.target(Gdx.graphics.getHeight() - image.getHeight())
+					.target(Gdx.graphics.getHeight() - image.getHeight() / 1.3f)
 					.ease(TweenEquations.easeInOutQuad)
 					.repeatYoyo(Tween.INFINITY, 0f)
 					.start(tweenManager);

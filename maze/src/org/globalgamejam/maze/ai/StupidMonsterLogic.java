@@ -39,11 +39,13 @@ public class StupidMonsterLogic implements MonsterLogic {
 		
 		Timer timer = timers.get(monster);
 		
-		int interval = INTERVAL;
-		
 		if (monster.isAngry()) {
-			interval *= 0.65f;
+			monster.setInterval((long) (0.65f * INTERVAL));
+		} else {
+			monster.setInterval(INTERVAL);
 		}
+		
+		long interval = monster.getInterval();
 			
 		if (timer.getTicks() >= interval || first) {		
 			moveMonster(monster);

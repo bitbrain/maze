@@ -23,8 +23,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
 public class InfoBox extends Actor {
 	
-	private String text;
-	
 	private Sprite background;
 	
 	private Label label;

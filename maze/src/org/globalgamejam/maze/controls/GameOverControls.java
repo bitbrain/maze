@@ -10,8 +10,6 @@ public class GameOverControls extends Stage {
 
 	private MazeGame game;
 	
-	private boolean upped;
-	
 	public GameOverControls(MazeGame game, int width, int height) {
 		super(width, height, true);
 		this.game = game;
@@ -24,22 +22,8 @@ public class GameOverControls extends Stage {
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		super.touchDown(screenX, screenY, pointer, button);
 		
-		if (upped) {
-			game.setScreen(new MainMenuScreen(game));
-		}
+		game.setScreen(new MainMenuScreen(game));		
 		
-		return true;
-	}
-	
-	
-	
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.scenes.scene2d.Stage#keyUp(int)
-	 */
-	@Override
-	public boolean keyUp(int keyCode) {
-		super.keyUp(keyCode);
-		upped = true;
 		return true;
 	}
 

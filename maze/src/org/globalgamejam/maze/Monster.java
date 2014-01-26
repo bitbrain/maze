@@ -39,6 +39,8 @@ public class Monster extends Block implements Updateable {
 	private boolean angry;
 
 	private boolean dead;
+	
+	private long moveInterval;
 
 	public Monster(int x, int y, Maze maze, MonsterLogic logic) {
 		super(x, y, maze, BlockType.MONSTER);
@@ -47,6 +49,7 @@ public class Monster extends Block implements Updateable {
 		lastDirection = direction;
 		listeners = new ArrayList<MonsterListener>();
 		colors = new LinkedList<MonsterColor>();
+		moveInterval = StupidMonsterLogic.INTERVAL;
 	}
 
 	@Override
@@ -61,6 +64,15 @@ public class Monster extends Block implements Updateable {
 	public Direction getLastDirection() {
 		return lastDirection;
 	}
+	
+	public long getInterval() {
+		return moveInterval;
+	}
+	
+	public void setInterval(long interval) {
+		this.moveInterval = interval;
+	}
+	
 
 	public void addListener(MonsterListener l) {
 		listeners.add(l);
@@ -368,7 +380,7 @@ public class Monster extends Block implements Updateable {
 			break;
 		}
 
-		Tween.to(this, tweenType, StupidMonsterLogic.INTERVAL / 1000f)
+		Tween.to(this, tweenType, moveInterval / 1000f)
 				.target(0f).ease(TweenEquations.easeNone).start(manager);
 	}
 
