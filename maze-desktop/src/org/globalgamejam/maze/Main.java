@@ -8,9 +8,6 @@ public class Main {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "Maze - The Game";
 		cfg.useGL20 = true;
-		cfg.width = 800;
-		cfg.height = 600;
-		cfg.resizable = false;
 		cfg.fullscreen = true;
 		
 		new LwjglApplication(new MazeGame(), cfg);

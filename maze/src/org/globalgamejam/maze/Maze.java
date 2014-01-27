@@ -284,6 +284,20 @@ public class Maze implements MonsterListener {
 		if (!paused) {
 			particleManager.render(batch, delta);
 		}
+		
+		for (MonsterColor color : colors) {
+			
+			Block block = blocks.get(color.getX(), color.getY());
+			
+			if (block.getType() != BlockType.MONSTER) {
+			Texture tex = Assets.getInstance().get(Assets.WALL, Texture.class);
+			
+			Color clr = new Color(color);
+			clr.a = 0.4f;
+			batch.setColor(clr);
+			batch.draw(tex, color.getX() * blockSize + getX(), color.getY() * blockSize + getY(), blockSize, blockSize);
+			}
+		}
 
 		for (Monster m : monsters) {
 			if (!paused) {
@@ -312,16 +326,6 @@ public class Maze implements MonsterListener {
 			}
 		}
 		
-		if (Gdx.input.isKeyPressed(Keys.F2) && MazeGame.DEBUG) {
-			for (MonsterColor color : colors) {
-				Texture tex = Assets.getInstance().get(Assets.WALL, Texture.class);
-				
-				Color clr = new Color(color);
-				clr.a = 0.8f;
-				batch.setColor(clr);
-				batch.draw(tex, color.getX() * blockSize + getX(), color.getY() * blockSize + getY(), blockSize, blockSize);
-			}
-		}
 
 	}
 

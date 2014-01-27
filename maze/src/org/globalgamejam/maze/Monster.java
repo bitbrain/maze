@@ -241,7 +241,7 @@ public class Monster extends Block implements Updateable {
 				
 				Random random = new Random(System.currentTimeMillis());
 				
-				intervalOffset =  (float) random.nextFloat() * 0.35f;
+				intervalOffset =  (float) random.nextFloat() * 0.15f + 0.2f;
 				
 				SoundUtils.playRandomSound("aggro", 15);
 				Tween.to(this, BlockTween.SCALE, 0.2f).target(1.1f)
@@ -396,7 +396,7 @@ public class Monster extends Block implements Updateable {
 			break;
 		}
 
-		Tween.to(this, tweenType, moveInterval)
+		Tween.to(this, tweenType, getInterval())
 				.target(0f).ease(TweenEquations.easeNone).start(manager);
 	}
 

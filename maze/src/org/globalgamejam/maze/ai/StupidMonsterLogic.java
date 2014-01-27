@@ -96,8 +96,20 @@ public class StupidMonsterLogic implements MonsterLogic {
 				 MonsterColor previous = color.getPrevious();
 				 
 				 if (previous != null) {
-					 huntColors.put(monster, color.getPrevious());
-					 monster.setAngry(true);
+					 // CHeck if next color is available
+					 Direction d = Direction.translate(monster, previous.getX(), previous.getY());
+					 int colorX = Direction.translateX(d, monster.getX());
+					 int colorY = Direction.translateY(d, monster.getY());
+					 
+					 MonsterColor nextColor = monster.getMaze().getMonsterColor(colorX, colorY);
+					 
+					 if (nextColor != null && !monster.isColorOf(nextColor)) {
+						 huntColors.put(monster, color.getPrevious());
+						 monster.setAngry(true);
+					 } else {
+						 huntColors.remove(monster);
+						 monster.setAngry(false);
+					 }
 				 } else {
 					 huntColors.remove(monster);
 					 monster.setAngry(false);
@@ -138,7 +150,9 @@ public class StupidMonsterLogic implements MonsterLogic {
 		}
 		
 		bag.remove(Direction.getOpposite(monster.getDirection()));
-		
+		bag.put(monster.getDirection());
+		bag.put(monster.getDirection());
+		bag.put(monster.getDirection());
 		direction = bag.fetch();
 		
 		while (!bag.isEmpty() && !monster.canMove(direction)) {
